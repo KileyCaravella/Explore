@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Explore</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="login_success">Login Success</string>
+    <string name="password_change_failed">Password Change Failed</string>
+    <string name="password_change_success">Password Change Success</string>
+    <string name="sign_up_confirm_failed">Confirming Sign Up Failed</string>
+    <string name="sign_up_confirm_success">Confirming Sign Up Succeeded</string>
+    <string name="sign_up_failed">Sign Up Failed</string>
+    <string name="sign_up_success">Sign Up Succeeded</string>
+    <string name="title_activity_forgot_password">Forgot Password</string>
+    <string name="title_activity_sign_in">Sign In</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="title_activity_sign_up_confirm">Sign Up Confirm</string>
+</resources>

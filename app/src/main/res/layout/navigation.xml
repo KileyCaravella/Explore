@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TableRow>
+        <TextView
+            android:text="Find a random place around you!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textSize="15dp"
+            android:fontFamily="monospace"
+            android:paddingTop="100dp"
+            android:paddingBottom="5dp"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_weight="1" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <Button
+        android:text="RANDOMIZE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/button"
+        android:textSize="20dp"
+        android:layout_weight="1"
+        android:onClick="randomButtonPressed"/>
+    </TableRow>
+
+</TableLayout>
