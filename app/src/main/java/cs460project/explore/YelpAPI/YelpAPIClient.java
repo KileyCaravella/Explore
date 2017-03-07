@@ -8,7 +8,6 @@ package cs460project.explore.YelpAPI;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -26,13 +25,14 @@ public class YelpAPIClient {
     private static final String Client_Secret = "roPjBQkz8jRRaIhpw8ScW4y1Z875JJTe22tPF2mKSo7EIoKcW0wNKLp3wFz9yyAF";
     private static final String Base_URL = "https://api.yelp.com/";
     private static final String Token_URL = "oauth2/token";
-    private static final String Search_URL = "v3/businesses/search?limit=1";
+    private static final String Search_URL = "v3/businesses/search?";
     private static final String Grant_Type = "client_credentials";
+    private static final int Businesses_Retrieved_Limit = 10;
 
     //MARK: Variable Strings
 
     private String token;
-    private AsyncHttpClient client;
+    private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
     private OnYelpTokenCompletionListener yelpTokenCompletionListener;
     private OnYelpBusinessSearchCompletionListener yelpBusinessSearchCompletionListener;
@@ -41,27 +41,18 @@ public class YelpAPIClient {
 
     public interface OnYelpTokenCompletionListener {
         void onTokenRetrievalSuccessful();
-        void onTokenRetrivalFailed(String reason);
+        void onTokenRetrievalFailed(String reason);
     }
 
     public interface OnYelpBusinessSearchCompletionListener {
-        void onBusinessesRetrievalSuccessful(YelpBusiness[] businesses);
+        void onBusinessesRetrievalSuccessful(YelpBusiness business);
         void onBusinessesRetrievalFailed(String reason);
-    }
-
-    //MARK: Constructor
-
-    public YelpAPIClient(OnYelpTokenCompletionListener completionListener) {
-        super();
-        Log.i("Yelp Process", "Created YelpAPIClient");
-        yelpTokenCompletionListener = completionListener;
-        client = new AsyncHttpClient();
-        getYelpToken();
     }
 
     //MARK: Acquiring token from Yelp
 
-    private void getYelpToken() {
+    private void getYelpToken(OnYelpTokenCompletionListener listener) {
+        yelpTokenCompletionListener = listener;
         setupTokenHeaders();
         setupTokenParams();
         String tokenURL = Base_URL + Token_URL;
@@ -70,6 +61,7 @@ public class YelpAPIClient {
         client.post(tokenURL, requestParams, tokenResponseHandler());
     }
 
+    //Response handler for when information is returned in regards to the yelp token
     private AsyncHttpResponseHandler tokenResponseHandler() {
         Log.i("Yelp Token Progress", "Response Received...");
         return new AsyncHttpResponseHandler() {
@@ -80,7 +72,6 @@ public class YelpAPIClient {
                     token = object.getString("token_type") + " " + object.getString("access_token");
                     Log.i("Yelp Token Progress", "Token: " + token);
                     yelpTokenCompletionListener.onTokenRetrievalSuccessful();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -88,11 +79,12 @@ public class YelpAPIClient {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                yelpTokenCompletionListener.onTokenRetrivalFailed(errorResponse.toString());
+                yelpTokenCompletionListener.onTokenRetrievalFailed(errorResponse.toString());
             }
         };
     }
 
+    //token API call setup (headers and params)
     private void setupTokenHeaders() {
         client.removeAllHeaders();
         client.addHeader("Content_Type", "application/x-www-form-urlencoded");
@@ -105,19 +97,41 @@ public class YelpAPIClient {
         requestParams.put("gramt_type", Grant_Type);
     }
 
+    //MARK: - Search Yelp Businesses (can use latitude and longitude based on current location OR an entered location)
+
     public void searchYelpBusinesses(Double latitude, Double longitude, OnYelpBusinessSearchCompletionListener listener) {
         yelpBusinessSearchCompletionListener = listener;
-        String searchURL = Base_URL + Search_URL + "&latitude=" + latitude + "&longitude=" + longitude;
-        searchYelpBusinessesWithURL(searchURL);
+        final String searchURL = Base_URL + Search_URL + "limit=" + Businesses_Retrieved_Limit + "&latitude=" + latitude + "&longitude=" + longitude;
+        checkTokenAndGetBusinessWithURL(searchURL);
     }
 
     public void searchYelpBusinesses(String locationName, OnYelpBusinessSearchCompletionListener listener) {
         yelpBusinessSearchCompletionListener = listener;
         locationName = locationName.replace(" ", "-");
-        String searchURL = Base_URL + Search_URL + "&location=" + locationName;
-        searchYelpBusinessesWithURL(searchURL);
+        String searchURL = Base_URL + Search_URL + "limit=" + Businesses_Retrieved_Limit + "&location=" + locationName;
+        checkTokenAndGetBusinessWithURL(searchURL);
     }
 
+    //Retrieves the yelp token if it has not done so already
+    public void checkTokenAndGetBusinessWithURL(final String searchURL) {
+        if (token == null) {
+            getYelpToken(new YelpAPIClient.OnYelpTokenCompletionListener() {
+                @Override
+                public void onTokenRetrievalSuccessful() {
+                    searchYelpBusinessesWithURL(searchURL);
+                }
+
+                @Override
+                public void onTokenRetrievalFailed(String reason) {
+                    Log.e("Error", "Token Retrieval Failed");
+                }
+            });
+        } else {
+            searchYelpBusinessesWithURL(searchURL);
+        }
+    }
+
+    //Actual Yelp Business API call
     public void searchYelpBusinessesWithURL(String searchURL) {
         setupSearchHeaders();
         client.get(searchURL, searchResponseHandler());
@@ -128,17 +142,21 @@ public class YelpAPIClient {
         client.addHeader("Authorization",token);
     }
 
+    //Response handler for when businesses have been retrieved from Yelp API
     private AsyncHttpResponseHandler searchResponseHandler() {
         Log.i("Yelp Search Progress", "Received response...");
         return new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
-                    JSONObject jsonObject = new JSONObject(new String(response));
-                    Gson gson = new GsonBuilder().create();
 
-                    YelpBusiness[] yelpBusinesses = gson.fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
-                    yelpBusinessSearchCompletionListener.onBusinessesRetrievalSuccessful(yelpBusinesses);
+                    //Deserializing the business found
+                    JSONObject jsonObject = new JSONObject(new String(response));
+                    YelpBusiness[] yelpBusinesses = new Gson().fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
+
+                    //Choosing a random business from the array
+                    int businessToTake = (int) Math.floor(Math.random() * Businesses_Retrieved_Limit);
+                    yelpBusinessSearchCompletionListener.onBusinessesRetrievalSuccessful(yelpBusinesses[businessToTake]);
 
                 } catch (JSONException e) {
                     yelpBusinessSearchCompletionListener.onBusinessesRetrievalFailed(e.toString());
@@ -172,7 +190,7 @@ public class YelpAPIClient {
             }
 
             @Override
-            public void onTokenRetrivalFailed(String reason) {
+            public void onTokenRetrievalFailed(String reason) {
                 Log.i("Yelp Token Progress", "Failed to retrieve token");
                 failedToAccessYelpToast();
             }
