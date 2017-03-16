@@ -1,3 +1,6 @@
+<?php
+include('create_user.php');
+?>
 <!DOCTYPE html>
 <html>
 <title>ActivityFinder</title>
@@ -14,8 +17,8 @@ p {line-height: 2}
     background-position: center;
     background-size: cover;
 }
-.bgimg {background-image: url("explore-wallpaper.jpeg")}
-.bgimg2 {background-image: url("singapore1.jpg")}
+.bgimg {background-image: url("images/explore-wallpaper.jpeg")}
+.bgimg2 {background-image: url("images/singapore1.jpg")}
 </style>
 <body>
 
@@ -43,7 +46,7 @@ p {line-height: 2}
   <div class="w3-content">
     <h1 class="w3-center w3-text-grey"><b>Activity Finder</b></h1>
     <!-- <img class="w3-round w3-grayscale-min" src="/singapore1.jpg/" style="width:100%;margin:32px 0"> -->
-    <p><i> ActivityFinder gives suggestions of what to do in the area based on a bucket list or random activity concept. You can cross things off your bucket list or explore new places, restaurants, and activities with the help of our web services. There is Yelp integration to return random results which you can add to your bucket list, opt out of, or decide to do now. Ultimately, we envision that this will mobilize people, help them set aside time to achieve things they want, and let them discover new places in their area. 
+    <p><i> ActivityFinder gives suggestions of what to do in the area based on a bucket list or random activity concept. You can cross things off your bucket list or explore new places, restaurants, and activities with the help of our web services. There is Yelp integration to return random results which you can add to your bucket list, opt out of, or decide to do now. Ultimately, we envision that this will mobilize people, help them set aside time to achieve things they want, and let them discover new places in their area.
 </i>
     </p><br>
     <p class="w3-center"><a href="#wedding" class="w3-btn w3-round w3-padding-large w3-large">Cross things off your bucket list</a></p>
@@ -83,31 +86,14 @@ p {line-height: 2}
   <h1>JOIN TODAY</h1>
   <p class="w3-large">Make an account</p>
   <p class="w3-xlarge">
-    <button onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
+      <!-- gets the modal's information from create_user.php file -->
+      <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
+      <?php
+        if(isset($isAvailable) && $isAvailable==false) {
+           echo '<script> document.getElementById("create_user").style.display = "block"; </script>';
+        }
+      ?>
   </p>
-</div>
-
-<!-- SIGN UP modal -->
-<div id="id01" class="w3-modal">
-  <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
-    <div class="w3-container w3-white w3-center">
-      <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
-      <h1 class="w3-wide">Thanks! </h1>
-      <p>Choose a username</p>
-      <form>
-        <input class="w3-input w3-border" type="text" placeholder="Type username" name="name">
-      </form>
-      <p><i>Sincerely, ActivityFinder Team</i></p>
-      <div class="w3-row">
-        <div class="w3-half">
-          <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-btn-block w3-green">Register</button>
-        </div>
-        <div class="w3-half">
-          <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-btn-block w3-red">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Footer -->
