@@ -1,3 +1,4 @@
-<?php
-
-print("This is to test php functionality. To run, type into a browser localhost/test.php");
+<?PHP
+echo 'I know how to run a PHP Program in XAMPP! <br />';
+?>
+This is test.php File.

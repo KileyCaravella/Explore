@@ -7,13 +7,12 @@
  * Referenced: XIE_XIAO
  */
 
-include_once('credentials.php');
-$dbhost = $_SERVER['RDS_HOSTNAME'];
-$dbport = $_SERVER['RDS_PORT'];
-$dbname = $_SERVER['RDS_DB_NAME'];
-$charset = 'utf8' ;
+include_once ('credentials.php');
+$con = mysqli_connect(RDS_SERVER,RDS_USERNAME,RDS_PASSWORD,RDS_DB_NAME, RDS_PORT);
 
-$username = $_SERVER['RDS_USERNAME'];
-$password = $_SERVER['RDS_PASSWORD'];
-
+// Check connection
+if (mysqli_connect_errno())
+{
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
 ?>

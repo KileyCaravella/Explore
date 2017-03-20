@@ -21,35 +21,26 @@ include('config.php');
 // check for required fields
 if (isset($_POST['submit'])) {
     //get and store user inputs into variables
-    $user_id = trim($_POST['username']);
+    $user_id = trim($_POST['email']);
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $password = trim($_POST['password']);
     $email = trim($_POST['email']);
 
     //setting date new user signed up
+    date_default_timezone_set("America/New_York");
     $date = new DateTime();
-    $date->setTimeZone(new DateTimeZone("America/New_York"));
+    $datetime = $date->format('Y-m-d H:i:s');
+    $stmt = mysqli_query($con, "SELECT user_id FROM user where user_id='$user_id'");
+    $result =$stmt->num_rows;
 
+    //if no results are returned with that user id, continue to create the new user
+    if($result==0) {
+        $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name')";
+        if(mysqli_query($con, $sql)) {
 
-    die('from the code pipeline.');
-    //check if the user email exists in the database ($con is created in config file)
-    $db = new mysqli($dbhost, $username, $password, $dbname, $dbport);
-    if($db->connect_errno > 0){
-        die('Unable to connect to database [' . $db->connect_error . ']');
+        }
     }
-//
-//
-//    $stmt = mysqli_query($con, "SELECT user_id FROM user where user_id='$user_id'");
-//    $result =$stmt->num_rows;
-//
-//    //if no results are returned with that user id, continue to create the new user
-//    if($result==0) {
-//        $sql = "INSERT INTO user (user_id, email, password, date_created, first_name, last_name)VALUES('$user_id','$email','$password', '$date','$first_name','$last_name')";
-//        if(mysqli_query($con, $sql)) {
-//
-//        }
-//    }
 }
 ?>
 <h1 class=" banner" align="center">
