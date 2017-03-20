@@ -6,4 +6,4 @@
  */
 session_start();
 // define sql constant for various event type
-$userID = $_SESSION['UserID'];
+$user_id = $_SESSION['user_id'];

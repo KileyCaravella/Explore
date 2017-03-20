@@ -7,9 +7,10 @@
 
 // database connection variables
 
-define("DB_SERVER", "activityfinder.czq9iwajyy1p.us-east-1.rds.amazonaws.com:3306");
-define("DB_USER", "Kiley");
-define("DB_PASSWORD", "BentleyCS460");
-define("DB_NAME", "ActivityFinderDB");
+define("RDS_HOSTNAME", "activityfinder.czq9iwajyy1p.us-east-1.rds.amazonaws.com");
+define("RDS_PORT", "3306");
+define("RDS_USERNAME", "Kiley");
+define("RDS_PASSWORD", "BentleyCS460");
+define("RDS_DB_NAME", "ActivityFinderDB");
 
 ?>
