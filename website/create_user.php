@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
     if($result==0) {
         $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name')";
         if(mysqli_query($con, $sql)) {
-
+            $isAvailable = true;
         }
     } else {
         $isAvailable = false; //if an account already exists in the database
@@ -52,8 +52,8 @@ if (isset($_POST['submit'])) {
             <h1 class="w3-large">Sign up Below by filling out the fields:</h1>
             <div class="error-message">
                 <?php
-                if (isset($isAvailable)) {
-                    echo '<h3 class="error">An account already exists for this username!</h3>';
+                if (isset($isAvailable) && $isAvailable == false) {
+                    echo '<div class="error" style="color:#FF0000">An account already exists with this username!</div>';
                 } else {
                 }
                 ?>

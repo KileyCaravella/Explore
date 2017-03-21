@@ -88,6 +88,11 @@ p {line-height: 2}
   <p class="w3-xlarge">
       <!-- gets the modal's information from create_user.php file -->
       <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
+      <?php
+        if(isset($isAvailable) && $isAvailable==false) {
+           echo '<script> document.getElementById("create_user").style.display = "block"; </script>';
+        }
+      ?>
   </p>
 </div>
 
