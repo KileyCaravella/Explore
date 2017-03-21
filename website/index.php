@@ -1,3 +1,6 @@
+<?php
+include('create_user.php');
+?>
 <!DOCTYPE html>
 <html>
 <title>ActivityFinder</title>
@@ -14,8 +17,8 @@ p {line-height: 2}
     background-position: center;
     background-size: cover;
 }
-.bgimg {background-image: url("explore-wallpaper.jpeg")}
-.bgimg2 {background-image: url("singapore1.jpg")}
+.bgimg {background-image: url("images/explore-wallpaper.jpeg")}
+.bgimg2 {background-image: url("images/singapore1.jpg")}
 </style>
 <body>
 
@@ -83,28 +86,9 @@ p {line-height: 2}
   <h1>JOIN TODAY</h1>
   <p class="w3-large">Make an account</p>
   <p class="w3-xlarge">
-    <button onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
+      <!-- gets the modal's information from create_user.php file -->
+      <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
   </p>
-</div>
-
-<!-- SIGN UP modal -->
-<div id="id01" class="w3-modal">
-  <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
-    <div class="w3-container w3-white w3-center">
-      <span onclick="document.getElementById('id01').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
-      <h1 class="w3-large">Sign up Below by filling out the fields:</h1>
-      <form class="form-signin" method="post">
-        <input class="w3-input w3-border" type="text" placeholder="username" name="name">
-        <input class="w3-input w3-border" type="text" placeholder="first name" name="first_name" id="first_name" required title="Please enter a valid name" autofocus>
-        <input class="w3-input w3-border" type="text" placeholder="last name" name="last_name" id="last_name" pattern="[A-Za-z]{1,40}" required title="Please enter a valid name">
-        <input class="w3-input w3-border" type="email" name="email" id="email" class="form-control" placeholder="email" min-length="10" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required title="must be a valid email address">
-        <input class="w3-input w3-border" type="password" name="password" id="password" class="form-control" placeholder="password" minlength="10" required>
-        <button class="w3-btn-block w3-green" type="submit" name="submit" onclick="php/create_user.php">Sign Up</button>
-      </form>
-
-      <p><i>Sincerely, ActivityFinder Team</i></p>
-    </div>
-  </div>
 </div>
 
 <!-- Footer -->
