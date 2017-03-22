@@ -13,3 +13,4 @@ define("DB_PASSWORD", "BentleyCS460");
 define("DB_NAME", "ActivityFinderDB");
 
 ?>
+

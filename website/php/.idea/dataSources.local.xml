@@ -11,5 +11,10 @@
       <user-name>Kiley</user-name>
       <resolve-scope>ActivityFinderDB:</resolve-scope>
     </data-source>
+    <data-source name="@localhost" uuid="d624441d-960a-4351-848c-45a163f4a0a6">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+    </data-source>
   </component>
 </project>
