@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:textSize="@dimen/TitleName"
+        android:textStyle="bold"
         android:id="@+id/name"
         android:layout_weight="0.39"
         android:gravity="center_horizontal" />
@@ -43,7 +44,7 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="300dp"
+                    android:layout_width="200dp"
                     android:layout_height="75dp"
                     android:scaleType="centerCrop"
                     android:scaleX="1"
@@ -52,21 +53,26 @@
                     android:layout_gravity="center_horizontal"
                     tools:layout_weight="1" />
 
-                <TextView
-                    android:text="(Placeholder Num)"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/reviewCount"
-                    android:gravity="center_horizontal"
-                    android:textSize="@dimen/InfoText"/>
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    app:srcCompat="@mipmap/yelp_logo"
+                    android:id="@+id/linkYelpSite"
+                    android:layout_weight="1"
+                    tools:srcCompat="@mipmap/yelp_logo"
+                    android:autoLink="web"
+                    android:clickable="true"
+                    android:onClick="linkYelp"/>
 
             </LinearLayout>
 
-            <ImageView
+            <TextView
+                android:text="(Placeholder Num)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/common_full_open_on_phone"
-                android:id="@+id/linkYelpSite"
+                android:id="@+id/reviewCount"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/InfoText"
                 android:layout_weight="0.39" />
 
             <TextView
@@ -78,22 +84,23 @@
                 android:gravity="center_horizontal"
                 android:textSize="@dimen/InfoText"/>
 
-            <TextView
-                android:text="Go To Website"
-                android:layout_width="match_parent"
+            <Button
+                android:text="@string/location_website"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/url"
                 android:layout_weight="0.39"
-                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:autoLink="web"
                 android:textSize="@dimen/InfoText"/>
 
-            <TextView
+            <Button
                 android:text="18009008765"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dispPhone"
                 android:layout_weight="0.39"
-                android:gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:textSize="@dimen/InfoText"/>
 
             <TextView
@@ -112,6 +119,15 @@
                 android:id="@+id/location"
                 android:layout_weight="0.39"
                 android:gravity="center_horizontal"
+                android:textSize="@dimen/InfoText"/>
+
+            <Button
+                android:text="Directions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/directions"
+                android:layout_weight="0.39"
+                android:layout_gravity="center"
                 android:textSize="@dimen/InfoText"/>
 
         </LinearLayout>
