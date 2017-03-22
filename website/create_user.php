@@ -32,8 +32,12 @@ if (isset($_POST['submit'])) {
     $stmt = mysqli_query($con, "SELECT user_id FROM user where user_id='$user_id'");
     $result =$stmt->num_rows;
 
+    //checking if email is already taken
+    $stmt2 = mysqli_query($con, "SELECT email FROM user where email='$email'");
+    $result2 =$stmt2->num_rows;
+
     //if no results are returned with that user id, continue to create the new user
-    if($result==0) {
+    if($result==0 && $result2==0) {
         $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name')";
         if(mysqli_query($con, $sql)) {
             $isAvailable = true;
