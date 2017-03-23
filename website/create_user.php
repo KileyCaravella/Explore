@@ -17,7 +17,7 @@ include('config.php');
 // check for required fields
 if (isset($_POST['submit'])) {
     //get and store user inputs into variables
-    $user_id = trim($_POST['username']);
+    $user_id = trim($_POST['user_id']);
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $password = trim($_POST['password']);
@@ -29,15 +29,11 @@ if (isset($_POST['submit'])) {
     $datetime = $date->format('Y-m-d H:i:s');
 
     //checking if username is already taken
-    $stmt = mysqli_query($con, "SELECT user_id FROM user where user_id='$user_id'");
+    $stmt = mysqli_query($con, "SELECT user_id FROM user where (user_id='$user_id' OR email='$email'");
     $result =$stmt->num_rows;
 
-    //checking if email is already taken
-    $stmt2 = mysqli_query($con, "SELECT email FROM user where email='$email'");
-    $result2 =$stmt2->num_rows;
-
     //if no results are returned with that user id, continue to create the new user
-    if($result==0 && $result2==0) {
+    if($result==0) {
         $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name')";
         if(mysqli_query($con, $sql)) {
             $isAvailable = true;
@@ -63,7 +59,7 @@ if (isset($_POST['submit'])) {
                 ?>
             </div>
             <form class="form-signin" method="post">
-                <input class="w3-input w3-border" type="text" placeholder="username" name="username">
+                <input class="w3-input w3-border" type="text" placeholder="username" name="user_id">
                 <input class="w3-input w3-border" type="text" placeholder="first name" name="first_name" id="first_name" required title="Please enter a valid name" autofocus>
                 <input class="w3-input w3-border" type="text" placeholder="last name" name="last_name" id="last_name" pattern="[A-Za-z]{1,40}" required title="Please enter a valid name">
                 <input class="w3-input w3-border" type="email" name="email" id="email" class="form-control" placeholder="email" min-length="10" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required title="must be a valid email address">

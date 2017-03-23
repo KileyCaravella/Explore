@@ -36,7 +36,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/sign_in_button"
         android:layout_below="@+id/password_edit_text"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="loginButtonPressed"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
