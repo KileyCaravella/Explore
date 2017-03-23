@@ -111,102 +111,111 @@ business_id</ColNames>
       <Position>6</Position>
       <DataType>varchar(30)|0</DataType>
     </column>
-    <key id="34" parent="11" name="PRIMARY">
+    <column id="34" parent="11" name="authentication_code">
+      <Position>7</Position>
+      <DataType>varchar(5)|0</DataType>
+    </column>
+    <column id="35" parent="11" name="authenticated">
+      <Position>8</Position>
+      <DataType>tinyint(4)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="36" parent="11" name="PRIMARY">
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="35" parent="12" name="user_id">
+    <column id="37" parent="12" name="user_id">
       <Position>1</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="36" parent="12" name="business_id">
+    <column id="38" parent="12" name="business_id">
       <Position>2</Position>
       <DataType>decimal(6)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="37" parent="12" name="USERACCEPT_T_BUSFK">
+    <index id="39" parent="12" name="USERACCEPT_T_BUSFK">
       <ColNames>business_id</ColNames>
     </index>
-    <key id="38" parent="12" name="PRIMARY">
+    <key id="40" parent="12" name="PRIMARY">
       <ColNames>user_id
 business_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="39" parent="12" name="USERACCEPT_T_USERFK">
+    <foreign-key id="41" parent="12" name="USERACCEPT_T_USERFK">
       <ColNames>user_id</ColNames>
       <RefSchemaName>ActivityFinderDB</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <foreign-key id="40" parent="12" name="USERACCEPT_T_BUSFK">
+    <foreign-key id="42" parent="12" name="USERACCEPT_T_BUSFK">
       <ColNames>business_id</ColNames>
       <RefSchemaName>ActivityFinderDB</RefSchemaName>
       <RefTableName>yelp</RefTableName>
       <RefColNames>business_id</RefColNames>
     </foreign-key>
-    <column id="41" parent="13" name="business_id">
+    <column id="43" parent="13" name="business_id">
       <Position>2</Position>
       <DataType>decimal(6)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="42" parent="13" name="user_id">
+    <column id="44" parent="13" name="user_id">
       <Position>1</Position>
       <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <index id="43" parent="13" name="USERREJECT_T_BUSFK">
+    <index id="45" parent="13" name="USERREJECT_T_BUSFK">
       <ColNames>business_id</ColNames>
     </index>
-    <key id="44" parent="13" name="PRIMARY">
+    <key id="46" parent="13" name="PRIMARY">
       <ColNames>user_id
 business_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="45" parent="13" name="user_reject_username_user_id_fk">
+    <foreign-key id="47" parent="13" name="user_reject_username_user_id_fk">
       <ColNames>user_id</ColNames>
       <RefSchemaName>ActivityFinderDB</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>user_id</RefColNames>
     </foreign-key>
-    <foreign-key id="46" parent="13" name="USERREJECT_T_BUSFK">
+    <foreign-key id="48" parent="13" name="USERREJECT_T_BUSFK">
       <ColNames>business_id</ColNames>
       <RefSchemaName>ActivityFinderDB</RefSchemaName>
       <RefTableName>yelp</RefTableName>
       <RefColNames>business_id</RefColNames>
     </foreign-key>
-    <column id="47" parent="14" name="business_id">
+    <column id="49" parent="14" name="business_id">
       <Position>1</Position>
       <DataType>decimal(6)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <column id="48" parent="14" name="business_name">
+    <column id="50" parent="14" name="business_name">
       <Position>2</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="14" name="location">
+    <column id="51" parent="14" name="location">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="14" name="category_id">
+    <column id="52" parent="14" name="category_id">
       <Position>4</Position>
       <DataType>decimal(6)|0</DataType>
     </column>
-    <index id="51" parent="14" name="YELP_T_FK">
+    <index id="53" parent="14" name="YELP_T_FK">
       <ColNames>category_id</ColNames>
     </index>
-    <key id="52" parent="14" name="PRIMARY">
+    <key id="54" parent="14" name="PRIMARY">
       <ColNames>business_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="53" parent="14" name="YELP_T_FK">
+    <foreign-key id="55" parent="14" name="YELP_T_FK">
       <ColNames>category_id</ColNames>
       <RefSchemaName>ActivityFinderDB</RefSchemaName>
       <RefTableName>category</RefTableName>
