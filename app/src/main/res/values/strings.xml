@@ -12,5 +12,8 @@
     <string name="title_activity_sign_in">Sign In</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_sign_up_confirm">Sign Up Confirm</string>
+    <string name="bucket_list_edit_text_hint">Enter New Category</string>
+
     <string name="location_website"><a href="%1$s!" >Go to Website</a></string>
+
 </resources>

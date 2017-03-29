@@ -30,7 +30,6 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
     Button websiteBtn, phoneBtn, directions;
 
 
-
     private YelpAPIClient yelpAPIClient;
     private Location location;
     private LocationManager lm;
@@ -82,15 +81,7 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
         linkToYelpSite.setOnClickListener(this);
 
 
-
-
         setupYelpBusinessInView();
-
-
-
-
-
-
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -104,7 +95,7 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
         tempNumStar = tempNumStar * 10;
         int NumStar = (int) tempNumStar;
 
-        switch (NumStar){
+        switch (NumStar) {
             case 0:
                 Picasso.with(this)
                         .load(R.mipmap.rating_star_0)
@@ -160,18 +151,17 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
         //String returnedWeb = yelpBusiness.url;
         //Resources res = getResources();
         //String web = String.format(Resources.getString(R.string.location_website),returnedWeb);
-       // String web = this.getString(R.string.location_website, yelpBusiness.url);
+        // String web = this.getString(R.string.location_website, yelpBusiness.url);
         //website.setText(Resources.getString(R.string.location_website,yelpBusiness.url));
         //website.setText(web);
     }//on create
-
 
 
     //MARK: - Setting text in view from business
 
     private void setupYelpBusinessInView() {
         locationName.setText(yelpBusiness.name);
-        reviewCount.setText("Based on " + yelpBusiness.reviewCount+" Reviews");
+        reviewCount.setText("Based on " + yelpBusiness.reviewCount + " Reviews");
         if (yelpBusiness.isClosed) {
             isClosed.setText("CLOSED");
         } else {
@@ -182,7 +172,7 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
         yelpBusiness.distance *= 0.000621371;
 
         distance.setText(String.format("%.2f", yelpBusiness.distance) + " miles away");
-        address.setText(""+ yelpBusiness.location.displayAddress);
+        address.setText("" + yelpBusiness.location.displayAddress);
 
         //MARK: - Loading Yelp Photos and Default Photos
         Picasso.with(this)
@@ -191,61 +181,59 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
                 .error(R.mipmap.rating_star_0)
                 .into(yelpPic);
 
+
     }//setup Yelp Business
 
-//NH: Handles the clicking of the image views and the buttons
-public void onClick(View v) throws SecurityException{
-    switch (v.getId()) {
+    //NH: Handles the clicking of the image views and the buttons
+    public void onClick(View v) throws SecurityException {
+        switch (v.getId()) {
 
-        //opens the yelp homepage
-        case R.id.linkYelpSite:
-        Uri uri = Uri.parse("https://www.yelp.com/sf");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        //startActivity(intent);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            }
-            break;
+            //opens the yelp homepage
+            case R.id.linkYelpSite:
+                Uri uri = Uri.parse("https://www.yelp.com/sf");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                //startActivity(intent);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                break;
 
-        //opens a web page with the locations yelp website
-        case R.id.url:
-            Uri uri2 = Uri.parse(yelpBusiness.url);
-            Intent intent2 = new Intent(Intent.ACTION_VIEW, uri2);
+            //opens a web page with the locations yelp website
+            case R.id.url:
+                Uri uri2 = Uri.parse(yelpBusiness.url);
+                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri2);
 
-            if (intent2.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent2);
-            }
-            break;
+                if (intent2.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent2);
+                }
+                break;
 
-        //sends the locations phone number to the dialer
-        case R.id.dispPhone:
+            //sends the locations phone number to the dialer
+            case R.id.dispPhone:
 
-            String tempPhone;
-            tempPhone = yelpBusiness.phone;
-            Uri uri3 = Uri.parse("tel:"+tempPhone);
-            Intent intent3 = new Intent(Intent.ACTION_DIAL, uri3);
-            startActivity(intent3);
-            break;
-        //sends the locations address to google maps for directions
-        case R.id.directions:
-            //HashMap coordinates = yelpBusiness.coordinates;
-            System.out.println("Coordinates "+yelpBusiness.coordinates);
-            //System.out.println("Coordinates lat "+yelpBusiness.coordinates.latitude);
+                String tempPhone;
+                tempPhone = yelpBusiness.phone;
+                Uri uri3 = Uri.parse("tel:" + tempPhone);
+                Intent intent3 = new Intent(Intent.ACTION_DIAL, uri3);
+                startActivity(intent3);
+                break;
+            //sends the locations address to google maps for directions
+            case R.id.directions:
+                //HashMap coordinates = yelpBusiness.coordinates;
+                System.out.println("Coordinates " + yelpBusiness.coordinates);
+                //System.out.println("Coordinates lat "+yelpBusiness.coordinates.latitude);
 
-            Uri uri4 = Uri.parse("geo:yelpBusiness.location");
-            //Uri uri4 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
+                Uri uri4 = Uri.parse("geo:yelpBusiness.location");
+                //Uri uri4 = Uri.parse("geo:0,0?q=175+forest+street+waltham+ma");
 
-           // Uri uri4 = Uri.parse("geo"+yelpBusiness.coordinates);
-            Intent intent4 = new Intent(Intent.ACTION_VIEW, uri4);
-            startActivity(intent4);
-            break;
-
-
+                // Uri uri4 = Uri.parse("geo"+yelpBusiness.coordinates);
+                Intent intent4 = new Intent(Intent.ACTION_VIEW, uri4);
+                startActivity(intent4);
+                break;
 
 
-
-
-    }//swtich
+        }//swtich
+    }
 }
 
-}
+

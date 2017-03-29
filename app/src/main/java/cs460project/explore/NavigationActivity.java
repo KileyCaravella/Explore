@@ -72,6 +72,17 @@ public class NavigationActivity extends AppCompatActivity {
         Toast.makeText(this, "Error Retrieving Business", Toast.LENGTH_LONG).show();
     }
 
+    //Nathaniel: Show Bucket List View When button pressed
+    //more code to be added later
+    public void bucketButtonPressed(View v) {
+        Log.i("Bucket View", "Bucket View button pressed.");
+        Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
+        startActivity(intent);
+
+    }
+
+
+
     //MARK: Location Management (for when current location is chosen)
 
     private void locationManaging() {
