@@ -144,6 +144,7 @@ public class YelpActivity extends AppCompatActivity {
                 .error(R.mipmap.rating_star_0)
                 .into(yelpPic);
 
+        Log.e("Yelp Pic Url", yelpBusiness.imageURL);
         Picasso.with(this)
                 .load(R.mipmap.ic_launcher)
                 .into(linkToYelpSite);

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:id="@+id/bucket_list"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <TextView
             android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:ems="10"
             android:id="@+id/bucketListPageName"
             android:textAlignment="center"
-            android:layout_weight="1" />
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -26,13 +26,13 @@
             android:ems="10"
             android:id="@+id/viewDescription"
             android:textAlignment="center"
-            android:layout_weight="1" />
+             />
 
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-            android:layout_weight="1">
+            >
 
         <EditText
             android:layout_width="wrap_content"
@@ -47,18 +47,40 @@
             android:text="View Category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/viewBtn" />
+            android:id="@+id/viewBtn"
+            android:onClick="viewCategory"/>
 
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="New Category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/newBtn"
+            android:onClick="newCategory"/>
+
+        <Button
+            android:text="Update Category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateBtn"
+            android:layout_gravity="right"
+            android:onClick="updateCategory"/>
+
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
         android:id="@+id/bucketListView"
-
+        android:drawSelectorOnTop="false"
         />
 
     </LinearLayout>
-</RelativeLayout>
