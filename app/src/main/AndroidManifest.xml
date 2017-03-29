@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- other activities are listed here: -->
         <activity android:name=".NavigationActivity"></activity>
         <activity android:name=".YelpActivity"></activity>
         <activity android:name=".BucketListActivity"></activity>

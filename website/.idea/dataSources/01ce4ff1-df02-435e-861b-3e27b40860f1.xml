@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="ActivityFinderDB@activityfinder.czq9iwajyy1p.us-east-1.rds.amazonaws.com">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="ActivityFinderDB">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="innodb"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="sys"/>
+    <schema id="8" parent="1" name="tmp"/>
+    <table id="9" parent="2" name="bucketlist"/>
+    <table id="10" parent="2" name="category"/>
+    <table id="11" parent="2" name="user"/>
+    <table id="12" parent="2" name="user_accept"/>
+    <table id="13" parent="2" name="user_reject"/>
+    <table id="14" parent="2" name="yelp"/>
+    <column id="15" parent="9" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="16" parent="9" name="business_id">
+      <Position>2</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="17" parent="9" name="category_id">
+      <Position>3</Position>
+      <DataType>decimal(6)|0</DataType>
+    </column>
+    <index id="18" parent="9" name="BUCKETLIST_T_BUSFK">
+      <ColNames>business_id</ColNames>
+    </index>
+    <index id="19" parent="9" name="BUCKETLIST_T_CATEFK">
+      <ColNames>category_id</ColNames>
+    </index>
+    <key id="20" parent="9" name="PRIMARY">
+      <ColNames>user_id
+business_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="21" parent="9" name="BUCKETLIST_T_USERFK">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="22" parent="9" name="BUCKETLIST_T_BUSFK">
+      <ColNames>business_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>yelp</RefTableName>
+      <RefColNames>business_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="23" parent="9" name="BUCKETLIST_T_CATEFK">
+      <ColNames>category_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>category</RefTableName>
+      <RefColNames>category_id</RefColNames>
+    </foreign-key>
+    <column id="24" parent="10" name="category_id">
+      <Position>1</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="25" parent="10" name="category_name">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="10" name="description">
+      <Position>3</Position>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <key id="27" parent="10" name="PRIMARY">
+      <ColNames>category_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="28" parent="11" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="29" parent="11" name="password">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="11" name="email">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="11" name="date_created">
+      <Position>4</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="11" name="first_name">
+      <Position>5</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="33" parent="11" name="last_name">
+      <Position>6</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="34" parent="11" name="authentication_code">
+      <Position>7</Position>
+      <DataType>varchar(5)|0</DataType>
+    </column>
+    <column id="35" parent="11" name="authenticated">
+      <Position>8</Position>
+      <DataType>tinyint(4)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="36" parent="11" name="PRIMARY">
+      <ColNames>user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="37" parent="12" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="38" parent="12" name="business_id">
+      <Position>2</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="39" parent="12" name="USERACCEPT_T_BUSFK">
+      <ColNames>business_id</ColNames>
+    </index>
+    <key id="40" parent="12" name="PRIMARY">
+      <ColNames>user_id
+business_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="41" parent="12" name="USERACCEPT_T_USERFK">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="42" parent="12" name="USERACCEPT_T_BUSFK">
+      <ColNames>business_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>yelp</RefTableName>
+      <RefColNames>business_id</RefColNames>
+    </foreign-key>
+    <column id="43" parent="13" name="business_id">
+      <Position>2</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="44" parent="13" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <index id="45" parent="13" name="USERREJECT_T_BUSFK">
+      <ColNames>business_id</ColNames>
+    </index>
+    <key id="46" parent="13" name="PRIMARY">
+      <ColNames>user_id
+business_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="47" parent="13" name="user_reject_username_user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="13" name="USERREJECT_T_BUSFK">
+      <ColNames>business_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>yelp</RefTableName>
+      <RefColNames>business_id</RefColNames>
+    </foreign-key>
+    <column id="49" parent="14" name="business_id">
+      <Position>1</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="50" parent="14" name="business_name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="51" parent="14" name="location">
+      <Position>3</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="52" parent="14" name="category_id">
+      <Position>4</Position>
+      <DataType>decimal(6)|0</DataType>
+    </column>
+    <index id="53" parent="14" name="YELP_T_FK">
+      <ColNames>category_id</ColNames>
+    </index>
+    <key id="54" parent="14" name="PRIMARY">
+      <ColNames>business_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="55" parent="14" name="YELP_T_FK">
+      <ColNames>category_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>category</RefTableName>
+      <RefColNames>category_id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
