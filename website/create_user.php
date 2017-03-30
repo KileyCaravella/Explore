@@ -15,7 +15,11 @@ include('credentials.php');
 include('config.php');
 
 // check for required fields
-if (isset($_POST['submit'])) {
+// check for required fields
+if (isset($_POST['user_id']) AND isset($_POST['first_name']) AND isset($_POST['last_name']) AND isset($_POST['password']) AND isset($_POST['email'])) {
+    //indicating to index.php that this file was requested.
+    $create_user_requested = true;
+
     //get and store user inputs into variables
     $user_id = trim($_POST['user_id']);
     $first_name = trim($_POST['first_name']);
@@ -28,18 +32,57 @@ if (isset($_POST['submit'])) {
     $date = new DateTime();
     $datetime = $date->format('Y-m-d H:i:s');
 
+    //creating new authentication code
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $authentication_code = '';
+    for ($i = 0; $i < 5; $i++)
+        $authentication_code .= $characters[mt_rand(0, 61)];
+
     //checking if username is already taken
-    $stmt = mysqli_query($con, "SELECT user_id FROM user where (user_id='$user_id' OR email='$email'");
-    $result =$stmt->num_rows;
+    $sql = "SELECT user_id FROM user where (user_id='$user_id' OR email='$email')";
 
     //if no results are returned with that user id, continue to create the new user
-    if($result==0) {
-        $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name')";
+    if(mysqli_query($con, $sql)->num_rows == 0) {
+        $sql = "INSERT INTO user (user_id, password, email, date_created, first_name, last_name, authentication_code)VALUES('$user_id','$password','$email','$datetime','$first_name','$last_name', '$authentication_code')";
         if(mysqli_query($con, $sql)) {
-            $isAvailable = true;
+
+            //Sending email to user with confirmation code
+            $subject = "Your Authentication Code for Explore";
+            $message = "Your authentication code is $authentication_code. Happy Exploring!";
+
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers = "From: <no-reply@explorebentley.com>";
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) AND mail($email, $subject, $message, $headers)) {
+                $response["success"] = 1;
+                $response["message"] = "User successfully added.";
+                //TODO: Return token when user logs in.
+                $create_user_available = true;
+                $create_user_email_error = false;
+                $create_user_unknown_error = false;
+
+            } else {
+                //Problem sending email to user (potential invalid email)
+                $response["success"] = 0;
+                $response["message"] = "Unable to send email to user.";
+
+                $sql_delete = "DELETE FROM user WHERE user_id = '$user_id'";
+                mysqli_query($con, $sql_delete);
+                $create_user_email_error = true;
+            }
+        } else {
+            $response["success"] = 0;
+            $response["message"] = "An error occurred.";
+            $create_user_unknown_error = true;
         }
     } else {
-        $isAvailable = false; //if an account already exists in the database
+        $response["success"] = 0;
+        $response["message"] = "username or email are already taken.";
+        $create_user_available = false;
+    }
+
+    if (isset($_POST['android'])) {
+        echo json_encode($response);
     }
 }
 ?>
@@ -52,9 +95,27 @@ if (isset($_POST['submit'])) {
             <h1 class="w3-large">Sign up Below by filling out the fields:</h1>
             <div class="error-message">
                 <?php
-                if (isset($isAvailable) && $isAvailable == false) {
-                    echo '<div class="error" style="color:#FF0000">An account already exists with this username!</div>';
+                //These create red popup text if there is an error at the top of the modal.
+
+                //User availability
+                if (isset($user_id) AND !$create_user_available) {
+                    echo '<div class="error" id="user_not_available" style="color:#FF0000">An account already exists with this username or email!</div>';
                 } else {
+                    preg_replace('#<div id="user_not_avalable">(.*?)</div>#', ' ', "");
+                }
+
+                //Error sending the user an email
+                if (isset($user_id) AND $create_user_email_error) {
+                    echo '<div class="error" id="email_error" style="color:#FF0000">Invalid email. Please try with a different one.</div>';
+                } else {
+                    preg_replace('#<div id="email_error">(.*?)</div>#', ' ', "");
+                }
+
+                //Unknown error occured
+                if (isset($user_id) AND $create_user_unknown_error) {
+                    echo '<div class="error" id="unknown_error" style="color:#FF0000">Unknown Error. Please try again.</div>';
+                } else {
+                    preg_replace('#<div id="unknown_error">(.*?)</div>#', ' ', "");
                 }
                 ?>
             </div>

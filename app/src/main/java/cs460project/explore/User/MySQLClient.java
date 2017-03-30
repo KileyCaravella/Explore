@@ -28,7 +28,8 @@ public class MySQLClient {
 
     //MARK - URLS and appending URLs
 
-    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/Explore/android_backend/";
+//    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/Explore/android_backend/";
+    private final String BASE_URL = "http://141.133.251.69/Explore/website/";
     private final String CREATE_USER_URL = "create_user.php";
 
     //MARK: - Private Variables
@@ -95,6 +96,8 @@ public class MySQLClient {
         requestParams.put("email", user.email);
         requestParams.put("first_name", user.firstName);
         requestParams.put("last_name", user.lastName);
+        requestParams.put("android", " ");
+
     }
 
 }
