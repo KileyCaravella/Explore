@@ -87,16 +87,16 @@ public class CognitoUserPoolsSignInProvider implements SignInProvider {
     private static final String LOG_TAG = CognitoUserPoolsSignInProvider.class.getSimpleName();
 
     /** Resource ID of the Username field. */
-    private static final int EDIT_TEXT_USERNAME_ID = R.id.username_edit_text;
+    private static final int EDIT_TEXT_USERNAME_ID = R.id.usernameEditText;
 
     /** Resource ID of the Password field. */
-    private static final int EDIT_TEXT_PASSWORD_ID = R.id.password_edit_text;
+    private static final int EDIT_TEXT_PASSWORD_ID = R.id.passwordEditText;
 
     /** Resource ID of the Forgot Password button. */
-    private static final int TEXT_VIEW_FORGOT_PASSWORD_ID = R.id.forgot_password_text_view;
+    private static final int TEXT_VIEW_FORGOT_PASSWORD_ID = R.id.forgotPasswordTextView;
 
     /** Resource ID of the Create Account button. */
-    private static final int TEXT_VIEW_CREATE_ACCOUNT_ID = R.id.create_new_account_text_view;
+    private static final int TEXT_VIEW_CREATE_ACCOUNT_ID = R.id.createNewAccountTextView;
 
     /** Start of Intent request codes owned by the Cognito User Pools app. */
     private static final int REQUEST_CODE_START = 0x2970;

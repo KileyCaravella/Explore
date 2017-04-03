@@ -28,13 +28,16 @@ public class MySQLClient {
 
     //MARK - URLS and appending URLs
 
-//    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/Explore/android_backend/";
+//    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/Explore/website/";
     private final String BASE_URL = "http://141.133.251.69/Explore/website/";
+    private final String LOGIN_URL = "login.php";
     private final String CREATE_USER_URL = "create_user.php";
 
     //MARK: - Private Variables
 
     private OnCreateUserCompletionListener createUserCompletionListener;
+    private OnLoginCompletionListener loginCompletionListener;
+
     private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
 
@@ -43,6 +46,56 @@ public class MySQLClient {
     public interface OnCreateUserCompletionListener {
         void onUserSubmissionSuccessful();
         void onUserSubmissionFailed(String reason);
+    }
+
+    public interface OnLoginCompletionListener {
+        void onLoginSuccessful();
+        void onLoginFailed(String reason);
+    }
+
+    //MARK: - Client to Log into application
+
+    public void login(String username, String password, OnLoginCompletionListener listener) {
+        loginCompletionListener = listener;
+        setupLoginParams(username, password);
+        String loginURL = BASE_URL + LOGIN_URL;
+
+        Log.i("Login Process", "Request Sent...");
+        client.post(loginURL, requestParams, loginResponseHandler());
+    }
+
+    private AsyncHttpResponseHandler loginResponseHandler() {
+        Log.i("Login Process", "Response Received");
+
+        return new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(new String(response));
+                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
+
+                        //TODO: Add token code
+                        loginCompletionListener.onLoginSuccessful();
+                    } else {
+                        loginCompletionListener.onLoginFailed(jsonResponse.get("message").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                loginCompletionListener.onLoginFailed(errorResponse.toString());
+            }
+        };
+    }
+
+    private void setupLoginParams(String username, String password) {
+        requestParams = new RequestParams();
+        requestParams.put("user_auth", username);
+        requestParams.put("password", password);
+        requestParams.put("android", " ");
     }
 
     //MARK: - Create New User
