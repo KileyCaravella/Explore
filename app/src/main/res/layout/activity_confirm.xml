@@ -53,6 +53,7 @@
         android:text="Confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/confirm_button" />
+        android:id="@+id/confirm_button"
+        android:onClick="confirmPressed"/>
 
 </LinearLayout>
