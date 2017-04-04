@@ -13,7 +13,10 @@
 
 include('credentials.php');
 include('config.php');
-include('forgot_password.php');
+
+if (!isset($_POST['android'])) {
+    include('forgot_password.php');
+}
 
 // check for required fields
 if (isset($_POST['user_auth']) && isset($_POST['password'])) {
