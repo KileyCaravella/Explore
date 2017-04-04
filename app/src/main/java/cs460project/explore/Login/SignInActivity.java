@@ -59,4 +59,35 @@ public class SignInActivity extends Activity {
     private void loginFailedToast() {
         Toast.makeText(this, "Invalid Username or Password. Please try again", Toast.LENGTH_LONG).show();
     }
+
+    public void forgotPassPressed(View v) {
+        Log.i("Forgot Password", "Forgot Password Button Pressed.");
+
+        String username = usernameEditText.getText().toString();
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "Please fill out Username field.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        MySQLClient mySQLClient = new MySQLClient();
+        mySQLClient.forgotPassword(usernameEditText.getText().toString(), new MySQLClient.OnForgotPasswordCompletionListener() {
+            @Override
+            public void onForgotSuccessful() {
+                Log.i("Forgot Pass Progress", "Successfully sent email.");
+                Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+                intent.putExtra("Username", usernameEditText.getText().toString());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onForgotFailed(String reason) {
+                passForgotToast();
+            }
+        });
+    }
+
+    private void passForgotToast() {
+        Toast.makeText(this, "Forgot password failed. Please try again", Toast.LENGTH_LONG).show();
+    }
 }
