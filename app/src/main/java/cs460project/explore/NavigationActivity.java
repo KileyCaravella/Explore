@@ -15,6 +15,7 @@ import com.amazonaws.mobile.AWSMobileClient;
 import com.amazonaws.mobile.user.IdentityManager;
 import com.google.gson.Gson;
 
+import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
 import cs460project.explore.YelpAPI.YelpAPIClient;
 import cs460project.explore.YelpAPI.YelpBusiness;
 
@@ -51,7 +52,7 @@ public class NavigationActivity extends AppCompatActivity {
                     @Override
                     public void onBusinessesRetrievalSuccessful(YelpBusiness business) {
                         Log.i("Yelp Business Progress", "Successfully retrieved businesses");
-                        Intent intent = new Intent(NavigationActivity.this, YelpActivity.class);
+                        Intent intent = new Intent(NavigationActivity.this, SingleYelpBusinessActivity.class);
                         intent.putExtra("YelpBusiness", new Gson().toJson(business));
                         startActivity(intent);
                     }
