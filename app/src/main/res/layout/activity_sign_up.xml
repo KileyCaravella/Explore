@@ -56,8 +56,9 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/image_password"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:adjustViewBounds="true"
         android:contentDescription="Check"
         android:src="@mipmap/ic_launcher"
