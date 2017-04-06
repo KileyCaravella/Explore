@@ -26,6 +26,10 @@
         <activity android:name=".NavigationActivity"></activity>
         <activity android:name=".YelpActivity"></activity>
         <activity android:name=".BucketListActivity"></activity>
+        <activity android:name=".CategoryViewActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
+
+
 
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

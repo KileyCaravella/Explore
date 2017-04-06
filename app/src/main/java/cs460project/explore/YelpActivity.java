@@ -181,6 +181,10 @@ public class YelpActivity extends AppCompatActivity implements OnClickListener {
                 .error(R.mipmap.rating_star_0)
                 .into(yelpPic);
 
+       // Log.i("Business Name", yelpBusiness.name);
+       // Log.i("Business Address", ""+yelpBusiness.location.displayAddress);
+       // Log.i("Pic URL", yelpBusiness.imageURL);
+
 
     }//setup Yelp Business
 

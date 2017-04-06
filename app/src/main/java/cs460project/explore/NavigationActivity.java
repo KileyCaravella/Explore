@@ -78,7 +78,13 @@ public class NavigationActivity extends AppCompatActivity {
         Log.i("Bucket View", "Bucket View button pressed.");
         Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
         startActivity(intent);
+    }
 
+
+    public void searchButtonPressed(View v){
+        Log.i("Search View", "Search View Button Pressed");
+        Intent search = new Intent(NavigationActivity.this, SearchActivity.class);
+        startActivity(search);
     }
 
 
