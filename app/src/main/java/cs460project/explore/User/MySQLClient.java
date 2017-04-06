@@ -295,7 +295,7 @@ public class MySQLClient {
 
     private void setupConfirmUserParams(String userID, String authCode) {
         requestParams = new RequestParams();
-        requestParams.put("confirm_user_input", userID);
+        requestParams.put("confirm_user_user_input", userID);
         requestParams.put("authentication_code", authCode);
         requestParams.put("android", " ");
     }
