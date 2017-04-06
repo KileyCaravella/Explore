@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import cs460project.explore.R;
+import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.User;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -83,8 +85,27 @@ public class SignUpActivity extends Activity implements TextWatcher {
         Log.i("Sign Up Confirm", "Sign Up Button Pressed.");
 
         //client call goes here
+        MySQLClient mySQLClient = new MySQLClient();
 
-        Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
-        startActivity(intent);
-      }
+        User user = new User();
+
+        user.userID = username.getText().toString();
+        user.password = password1.getText().toString();
+        user.firstName = name.getText().toString();
+        user.lastName = name.getText().toString();
+        user.email = email.getText().toString();
+
+        mySQLClient.createNewUser(user, new MySQLClient.OnCreateUserCompletionListener() {
+            @Override
+            public void onUserSubmissionSuccessful() {
+                Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onUserSubmissionFailed(String reason) {
+                Log.i("Fail", reason);
+            }
+        });
+    }
 }
