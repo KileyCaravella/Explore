@@ -94,8 +94,8 @@ public class SignInActivity extends Activity {
 
     public void signUpPressed(View v) {
         Log.i("Sign Up", "Sign Up Button Pressed.");
-
-        // sign up client call goes here
-
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
+        // sign up intent goes here
     }
 }

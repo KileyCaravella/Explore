@@ -2,7 +2,6 @@ package cs460project.explore.Login;
 
 import android.app.Activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,15 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.amazonaws.mobile.AWSMobileClient;
-import com.amazonaws.mobile.user.IdentityManager;
-import com.amazonaws.mobile.user.IdentityProvider;
-
 
 import cs460project.explore.R;
-import cs460project.explore.NavigationActivity;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -90,7 +82,9 @@ public class SignUpActivity extends Activity implements TextWatcher {
     public void signUpPressed(View v) {
         Log.i("Sign Up Confirm", "Sign Up Button Pressed.");
 
-        Intent intent = new Intent(this, SignUpConfirmActivity.class);
+        //client call goes here
+
+        Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
         startActivity(intent);
       }
 }
