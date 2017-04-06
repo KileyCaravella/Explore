@@ -22,15 +22,15 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <Button
-        android:text="RANDOMIZE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/button"
-        android:textSize="20dp"
-        android:layout_weight="1"
-        android:onClick="randomButtonPressed"/>
+        <Button
+            android:text="RANDOMIZE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/button"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:onClick="randomButtonPressed"/>
     </TableRow>
 
     <TableRow
@@ -45,6 +45,21 @@
             android:textSize="20dp"
             android:layout_weight="1"
             android:onClick="bucketButtonPressed"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:text="Search by Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/searchLocationBtn"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            android:onClick="searchButtonPressed"/>
 
     </TableRow>
 

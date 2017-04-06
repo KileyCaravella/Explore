@@ -2,7 +2,9 @@ package cs460project.explore;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,12 +19,14 @@ import android.widget.ListView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by HARDY_NATH on 3/26/2017.
  * Current idea is to have the description text view change to have the particular
  * bucket list name displayed when viewing that category.
- * IE. click on mexican, text view says mexican while you view locations
+ * IE. click on mexican, text view says mexican while you view locations. Will be implemented in sprint 3.
+ * Class handles clicking on various elements, viewing, adding, updating, deleting categories
  */
 
 public class BucketListActivity extends Activity implements AdapterView.OnItemClickListener  {
@@ -36,12 +40,16 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     private String temp;
     private Button ViewBtn, UpdateBtn, AddBtn;
     private ImageView mvpView;
+    public String selectedCategory;
 
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_CONTEXT_MENU);
+        //this.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
+        setTheme(R.style.BucketTheme);
+        //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.bucket_list);
+
 
 
         dataEntry = (EditText)findViewById(R.id.enterText);
@@ -62,7 +70,6 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         listView.setAdapter(adapter);  //connect the Array Adapter to the list view
 
 
-
         //assigns the buttons to the layout
         AddBtn = (Button)findViewById(R.id.newBtn);
         //AddBtn.setOnClickListener(this);
@@ -70,28 +77,21 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         UpdateBtn = (Button)findViewById(R.id.updateBtn);
 
 
+        //adds a couple hard coded bucket list items to be displayed
         list.add("Taco Places");
         list.add("Magnificent Burgers");
         list.add("Margaritas");
 
-        //just for demo
-        mvpView = (ImageView)findViewById(R.id.imageViewMVP);
-
-
-
-
-
-
     }//on create
 
     //Nathaniel: creates the options menu
-    /*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_options, menu);
         return true;
     }
-    */
+
 
     //Nathaniel: handles the user clicking on the array list
     //takes the selected item and displays it in the edit text field for editing
@@ -99,9 +99,15 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         dataEntry.setText("");
         String realTemp = (listView.getItemAtPosition(position).toString());
         selectedItem = position;
+        selectedCategory = realTemp;
         dataEntry.setText(realTemp);
     }//On Item Click
 
+    // set
+
+    public String getCategory(){
+        return selectedCategory;
+    }
 
     //Couldnt use OnClickListener since the list view is using an onItemClickListener
     //handles the user clicking the update button
@@ -123,18 +129,22 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     }
 
     //handles viewing the category
-   // public void viewCategory(View view){
-     public void viewCategory(View view){
-         //mvpView.setImageResource(R.mipmap.tacorea);
-       setContentView(R.layout.view_category_mvp);
-    }
+    //Category View Activity creates custom list view, populates custom list view, creates adapter, sets adapter,
 
-    /*
-    // /handles the user clicking on the various menu items
+     public void viewCategory(View view){
+         Log.i("Category View", "User Pressed Button to View a Catagory.");
+         Intent viewCat = new Intent(BucketListActivity.this,CategoryViewActivity.class);
+         startActivity(viewCat);
+
+
+     }
+
+
+    // handles the user clicking on the various menu items
     public boolean onOptionsItemSelected(MenuItem item){
 
         switch (item.getItemId()){
-
+/*
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
                 temp = dataEntry.getText().toString();
@@ -156,7 +166,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
                 adapter.notifyDataSetChanged();
                 dataEntry.setHint("@string/bucket_list_edit_text_hint");
                 return true;
-
+*/
             //deletes the selected array list item
             case R.id.deleteCategory:
                 list.remove(selectedItem);
@@ -174,7 +184,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
 
 
     }//menu options
-*/
+
 
 
 }//class

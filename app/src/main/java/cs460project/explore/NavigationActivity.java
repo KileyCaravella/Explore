@@ -10,9 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import com.amazonaws.mobile.AWSMobileClient;
-import com.amazonaws.mobile.user.IdentityManager;
 import com.google.gson.Gson;
 
 import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
@@ -25,7 +22,6 @@ import cs460project.explore.YelpAPI.YelpBusiness;
 
 public class NavigationActivity extends AppCompatActivity {
 
-    private IdentityManager identityManager;
     private LocationManager locationManager;
     private YelpAPIClient yelpAPIClient;
 
@@ -33,10 +29,6 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation);
-
-        AWSMobileClient.initializeMobileClientIfNecessary(this);
-        final AWSMobileClient awsMobileClient = AWSMobileClient.defaultMobileClient();
-        identityManager = awsMobileClient.getIdentityManager();
 
         yelpAPIClient = new YelpAPIClient();
         locationManaging();
@@ -79,7 +71,13 @@ public class NavigationActivity extends AppCompatActivity {
         Log.i("Bucket View", "Bucket View button pressed.");
         Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
         startActivity(intent);
+    }
 
+
+    public void searchButtonPressed(View v){
+        Log.i("Search View", "Search View Button Pressed");
+        Intent search = new Intent(NavigationActivity.this, SearchActivity.class);
+        startActivity(search);
     }
 
 

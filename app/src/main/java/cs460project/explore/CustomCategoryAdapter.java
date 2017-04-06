@@ -18,7 +18,7 @@ import java.util.List;
  * Class is here simply to be used to fill the array list items to display what is stored
  * in the bucket list categories
  */
-/*
+
 public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
     int resource;
@@ -28,14 +28,17 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
 
 
+
     public CustomCategoryAdapter(Context context, int resource, List<CustomListView> items){
         super(context, resource, items);
         this.resource=resource;
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+
         LinearLayout locationView;
         CustomListView custListView = getItem(position);
         if(convertView==null) {
@@ -47,14 +50,18 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         } else {
             locationView = (LinearLayout) convertView;
         }
+        //binds the various local variables to their respective layout elements
         TextView locationName =(TextView)locationView.findViewById(R.id.locationNameView);
         TextView locationAddress = (TextView) locationView.findViewById(R.id.locationAddressView);
         ImageView locationPic = (ImageView) locationView.findViewById(R.id.locationPicView);
 
 
+        //sets the text for the list view item
         locationName.setText(custListView.getLocationName());
         locationAddress.setText(custListView.getAddress());
 
+
+        //sets the picture for the list view layout item
         Picasso.with(context)
                 .load(custListView.getImageURL())
                 .placeholder(R.mipmap.ic_launcher)
@@ -69,4 +76,4 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
     }
 
 }
-*/
+

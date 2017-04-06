@@ -2,9 +2,10 @@ package cs460project.explore;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.
- * Just containes location name, address, and image url
+ * Just contains location name, address, and image url
+ * This class is meant to be overloaded and used in a list view
  */
-/*
+
 public class CustomListView {
     private String locationName;
     private String address;
@@ -49,4 +50,3 @@ public class CustomListView {
         this.imageURL = imageURL;
     }
 }
-*/

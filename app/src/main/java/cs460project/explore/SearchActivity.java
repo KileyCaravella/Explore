@@ -2,30 +2,28 @@ package cs460project.explore;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by HARDY_NATH on 3/29/2017.
- * handles filling the category view with the custom list view
+ * Created by HARDY_NATH on 4/5/2017.
+ * Will be used to display results that the user searched for
  */
 
-public class CategoryViewActivity extends Activity {
+public class SearchActivity extends Activity {
 
-    ListView listAgain;
-    TextView cat;
-    String category;
+    private EditText searchText;
+    private Button search;
+    private ListView searchList;
 
 
-    protected void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_category);
-        cat = (TextView)findViewById(R.id.viewDescriptionViewCat);
-
-
+        setContentView(R.layout.area_search);
 
 
         //creates a list of custom list views and populates it with test data
@@ -37,23 +35,11 @@ public class CategoryViewActivity extends Activity {
         locationList.add(new CustomListView("Los Altos Taqueria", "2105 Old Middlefield Way, Ste E, Mountain View, CA 94043", "https://s3-media4.fl.yelpcdn.com/bphoto/2k4UGNL9G-s-QiyD38QpIA/o.jpg"));
 
         //binds the variable to the view
-        listAgain = (ListView) findViewById(R.id.viewCatListView);
-
-        //instanciates the custom adapter
+        searchList = (ListView) findViewById(R.id.searchListView);
+       //instanciates the custom adapter
         CustomCategoryAdapter adapter = new CustomCategoryAdapter(this, R.layout.custom_listview_category, locationList);
-
-        //sets the adapter to the list
-        listAgain.setAdapter(adapter);
-
-
-
+       //sets the adapter to the list
+        searchList.setAdapter(adapter);
     }//on create
-
-
-    //private void findCategory(){
-      //  category = BucketListActivity.selectedCategory;
-    //}
-
-
 
 }
