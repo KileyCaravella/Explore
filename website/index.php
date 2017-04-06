@@ -1,5 +1,9 @@
 <?php
 include('create_user.php');
+include('login.php');
+include('forgot_password.php');
+include('reset_password.php');
+include('confirm_user.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,13 +53,52 @@ p {line-height: 2}
 <header class="w3-display-container w3-wide bgimg " id="home">
   <div class="w3-content">
     <p class="w3-right"> <!-- gets the modal's information from create_user.php file -->
-    <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-small" style="margin-right:5px">Sign Up</button>
-      <?php
-      if(isset($isAvailable) && $isAvailable==false) {
-         echo '<script> document.getElementById("create_user").style.display = "block"; </script>';
-      }
-    ?></p>
-    <p class="w3-right"><button onclick="document.getElementById('login').style.display='block'" class="w3-btn w3-round w3-small" style = "margin-right:5px">Log In</a></button></p>
+        <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-small" style="margin-right:5px">Sign Up</button>
+        <?php
+        //If there were errors while creating the user, have the modal appear again.
+        if($create_user_requested AND (!$create_user_available OR $create_user_email_error OR $create_user_unknown_error)) {
+            echo '<script> document.getElementById("create_user").style.display = "block"; </script>';
+        } else if ($create_user_requested) {
+            $create_user_requested = false;
+            echo '<script> document.getElementById("confirm_user").style.display = "block"; </script>';
+        }
+
+        //Code for confirm user becuase it spawns from inside of create user
+        if($confirm_user_requested AND $confirm_user_invalid_code) {
+            echo '<script> document.getElementById("confirm_user").style.display = "block"; </script>';
+        } else if ($confirm_user_requested) {
+            $confirm_user_requested = false;
+            echo '<script> document.getElementById("confirm_confirm_user").style.display = "block"; </script>';
+        }
+        ?>
+    </p>
+    <p class="w3-right">
+        <button onclick="document.getElementById('login').style.display='block'" class="w3-btn w3-round w3-small" style = "margin-right:5px">Log In</a></button>
+        <?php
+        //If there was an error while attempting to login, then reload the modal
+        if($login_requested AND !$login_valid_user) {
+            echo '<script> document.getElementById("login").style.display = "block"; </script>';
+        } else if ($login_requested) {
+            $login_requested = false;
+        }
+
+        //Code for forgot password because it spawns from inside of the login page:
+        if($forgot_password_requested AND ($forgot_password_email_error OR !$forgot_password_user_exists)) {
+            echo '<script> document.getElementById("forgot").style.display = "block"; </script>';
+        } else if ($forgot_password_requested) {
+            $forgot_password_requested = false;
+            echo '<script> document.getElementById("reset_password").style.display = "block"; </script>';
+        }
+
+        //Code for reset password because it spawns from inside of the forgot password page:
+        if($reset_password_requested AND $reset_password_invalid_code) {
+            echo '<script> document.getElementById("reset_password").style.display = "block"; </script>';
+        } else if ($reset_password_requested) {
+            $reset_password_requested = false;
+            echo '<script> document.getElementById("confirm_reset_password").style.display = "block"; </script>';
+        }
+        ?>
+    </p>
   </div>
 </header>
 
@@ -84,10 +127,7 @@ p {line-height: 2}
 <div class="w3-container w3-padding-64 w3-pale-red w3-grayscale-min" id="about">
   <div class="w3-content">
     <h1 class="w3-center w3-text-grey"><b>Explore</b></h1>
-    <img class="w3-round w3-grayscale-min" src="images/singapore1.jpg" style="width:100%;margin:32px 0">
-    <p><i><center>Explore gives suggestions of what to do in the area based on a bucket list or random activity concept. You can cross things off your bucket list or explore new places, restaurants, and activities with the help of our randomiziation algorithm. Yelp integration is included to enhance your experience, allowing you to include specific locations. Explore allows you to select, save for later, or delete items from choices curated for you. Ultimately, we envision that Explore will mobilize people, helping them fulfill goals on their bucketlist, and pulling them outside of their comfort zone by offering new places, activities, and things to discover.
-</center></i>
-    </p><br>
+    <p><i>Explore gives suggestions of what to do in the area based on a bucket list or random activity concept. You can cross things off your bucket list or explore new places, restaurants, and activities with the help of our randomiziation algorithm. Yelp integration is included to enhance your experience, allowing you to include specific locations. Explore allows you to select, save for later, or delete items from choices curated for you. Ultimately, we envision that Explore will mobilize people, helping them fulfill goals on their bucketlist, and pulling them outside of their comfort zone by offering new places, activities, and things to discover.</i></p><br>
     <p class="w3-center"><a href="#bucketlist" class="w3-btn w3-round w3-padding-large w3-large">Start Exploring!</a></p>
   </div>
 </div>
@@ -103,7 +143,6 @@ p {line-height: 2}
 <div class="w3-container w3-padding-64 w3-pale-red w3-center" id="random">
   <div class="w3-content">
     <h1 class="w3-text-grey"><b>Yelp Listings</b></h1>
-    <img class="w3-round-large" src="images/singapore1.jpg" style="width:100%;margin:64px 0">
     <div class="w3-row">
       <div class="w3-third">
         <h3>Find around me</h3>
@@ -131,11 +170,6 @@ p {line-height: 2}
   <p class="w3-xlarge">
     <!-- gets the modal's information from create_user.php file -->
     <button onclick="document.getElementById('create_user').style.display='block'" class="w3-btn w3-round w3-red w3-opacity w3-hover-opacity-off" style="padding:8px 60px">SIGN UP</button>
-    <?php
-      if(isset($isAvailable) && $isAvailable==false) {
-         echo '<script> document.getElementById("create_user").style.display = "block"; </script>';
-      }
-    ?>
   </p>
 </div>
 
