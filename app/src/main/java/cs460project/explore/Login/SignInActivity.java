@@ -91,7 +91,7 @@ public class SignInActivity extends Activity {
     }
 
     public void signUpPressed(View v) {
-        Log.i("Forgot Password", "Forgot Password Button Pressed.");
+        Log.i("Sign Up", "Sign Up Button Pressed.");
 
         // sign up client call goes here
 
