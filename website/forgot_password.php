@@ -64,7 +64,7 @@ if (isset($_POST['forgot_password_user_input'])) {
         $forgot_password_user_exists = false;
     }
     if(isset($_POST['android'])) {
-        echo json_encode($response);
+        die(json_encode($response));
     }
 }
 ?>

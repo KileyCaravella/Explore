@@ -14,9 +14,6 @@
 include('credentials.php');
 include('config.php');
 
-// array for JSON response
-$response = array();
-
 // check for required fields
 if (isset($_POST['reset_password_user_input']) AND isset($_POST['password']) AND isset($_POST['authentication_code'])) {
     $reset_password_requested = true;
@@ -34,7 +31,7 @@ if (isset($_POST['reset_password_user_input']) AND isset($_POST['password']) AND
         mysqli_query($con, $sql_update);
 
         $response["success"] = 1;
-        $response["message"] = "User successfully reset.";
+        $response["message"] = "Password successfully reset.";
         $reset_password_invalid_code = false;
     } else {
         $response["success"] = 0;
@@ -42,8 +39,8 @@ if (isset($_POST['reset_password_user_input']) AND isset($_POST['password']) AND
         $reset_password_invalid_code = true;
     }
 
-    if(isset($_POST['android'])) {
-        echo json_encode($response);
+    if(isset($_POST["android"])) {
+        die(json_encode($response));
     }
 }
 ?>

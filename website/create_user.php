@@ -82,7 +82,7 @@ if (isset($_POST['user_id']) AND isset($_POST['first_name']) AND isset($_POST['l
     }
 
     if (isset($_POST['android'])) {
-        echo json_encode($response);
+        die(json_encode($response));
     }
 }
 ?>

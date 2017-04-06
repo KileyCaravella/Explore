@@ -44,7 +44,7 @@ if (isset($_POST['user_auth']) && isset($_POST['password'])) {
     }
 
     if (isset($_POST['android'])) {
-        echo json_encode($response);
+        die(json_encode($response));
     }
 }
 ?>

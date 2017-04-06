@@ -28,7 +28,6 @@ if (isset($_POST['confirm_user_user_input']) && isset($_POST['authentication_cod
     //checking valid user_id/email and authentication_code:
     $sql_check_auth = "SELECT user_id FROM user WHERE ((user_id = '$user_input' OR email = '$user_input') AND authentication_code = '$authentication_code')";
     $numRows = mysqli_query($con, $sql_check_auth)->num_rows;
-    echo '<div>' . $numRows . '</div>';
     if (mysqli_query($con, $sql_check_auth)->num_rows == 1) {
         $sql_update = "UPDATE user SET authenticated = 1 WHERE ((user_id = '$user_input' OR email = '$user_input') AND authentication_code = '$authentication_code')";
         mysqli_query($con, $sql_update);
@@ -43,7 +42,7 @@ if (isset($_POST['confirm_user_user_input']) && isset($_POST['authentication_cod
     }
 
     if (isset($_POST['android'])) {
-        echo json_encode($response);
+        die(json_encode($response));
     }
 }
 ?>
