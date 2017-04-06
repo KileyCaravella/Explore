@@ -12,7 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.amazonaws.mobile.AWSMobileClient;
+import com.amazonaws.mobile.user.IdentityManager;
+import com.amazonaws.mobile.user.IdentityProvider;
+
+
 import cs460project.explore.R;
+import cs460project.explore.NavigationActivity;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -20,6 +27,7 @@ import cs460project.explore.R;
 
 public class SignUpActivity extends Activity implements TextWatcher {
 
+    private SignUpActivity signUpActivity;
     private ImageView image;
     private EditText username;
     private EditText password1;

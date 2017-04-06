@@ -101,7 +101,6 @@
         android:id="@+id/sign_up_button"
         android:layout_below="@+id/phone_edittext"
         android:layout_centerHorizontal="true"
-        android:onClick="confirm"
         />
 
 </RelativeLayout>

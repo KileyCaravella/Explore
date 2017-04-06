@@ -98,12 +98,4 @@ public class SignInActivity extends Activity {
         // sign up client call goes here
 
     }
-
-
-    public void signUp(View view)
-    {
-        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
-        startActivity(intent);
-    }
-
 }
