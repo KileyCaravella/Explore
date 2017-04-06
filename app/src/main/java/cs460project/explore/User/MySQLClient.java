@@ -247,7 +247,7 @@ public class MySQLClient {
         requestParams = new RequestParams();
         requestParams.put("reset_password_user_input", userID);
         requestParams.put("password", password);
-        requestParams.put("verification_code", verCode);
+        requestParams.put("authentication_code", verCode);
         requestParams.put("android", " ");
     }
 

@@ -20,12 +20,18 @@ public class ForgotPasswordActivity extends Activity {
 
     EditText password1, password2, verCode;
     ImageView pic;
+    String username = "";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pass);
 
+        //Retrieving username from previous view
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            username = extras.getString("Username");
+        }
         setupVariables();
     }
 
@@ -53,7 +59,7 @@ public class ForgotPasswordActivity extends Activity {
                 Toast.makeText(this, "Passwords match.", Toast.LENGTH_LONG).show();
 
                 MySQLClient mySQLClient = new MySQLClient();
-                mySQLClient.resetPassword(password1.getText().toString(), password2.getText().toString(), verCode.getText().toString(), new MySQLClient.OnResetPasswordCompletionListener() {
+                mySQLClient.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new MySQLClient.OnResetPasswordCompletionListener() {
                     @Override
                     public void onResetSuccessful() {
 
