@@ -32,11 +32,17 @@ public class MySQLClient {
 //    private final String BASE_URL = "http://141.133.251.69/Explore/website/";
     private final String LOGIN_URL = "login.php";
     private final String CREATE_USER_URL = "create_user.php";
+    private final String FORGOT_PASSWORD_URL = "forgot_password.php";
+    private final String RESET_PASSWORD_URL = "reset_password.php";
+    private final String CONFIRM_USER_URL = "confirm_user.php";
 
     //MARK: - Private Variables
 
     private OnCreateUserCompletionListener createUserCompletionListener;
     private OnLoginCompletionListener loginCompletionListener;
+    private OnResetPasswordCompletionListener resetCompletionListener;
+    private OnForgotPasswordCompletionListener forgotCompletionListener;
+    private OnConfirmUserCompletionListener confirmCompletionListener;
 
     private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
@@ -51,6 +57,21 @@ public class MySQLClient {
     public interface OnLoginCompletionListener {
         void onLoginSuccessful();
         void onLoginFailed(String reason);
+    }
+
+    public interface OnResetPasswordCompletionListener {
+        void onResetSuccessful();
+        void onResetFailed(String reason);
+    }
+
+    public interface OnForgotPasswordCompletionListener {
+        void onForgotSuccessful();
+        void onForgotFailed(String reason);
+    }
+
+    public interface OnConfirmUserCompletionListener {
+        void onConfirmSuccessful();
+        void onConfirmFailed(String reason);
     }
 
     //MARK: - Client to Log into application
@@ -152,4 +173,130 @@ public class MySQLClient {
         requestParams.put("android", " ");
     }
 
+    // MARK: - Forgot/Reset Password
+
+    public void resetPassword(String username, String password, String verCode, OnResetPasswordCompletionListener listener) {
+        resetCompletionListener = listener;
+        setupResetPassParams(username, password, verCode);
+        String resetPassURL = BASE_URL + RESET_PASSWORD_URL;
+
+        Log.i("Reset Password Process", "Request Sent...");
+        client.post(resetPassURL, requestParams, resetPassResponseHandler());
+    }
+
+    public void forgotPassword(String username, OnForgotPasswordCompletionListener listener) {
+        forgotCompletionListener = listener;
+        setupForgotPassParams(username);
+        String forgotPassURL = BASE_URL + FORGOT_PASSWORD_URL;
+
+        Log.i("Forgot Password Process", "Request Sent...");
+        client.post(forgotPassURL, requestParams, forgotPassResponseHandler());
+    }
+
+    private AsyncHttpResponseHandler resetPassResponseHandler() {
+        Log.i("Reset Password Process", "Response Received");
+
+        return new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(new String(response));
+                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
+                        resetCompletionListener.onResetSuccessful();
+                    } else {
+                        resetCompletionListener.onResetFailed(jsonResponse.get("message").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                resetCompletionListener.onResetFailed(errorResponse.toString());
+            }
+        };
+    }
+
+    private AsyncHttpResponseHandler forgotPassResponseHandler() {
+        Log.i("Forgot Password Process", "Response Received");
+
+        return new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(new String(response));
+                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
+                        forgotCompletionListener.onForgotSuccessful();
+                    } else {
+                        forgotCompletionListener.onForgotFailed(jsonResponse.get("message").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                forgotCompletionListener.onForgotFailed(errorResponse.toString());
+            }
+        };
+    }
+
+    private void setupResetPassParams(String userID, String password, String verCode) {
+        requestParams = new RequestParams();
+        requestParams.put("reset_password_user_input", userID);
+        requestParams.put("password", password);
+        requestParams.put("verification_code", verCode);
+        requestParams.put("android", " ");
+    }
+
+    private void setupForgotPassParams(String userID) {
+        requestParams = new RequestParams();
+        requestParams.put("forgot_password_user_input", userID);
+        requestParams.put("android", " ");
+    }
+
+    // MARK: - Confirm Account
+
+    public void confirmUser(String username, String authCode, OnConfirmUserCompletionListener listener) {
+        confirmCompletionListener = listener;
+        setupConfirmUserParams(username, authCode);
+        String confirmUserURL = BASE_URL + CONFIRM_USER_URL;
+
+        Log.i("Confirm User Process", "Request Sent...");
+        client.post(confirmUserURL, requestParams, confirmUserResponseHandler());
+    }
+
+    private AsyncHttpResponseHandler confirmUserResponseHandler() {
+        Log.i("Confirm User Process", "Response Received");
+
+        return new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(new String(response));
+                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
+                        confirmCompletionListener.onConfirmSuccessful();
+                    } else {
+                        confirmCompletionListener.onConfirmFailed(jsonResponse.get("message").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                confirmCompletionListener.onConfirmFailed(errorResponse.toString());
+            }
+        };
+    }
+
+    private void setupConfirmUserParams(String userID, String authCode) {
+        requestParams = new RequestParams();
+        requestParams.put("confirm_user_input", userID);
+        requestParams.put("authentication_code", authCode);
+        requestParams.put("android", " ");
+    }
 }

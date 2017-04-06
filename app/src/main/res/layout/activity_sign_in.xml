@@ -58,7 +58,8 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            />
+            android:clickable="true"
+            android:onClick="signUpPressed" />
 
         <TextView
             android:id="@+id/forgotPasswordTextView"
@@ -69,7 +70,8 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:gravity="right"
             android:layout_marginRight="20dp"
-            />
+            android:clickable="true"
+            android:onClick="forgotPassPressed" />
 
     </LinearLayout>
 </RelativeLayout>
