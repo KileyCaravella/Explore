@@ -60,7 +60,6 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/x"
             android:id="@+id/passMatchCheck"
             android:layout_weight="1" />
 

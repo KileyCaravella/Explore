@@ -76,7 +76,6 @@ public class SignInActivity extends Activity {
             public void onForgotSuccessful() {
                 Log.i("Forgot Pass Progress", "Successfully sent email.");
                 Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
-                intent.putExtra("Username", usernameEditText.getText().toString());
                 startActivity(intent);
             }
 
@@ -89,5 +88,12 @@ public class SignInActivity extends Activity {
 
     private void passForgotToast() {
         Toast.makeText(this, "Forgot password failed. Please try again", Toast.LENGTH_LONG).show();
+    }
+
+    public void signUpPressed(View v) {
+        Log.i("Forgot Password", "Forgot Password Button Pressed.");
+
+        // sign up client call goes here
+
     }
 }

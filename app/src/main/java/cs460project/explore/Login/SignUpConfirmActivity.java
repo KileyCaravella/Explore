@@ -24,29 +24,40 @@ public class SignUpConfirmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
+        setupVariables();
+    }
+
+    private void setupVariables() {
+        username = (EditText) findViewById(R.id.confirm_user);
+        authCode = (EditText) findViewById(R.id.confirm_code);
     }
 
     public void confirmPressed(View v) {
         Log.i("Return to Sign In", "Confirm Button Pressed.");
 
-        username = (EditText) findViewById(R.id.confirm_user);
-        authCode = (EditText) findViewById(R.id.confirm_code);
+        String un = username.getText().toString();
+        String auth = authCode.getText().toString();
 
+        if (un.isEmpty() || auth.isEmpty()) {
+            Toast.makeText(this, "Please fill out both fields.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        else {
+            MySQLClient mySQLClient = new MySQLClient();
+            mySQLClient.confirmUser(username.getText().toString(), authCode.getText().toString(), new MySQLClient.OnConfirmUserCompletionListener() {
+                @Override
+                public void onConfirmSuccessful() {
+                    Log.i("Confirm Button Pressed", "Successfully created new user.");
+                    Intent intent = new Intent(SignUpConfirmActivity.this, SignInActivity.class);
+                    startActivity(intent);
+                }
 
-        MySQLClient mySQLClient = new MySQLClient();
-        mySQLClient.confirmUser(username.getText().toString(), authCode.getText().toString(), new MySQLClient.OnConfirmUserCompletionListener() {
-            @Override
-            public void onConfirmSuccessful() {
-                Log.i("Reset Pass Progress", "Successfully reset pass.");
-                Intent intent = new Intent(SignUpConfirmActivity.this, SignInActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onConfirmFailed(String reason) {
-                confirmAccountToast();
-            }
-        });
+                @Override
+                public void onConfirmFailed(String reason) {
+                    confirmAccountToast();
+                }
+            });
+        }
     }
 
     private void confirmAccountToast() {
