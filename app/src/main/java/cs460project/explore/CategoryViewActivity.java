@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.
- * handles filling the category view with the custom list view
+ * handles filling the category view with the custom list view.
+ * Code works by using the custom adapter to fill the list view on the layout with the custom list view
  */
 
 public class CategoryViewActivity extends Activity {

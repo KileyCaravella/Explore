@@ -41,7 +41,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     private Button ViewBtn, UpdateBtn, AddBtn;
     private ImageView mvpView;
     public String selectedCategory;
-
+    private final String Burger="Burger", Mexican = "Mexican", Italian="Italian", Chinese="Chinese", Entertainment="Entertainment";
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -49,7 +49,6 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         setTheme(R.style.BucketTheme);
         //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.bucket_list);
-
 
 
         dataEntry = (EditText)findViewById(R.id.enterText);
@@ -78,9 +77,11 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
 
 
         //adds a couple hard coded bucket list items to be displayed
-        list.add("Taco Places");
-        list.add("Magnificent Burgers");
-        list.add("Margaritas");
+        list.add(Burger);
+        list.add(Mexican);
+        list.add(Italian);
+        list.add(Chinese);
+        list.add(Entertainment);
 
     }//on create
 
@@ -135,8 +136,6 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
          Log.i("Category View", "User Pressed Button to View a Catagory.");
          Intent viewCat = new Intent(BucketListActivity.this,CategoryViewActivity.class);
          startActivity(viewCat);
-
-
      }
 
 
