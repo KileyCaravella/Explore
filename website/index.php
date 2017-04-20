@@ -142,23 +142,19 @@ p {line-height: 2}
 <!-- Find/bucketlist information -->
 <div class="w3-container w3-padding-64 w3-pale-red w3-center" id="random">
   <div class="w3-content">
-    <h1 class="w3-text-grey"><b>Yelp Listings</b></h1>
-    <div class="w3-row">
-      <div class="w3-third">
-        <h3>Find around me</h3>
- <p class="w3-center"><a href="#food" class="w3-btn w3-round w3-padding-small w3-medium">Food</a></p>
- <p class="w3-center"><a href="#activities" class="w3-btn w3-round w3-padding-small w3-medium">Activites</a></p>
- <p class="w3-center"><a href="#more" class="w3-btn w3-round w3-padding-small w3-medium">...More!</a></p>
-      </div>
-      <div class="w3-third">
- <p><img src="images/yelplisting.png" alt="Yelp Listing" height="290" width="359"></p>
-      </div>
-      <div class="w3-third">
-        <h3>	Add to your bucket list</h3>
- <p class="w3-center"><a href="#add" class="w3-btn w3-round w3-padding-small w3-medium">Yes!</a></p>
- <p class="w3-center"><a href="#delete" class="w3-btn w3-round w3-padding-small w3-medium">No :(</a></p>
- <p class="w3-center"><a href="#customize" class="w3-btn w3-round w3-padding-small w3-medium">Add Your Own</a></p>
-      </div>
+    <div class="w3-container">
+      <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
+        <div class="w3-container w3-center">
+        <h3>Explore Now!</h3>
+    <a href="http://www.google.com/" target="myFrame"></a>
+        <br/>
+        <iframe name="myFrame" src="http://www.google.com/" width="800" height="300"></iframe>
+           <div class="w3-section">
+            <button class="w3-button w3-green">Next adventure</button>
+            <button class="w3-button w3-red">Bucketlist</button>
+           </div>
+        </div>
+       </div>
     </div>
   </div>
 </div>
