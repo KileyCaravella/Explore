@@ -30,7 +30,6 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
 
 
-
     public CustomCategoryAdapter(Context context, int resource, List<CustomListView> items){
         super(context, resource, items);
         this.resource=resource;
@@ -38,6 +37,8 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         //initialize the typeface
         this.customTypeFace = Typeface.createFromAsset(context.getAssets(),
                 "fonts/DroidSans.ttf");
+
+
     }
 
     @Override
@@ -55,6 +56,7 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         } else {
             locationView = (LinearLayout) convertView;
         }
+
         //binds the various local variables to their respective layout elements
         TextView locationName =(TextView)locationView.findViewById(R.id.locationNameView);
         locationName.setTypeface(customTypeFace);//set the custom font/typeface
