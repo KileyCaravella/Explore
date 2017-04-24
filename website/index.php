@@ -5,6 +5,31 @@ include('forgot_password.php');
 include('reset_password.php');
 include('confirm_user.php');
 ?>
+
+<style>
+    .hidden{
+        display:none;
+    }
+
+    .unhidden{
+        display:block;
+    }
+</style>
+<script type="text/javascript">
+    function unhide(clickedButton, divID) {
+        var item = document.getElementById(divID);
+        if (item) {
+            if(item.className=='hidden'){
+                item.className = 'unhidden' ;
+                clickedButton.value = 'hide'
+            }else{
+                item.className = 'hidden';
+                clickedButton.value = 'unhide'
+            }
+        }}
+
+</script>
+
 <!DOCTYPE html>
 <html>
 <title>Explore!</title>
@@ -139,10 +164,112 @@ p {line-height: 2}
   </div>
 </div>
 
+<!-- Location Modal -->
+<div id="find_random" class="w3-modal">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+        <div class="w3-container w3-white w3-center">
+            <span onclick="document.getElementById('find_random').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+            <h4 class="w3-wide">Explore Random, New Places!</h4>
+            <p>Enter your location:</p>
+            <form class="form-location" method="post">
+                <input type="text" placeholder="Zip, City, State..." id="user_location" name="user_location" size="35">
+                <button type="submit" name="submit" size="35">Get Started!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Category Modal -->
+<div id="browse_category" class="w3-modal">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+        <div class="w3-container w3-white w3-center">
+            <span onclick="document.getElementById('browse_category').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+            <h4 class="w3-wide">Browse Your Saved Categories!</h4>
+            <p>Select your category type:</p>
+            <form class="browse_category">
+                <select name="Categories">
+                    <option value="tacos">Tacos</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="burgers">Burgers</option>
+                    <option value="etc">Etc...</option>
+                </select>
+                <br><br>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Random or Category Button -->
+<div class="w3-container w3-padding-32 w3-pale-red w3-center" id="random">
+    <div class="w3-section">
+        <button onclick="document.getElementById('find_random').style.display='block'" class="w3-btn w3-round" style="padding:12px 30px">Find Random!</button>
+        <button onclick="document.getElementById('browse_category').style.display='block'" class="w3-btn w3-round" style="padding:12px 30px">Browse Your Categories</button>
+    </div>
+
+ <!-- Check Forget Modal -->
+    <div id="checkforget" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+            <div class="w3-container w3-white w3-center">
+                <span onclick="document.getElementById('checkforget').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+                <h4 class="w3-wide">Forget this Place?</h4>
+                <p>Are you sure you want to never see this again?</p>
+                <div class="w3-section">
+                    <button class="w3-button w3-round w3-green">Forget</button>
+                    <button class="w3-button w3-round w3-red">No, Keep It!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saving Item Into Category -->
+    <div id="pickcategories" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+            <div class="w3-container w3-white w3-center">
+                <span onclick="document.getElementById('pickcategories').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+                <h4 class="w3-wide">Save your Item!</h4>
+                <p>Select which category:</p>
+                <div class = "w3-section">
+                <form class="browse_category">
+                    <select name="Categories">
+                        <option value="tacos">Tacos</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="burgers">Burgers</option>
+                        <option value="etc">Etc...</option>
+                        <option value="newcategory">Add New!</option>
+                    </select>
+                    <br><br>
+                    <div class = "w3-section">
+                        <input type="submit">
+                        <button onclick="document.getElementById('newcategory').style.display='block'" class="w3-btn w3-round" style="padding:8px 20px">New Category</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- New Category Modal -->
+    <div id="newcategory" class="w3-modal">
+        <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+            <div class="w3-container w3-white w3-center">
+                <span onclick="document.getElementById('newcategory').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+                <h4 class="w3-wide">Add a New Category!</h4>
+                <p>Enter a Category Name:</p>
+                <div class = "w3-section">
+                    <form>
+                        <input class="w3-input w3-border" type="text" placeholder="Category Name" name="name">
+                        <button onclick="document.getElementById('newcategory').style.display='none'" type="button">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Find/bucketlist information -->
-<div class="w3-container w3-padding-64 w3-pale-red w3-center" id="random">
+<div id = "random" class = "hidden">
   <div class="w3-content">
-    <div class="w3-container">
+    <div class="w3-container w3-center">
       <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
         <div class="w3-container w3-center">
         <h3>Explore Now!</h3>
@@ -150,15 +277,16 @@ p {line-height: 2}
         <br/>
         <iframe name="myFrame" src="http://www.google.com/" width="800" height="300"></iframe>
            <div class="w3-section">
-            <button class="w3-button w3-green">Next adventure</button>
-            <button class="w3-button w3-red">Bucketlist</button>
+            <button onclick="document.getElementById('pickcategories').style.display='block'" class="w3-button w3-round w3-green">Save</button>
+            <button class="w3-button w3-round w3-light-grey">Next</button>
+            <button onclick="document.getElementById('checkforget').style.display='block'" class="w3-button w3-round w3-red">Forget</button>
            </div>
         </div>
        </div>
     </div>
   </div>
 </div>
-
+</div>
 <!-- Sign Up section -->
 <div class="w3-container w3-padding-64 w3-white w3-center w3-wide" id="join">
   <h1>JOIN TODAY</h1>
