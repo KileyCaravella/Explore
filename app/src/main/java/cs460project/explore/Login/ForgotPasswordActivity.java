@@ -51,11 +51,13 @@ public class ForgotPasswordActivity extends Activity {
 
         if (pass1.isEmpty() || pass2.isEmpty() || vCode.isEmpty()) {
             Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_LONG).show();
+            pic.setVisibility(View.INVISIBLE);
             return;
         }
         else {
             if (pass1.equals(pass2)) {
-                //pic.setImageResource(R.drawable.check);
+                pic.setImageResource(R.drawable.check);
+                pic.setVisibility(View.VISIBLE);
                 Toast.makeText(this, "Passwords match.", Toast.LENGTH_LONG).show();
 
                 MySQLClient mySQLClient = new MySQLClient();
@@ -75,7 +77,8 @@ public class ForgotPasswordActivity extends Activity {
 
                 });
             } else {
-                //pic.setImageResource(R.drawable.x);
+                pic.setImageResource(R.drawable.x);
+                pic.setVisibility(View.VISIBLE);
                 Toast.makeText(this, "Passwords entered don't match.", Toast.LENGTH_LONG).show();
             }
         }
