@@ -31,7 +31,11 @@ if (isset($_POST['user_auth']) && isset($_POST['password'])) {
 
     if (mysqli_query($con, $sql)->num_rows == 1) { //if successfully queried:
 
-        //Creating token
+        //Setting up user with new token:
+
+        //Deleting all tokens that previously existed for the user (cleanup)
+        mysqli_query($con,"DELETE FROM token WHERE user_id = '$user_auth'");
+
 
         //setting date for token
         date_default_timezone_set("America/New_York");
@@ -44,7 +48,7 @@ if (isset($_POST['user_auth']) && isset($_POST['password'])) {
         for ($i = 0; $i < 20; $i++)
             $token .= $characters[mt_rand(0, 61)];
 
-        $sql_token = "INSERT INTO token (token, date_created) VALUES ('$token', '$datetime')";
+        $sql_token = "INSERT INTO token (token, date_created, user_id) VALUES ('$token', '$datetime', '$user_auth')";
         if (mysqli_query($con, $sql_token)) {
             $response["success"] = 1;
             $response["message"] = "User successfully logged in.";

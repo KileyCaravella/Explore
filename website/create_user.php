@@ -39,7 +39,7 @@ if (isset($_POST['user_id']) AND isset($_POST['first_name']) AND isset($_POST['l
         $authentication_code .= $characters[mt_rand(0, 61)];
 
     //checking if username is already taken
-    $sql = "SELECT user_id FROM user where (user_id='$user_id' OR email='$email')";
+    $sql = "SELECT user_id FROM user WHERE (user_id='$user_id' OR email='$email')";
 
     //if no results are returned with that user id, continue to create the new user
     if(mysqli_query($con, $sql)->num_rows == 0) {
