@@ -28,7 +28,7 @@ public class MySQLClient {
 
     //MARK - URLS and appending URLs
 
-    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/Explore/website/";
+    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
 //    private final String BASE_URL = "http://141.133.251.69/Explore/website/";
     private final String LOGIN_URL = "login.php";
     private final String CREATE_USER_URL = "create_user.php";
@@ -93,6 +93,7 @@ public class MySQLClient {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(new String(response));
+                    Log.i("Login", jsonResponse.toString());
                     if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
 
                         //TODO: Add token code
