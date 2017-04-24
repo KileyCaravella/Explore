@@ -93,6 +93,7 @@ public class MySQLClient {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(new String(response));
+                    Log.i("Login", jsonResponse.toString());
                     if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
 
                         //TODO: Add token code
