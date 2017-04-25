@@ -3,11 +3,7 @@
     android:id="@+id/activity_sign_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
-
+>
 
     <EditText
         android:id="@+id/usernameEditText"
@@ -37,7 +33,8 @@
         android:id="@+id/signInButton"
         android:layout_below="@+id/passwordEditText"
         android:layout_centerHorizontal="true"
-        android:onClick="loginButtonPressed"/>
+        android:onClick="loginButtonPressed"
+        android:elevation="1dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -74,4 +71,21 @@
             android:onClick="forgotPassPressed" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/animationBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLoading"
+        android:elevation="2dp"
+        android:alpha="0.7"/>
+
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:elevation="3dp"/>
+
 </RelativeLayout>

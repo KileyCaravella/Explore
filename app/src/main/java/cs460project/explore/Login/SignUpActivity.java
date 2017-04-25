@@ -28,7 +28,7 @@ public class SignUpActivity extends Activity implements TextWatcher {
     private EditText password2;
     private EditText name;
     private EditText email;
-    private EditText phone;
+    private EditText lastname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class SignUpActivity extends Activity implements TextWatcher {
         password2.addTextChangedListener(this);
         name = (EditText) findViewById(R.id.name_edittext);
         email = (EditText) findViewById(R.id.email_edittext);
-        phone = (EditText) findViewById(R.id.phone_edittext);
+        lastname = (EditText) findViewById(R.id.lastname_edittext);
 
         image.setVisibility(View.INVISIBLE);
 
@@ -92,7 +92,7 @@ public class SignUpActivity extends Activity implements TextWatcher {
         user.userID = username.getText().toString();
         user.password = password1.getText().toString();
         user.firstName = name.getText().toString();
-        user.lastName = name.getText().toString();
+        user.lastName = lastname.getText().toString();
         user.email = email.getText().toString();
 
         mySQLClient.createNewUser(user, new MySQLClient.OnCreateUserCompletionListener() {

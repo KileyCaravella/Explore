@@ -2,12 +2,15 @@ package cs460project.explore.Login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -20,11 +23,21 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
 
     EditText usernameEditText, passwordEditText;
     private TextToSpeech speaker;
+    private ImageView img;
+    private AnimationDrawable frameAnimation;
+    private View view;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        view = findViewById(R.id.animationBackground);
+        view.setVisibility(View.INVISIBLE);
+        img = (ImageView) findViewById(R.id.animation);
+        img.setBackgroundResource(R.drawable.animation);
+        img.setVisibility(View.INVISIBLE);
+        frameAnimation = (AnimationDrawable) img.getBackground();
 
         setupVariables();
 
@@ -71,9 +84,15 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
 
         //login client call goes here...
         MySQLClient mySQLClient = new MySQLClient();
+        view.setVisibility(View.VISIBLE);
+        img.setVisibility(View.VISIBLE);
+        frameAnimation.start();
         mySQLClient.login(username, password, new MySQLClient.OnLoginCompletionListener() {
                     @Override
                     public void onLoginSuccessful() {
+                        view.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.INVISIBLE);
+                        frameAnimation.stop();
                         Log.i("Yelp Business Progress", "Successfully retrieved businesses");
                         speak(username);
                         Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
@@ -83,6 +102,9 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
                     @Override
                     public void onLoginFailed(String reason) {
                         loginFailedToast();
+                        view.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.INVISIBLE);
+                        frameAnimation.stop();
                     }
                 });
     }
