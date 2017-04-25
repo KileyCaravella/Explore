@@ -1,5 +1,7 @@
 package cs460project.explore.YelpAPI;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,12 +33,15 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
     private ImageView yelpImageView, yelpBusinessRatingImageView, yelpBurstImageView, googleMapsImageView;
     private TextView yelpBusinessNameTextView, openClosedTextView, yelpNumberOfReviewsTextView, yelpDistanceTextView;
     private Button yelpPhoneButton;
+    private GestureDetector gd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_yelp_single_display);
+
+        gd = new GestureDetector(new SwipeGestureDetector());
 
         getYelpBusinessFromBundle();
         setupActivityVariables();
@@ -191,6 +198,68 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
                         .load(R.mipmap.stars_small_5)
                         .into(yelpBusinessRatingImageView);
                 break;
+        }
+    }
+
+    // MARK: - Setting up gesture detector for left- and right-swipes
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (gd.onTouchEvent(event)) {
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private void onLeftSwipe() {
+        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
+
+        dialog.setTitle("Are you sure?");
+        dialog.setMessage("This business won't appear again.");
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Code for what to do when Confirm button pressed
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        dialog.show();
+    }
+
+    private void onRightSwipe() {
+        // Do something
+    }
+
+    private class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_MIN_DISTANCE = 120;
+        private static final int SWIPE_MAX_OFF_PATH = 200;
+        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                float diffAbs = Math.abs(e1.getY() - e2.getY());
+                float diff = e1.getX() - e2.getX();
+
+                if (diffAbs > SWIPE_MAX_OFF_PATH) {
+                    return false;
+                }
+
+                // Left swipe
+                if (diff > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    SingleYelpBusinessActivity.this.onLeftSwipe();
+
+                    // Right swipe
+                } else if (-diff > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    SingleYelpBusinessActivity.this.onRightSwipe();
+                }
+            } catch (Exception e) {
+                Log.e("Swipe", "Error on gestures");
+            }
+            return false;
         }
     }
 }
