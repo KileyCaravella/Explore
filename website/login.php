@@ -31,10 +31,34 @@ if (isset($_POST['user_auth']) && isset($_POST['password'])) {
 
     if (mysqli_query($con, $sql)->num_rows == 1) { //if successfully queried:
 
-        $response["success"] = 1;
-        $response["message"] = "User successfully logged in.";
+        //Setting up user with new token:
 
-        $login_valid_user = true;
+        //Deleting all tokens that previously existed for the user (cleanup)
+        mysqli_query($con,"DELETE FROM token WHERE user_id = '$user_auth'");
+
+
+        //setting date for token
+        date_default_timezone_set("America/New_York");
+        $date = new DateTime();
+        $datetime = $date->format('Y-m-d H:i:s');
+
+        //creating actual token
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $token = '';
+        for ($i = 0; $i < 20; $i++)
+            $token .= $characters[mt_rand(0, 61)];
+
+        $sql_token = "INSERT INTO token (token, date_created, user_id) VALUES ('$token', '$datetime', '$user_auth')";
+        if (mysqli_query($con, $sql_token)) {
+            $response["success"] = 1;
+            $response["message"] = "User successfully logged in.";
+            $response["token"] = $token;
+            $login_valid_user = true;
+        } else {
+            $response["success"] = 0;
+            $response["message"] = "Unable to create token.";
+            $login_valid_user = false;
+        }
 
         //TODO: Return token when user logs in.
     } else {
