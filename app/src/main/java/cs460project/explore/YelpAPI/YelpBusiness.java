@@ -1,7 +1,7 @@
 package cs460project.explore.YelpAPI;
 
-import com.google.gson.annotations.SerializedName;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.HashMap;
 

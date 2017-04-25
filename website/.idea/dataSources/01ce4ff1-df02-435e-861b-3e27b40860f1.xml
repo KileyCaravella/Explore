@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="ActivityFinderDB@activityfinder.czq9iwajyy1p.us-east-1.rds.amazonaws.com">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
+    <root id="1"/>
+    <schema id="2" parent="1" name="ActivityFinderDB">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="innodb"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="sys"/>
+    <schema id="8" parent="1" name="tmp"/>
+    <table id="9" parent="2" name="category"/>
+    <table id="10" parent="2" name="token"/>
+    <table id="11" parent="2" name="user"/>
+    <table id="12" parent="2" name="user_accept"/>
+    <table id="13" parent="2" name="user_reject"/>
+    <column id="14" parent="9" name="category_id">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="15" parent="9" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="16" parent="9" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id
+category_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="17" parent="9" name="category_user_user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <column id="18" parent="10" name="token">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+    </column>
+    <column id="19" parent="10" name="date_created">
+      <Position>2</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="20" parent="10" name="user_id">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="21" parent="11" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="22" parent="11" name="password">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="23" parent="11" name="email">
+      <Position>3</Position>
+      <DataType>varchar(60)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="11" name="date_created">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="11" name="first_name">
+      <Position>5</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="26" parent="11" name="last_name">
+      <Position>6</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="27" parent="11" name="authentication_code">
+      <Position>7</Position>
+      <DataType>varchar(5)|0</DataType>
+    </column>
+    <column id="28" parent="11" name="authenticated">
+      <Position>8</Position>
+      <DataType>tinyint(4)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="29" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="30" parent="12" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="31" parent="12" name="business_id">
+      <Position>2</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="32" parent="12" name="category_id">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="33" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id
+business_id
+category_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="34" parent="12" name="user_accept_user_user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <column id="35" parent="13" name="business_id">
+      <Position>2</Position>
+      <DataType>decimal(6)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="36" parent="13" name="user_id">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="37" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id
+business_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="38" parent="13" name="user_reject_username_user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>ActivityFinderDB</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

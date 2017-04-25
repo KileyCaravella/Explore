@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.DIAL_PHONE"/>
 
     <application
         android:allowBackup="true"
@@ -15,14 +16,20 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".Login.SignInActivity">
-
-        </activity>
-        <activity android:name=".NavigationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".BucketListActivity"></activity>
+        <activity android:name=".YelpAPI.SingleYelpBusinessActivity"></activity>
+        <activity android:name=".CategoryViewActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".Login.ForgotPasswordActivity"></activity>
+        <activity android:name=".Login.SignUpActivity"></activity>
+        <activity android:name=".Login.SignUpConfirmActivity"></activity>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

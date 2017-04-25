@@ -1,108 +1,140 @@
 package cs460project.explore.Login;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amazonaws.mobile.AWSMobileClient;
-import com.amazonaws.mobile.user.IdentityManager;
-import com.amazonaws.mobile.user.IdentityProvider;
-import com.amazonaws.mobile.user.signin.CognitoUserPoolsSignInProvider;
-import com.amazonaws.mobile.user.signin.SignInManager;
+import java.util.Locale;
 
-import cs460project.explore.R;
 import cs460project.explore.NavigationActivity;
+import cs460project.explore.R;
+import cs460project.explore.User.MySQLClient;
 
-public class SignInActivity extends Activity {
-    private static final String LOG_TAG = SignInActivity.class.getSimpleName();
-    private SignInManager signInManager;
+public class SignInActivity extends Activity implements TextToSpeech.OnInitListener {
 
-    /** Permission Request Code (Must be < 256). */
-    private static final int GET_ACCOUNTS_PERMISSION_REQUEST_CODE = 93;
-
-    /** The Google OnClick listener, since we must override it to get permissions on Marshmallow and above. */
-    private View.OnClickListener googleOnClickListener;
+    EditText usernameEditText, passwordEditText;
+    private TextToSpeech speaker;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        signInManager = SignInManager.getInstance(this);
+        setupVariables();
 
-        signInManager.setResultsHandler(this, new SignInResultsHandler());
-
-        // Initialize sign-in buttons.
-        signInManager.initializeSignInButton(CognitoUserPoolsSignInProvider.class,
-                this.findViewById(R.id.sign_in_button));
+        //Initialize Text to Speech engine (context, listener object)
+        speaker = new TextToSpeech(this, this);
     }
 
-    /**
-     * SignInResultsHandler handles the final result from sign in. Making it static is a best
-     * practice since it may outlive the SplashActivity's life span.
-     */
-    private class SignInResultsHandler implements IdentityManager.SignInResultsHandler {
-        /**
-         * Receives the successful sign-in result and starts the main activity.
-         * @param provider the identity provider used for sign-in.
-         */
-        @Override
-        public void onSuccess(final IdentityProvider provider) {
-            // The sign-in manager is no longer needed once signed in.
-            SignInManager.dispose();
-            Toast.makeText(SignInActivity.this, String.format("Sign-in succeeded."), Toast.LENGTH_LONG).show();
+    // Implements TextToSpeech.OnInitListener.
+    public void onInit(int status) {
+        // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+        if (status == TextToSpeech.SUCCESS) {
+            // Set preferred language to US english.
+            // If a language is not be available, the result will indicate it.
+            int result = speaker.setLanguage(Locale.US);
 
-            // Load user name and image.
-            AWSMobileClient.defaultMobileClient()
-                    .getIdentityManager().loadUserInfoAndImage(provider, new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(LOG_TAG, "Launching Main Activity...");
-                    startActivity(new Intent(SignInActivity.this, NavigationActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                    finish();
-                }
-            });
-        }
-
-        /**
-         * Receives the sign-in result indicating the user canceled and shows a toast.
-         * @param provider the identity provider with which the user attempted sign-in.
-         */
-        @Override
-        public void onCancel(final IdentityProvider provider) {
-            Log.d(LOG_TAG, String.format("User sign-in with %s canceled.",
-                    provider.getDisplayName()));
-
-            Toast.makeText(SignInActivity.this, String.format("Sign-in with %s canceled.",
-                    provider.getDisplayName()), Toast.LENGTH_LONG).show();
-        }
-
-        /**
-         * Receives the sign-in result that an error occurred signing in and shows a toast.
-         * @param provider the identity provider with which the user attempted sign-in.
-         * @param ex the exception that occurred.
-         */
-        @Override
-        public void onError(final IdentityProvider provider, final Exception ex) {
-            Log.e(LOG_TAG, String.format("User Sign-in failed for %s : %s",
-                    provider.getDisplayName(), ex.getMessage()), ex);
-
-            final AlertDialog.Builder errorDialogBuilder = new AlertDialog.Builder(SignInActivity.this);
-            errorDialogBuilder.setTitle("Sign-In Error");
-            errorDialogBuilder.setMessage(
-                    String.format("Sign-in with %s failed.\n%s", provider.getDisplayName(), ex.getMessage()));
-            errorDialogBuilder.setNeutralButton("Ok", null);
-            errorDialogBuilder.show();
+            //  int result = speaker.setLanguage(Locale.FRANCE);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // Language data is missing or the language is not supported.
+                Log.e("TTS", "Language is not available.");
+            } else {
+                // The TTS engine has been successfully initialized
+                Log.i("TTS", "TTS Initialization successful.");
+            }
+        } else {
+            // Initialization failed.
+            Log.e("TTS", "Could not initialize TextToSpeech.");
         }
     }
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        signInManager.handleActivityResult(requestCode, resultCode, data);
+    private void setupVariables() {
+        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+    }
+
+    public void loginButtonPressed(View v) {
+        Log.i("Login", "Login Button Pressed.");
+        final String username = usernameEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill out both fields.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        //login client call goes here...
+        MySQLClient mySQLClient = new MySQLClient();
+        mySQLClient.login(username, password, new MySQLClient.OnLoginCompletionListener() {
+                    @Override
+                    public void onLoginSuccessful() {
+                        Log.i("Yelp Business Progress", "Successfully retrieved businesses");
+                        speak(username);
+                        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLoginFailed(String reason) {
+                        loginFailedToast();
+                    }
+                });
+    }
+
+    private void speak(String text) {
+        //To prevent crashing, we check the build version before calling the appropriate version of speak
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
+        } else {
+            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
+    }
+
+    private void loginFailedToast() {
+        Toast.makeText(this, "Invalid Username or Password. Please try again", Toast.LENGTH_LONG).show();
+    }
+
+    public void forgotPassPressed(View v) {
+        Log.i("Forgot Password", "Forgot Password Button Pressed.");
+
+        final String username = usernameEditText.getText().toString();
+
+        if (username.isEmpty()) {
+            Toast.makeText(this, "Please fill out Username field.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        MySQLClient mySQLClient = new MySQLClient();
+        mySQLClient.forgotPassword(username, new MySQLClient.OnForgotPasswordCompletionListener() {
+            @Override
+            public void onForgotSuccessful() {
+                Log.i("Forgot Pass Progress", "Successfully sent email.");
+                Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onForgotFailed(String reason) {
+                passForgotToast();
+            }
+        });
+    }
+
+    private void passForgotToast() {
+        Toast.makeText(this, "Forgot password failed. Please try again", Toast.LENGTH_LONG).show();
+    }
+
+    public void signUpPressed(View v) {
+        Log.i("Sign Up", "Sign Up Button Pressed.");
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
+        // sign up intent goes here
     }
 }
