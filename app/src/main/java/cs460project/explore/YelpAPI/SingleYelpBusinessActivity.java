@@ -230,7 +230,23 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
     }
 
     private void onRightSwipe() {
-        // Do something
+        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
+
+        dialog.setTitle("Choose a category.");
+
+        // Code to set up buttons with category names
+
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Code for what to do when Confirm button pressed
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        dialog.show();
     }
 
     private class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
