@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 
 public class SignInActivity extends Activity implements TextToSpeech.OnInitListener {
 
@@ -83,13 +83,13 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         }
 
         //login client call goes here...
-        MySQLClient mySQLClient = new MySQLClient();
         view.setVisibility(View.VISIBLE);
         img.setVisibility(View.VISIBLE);
         frameAnimation.start();
-        mySQLClient.login(username, password, new MySQLClient.OnLoginCompletionListener() {
+
+        LoginClient.sharedInstance.login(username, password, new LoginClient.GeneralCompletionListener() {
                     @Override
-                    public void onLoginSuccessful() {
+                    public void onSuccessful() {
                         view.setVisibility(View.INVISIBLE);
                         img.setVisibility(View.INVISIBLE);
                         frameAnimation.stop();
@@ -100,7 +100,7 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
                     }
 
                     @Override
-                    public void onLoginFailed(String reason) {
+                    public void onFailed(String reason) {
                         loginFailedToast();
                         view.setVisibility(View.INVISIBLE);
                         img.setVisibility(View.INVISIBLE);
@@ -133,17 +133,16 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
             return;
         }
 
-        MySQLClient mySQLClient = new MySQLClient();
-        mySQLClient.forgotPassword(username, new MySQLClient.OnForgotPasswordCompletionListener() {
+        LoginClient.sharedInstance.forgotPassword(username, new LoginClient.GeneralCompletionListener() {
             @Override
-            public void onForgotSuccessful() {
+            public void onSuccessful() {
                 Log.i("Forgot Pass Progress", "Successfully sent email.");
                 Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
                 startActivity(intent);
             }
 
             @Override
-            public void onForgotFailed(String reason) {
+            public void onFailed(String reason) {
                 passForgotToast();
             }
         });

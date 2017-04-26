@@ -3,6 +3,8 @@ package cs460project.explore.Login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -10,17 +12,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 
 /**
  * Created by Kiley on 2/23/17.
  */
 
-public class ForgotPasswordActivity extends Activity {
+public class ForgotPasswordActivity extends Activity implements TextWatcher {
 
-    EditText password1, password2, verCode;
-    ImageView pic;
-    String username = "";
+    private EditText password1, password2, verCode;
+    private String username = "";
+    private ImageView pic;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,14 +34,50 @@ public class ForgotPasswordActivity extends Activity {
         if (extras != null) {
             username = extras.getString("Username");
         }
+
         setupVariables();
     }
 
     private void setupVariables() {
         password1 = (EditText) findViewById(R.id.forgot_pass1);
+        password1.addTextChangedListener(this);
         password2 = (EditText) findViewById(R.id.forgot_pass2);
+        password2.addTextChangedListener(this);
         verCode = (EditText) findViewById(R.id.ver_code);
-        pic = (ImageView) findViewById(R.id.passMatchCheck);
+        pic = (ImageView) findViewById(R.id.pass_check);
+        pic.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+        String p1 = password1.getText().toString();
+        String p2 = password2.getText().toString();
+
+        if (p1.matches("") || p2.matches("")) {
+
+            pic.setVisibility(View.INVISIBLE);
+
+        } else {
+
+            if (p1.equals(p2)) {
+                pic.setImageResource(R.drawable.check);
+                pic.setVisibility(View.VISIBLE);
+            } else {
+                pic.setImageResource(R.drawable.x);
+                pic.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public void setPasswordPressed(View v) {
@@ -55,13 +93,11 @@ public class ForgotPasswordActivity extends Activity {
         }
         else {
             if (pass1.equals(pass2)) {
-                //pic.setImageResource(R.drawable.check);
                 Toast.makeText(this, "Passwords match.", Toast.LENGTH_LONG).show();
 
-                MySQLClient mySQLClient = new MySQLClient();
-                mySQLClient.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new MySQLClient.OnResetPasswordCompletionListener() {
+                LoginClient.sharedInstance.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new LoginClient.GeneralCompletionListener() {
                     @Override
-                    public void onResetSuccessful() {
+                    public void onSuccessful() {
 
                         Log.i("Reset Pass Progress", "Successfully reset pass.");
                         Intent intent = new Intent(ForgotPasswordActivity.this, SignInActivity.class);
@@ -69,13 +105,14 @@ public class ForgotPasswordActivity extends Activity {
                     }
 
                     @Override
-                    public void onResetFailed(String reason) {
+                    public void onFailed(String reason) {
                         passResetToast();
                     }
 
                 });
             } else {
-                //pic.setImageResource(R.drawable.x);
+                pic.setImageResource(R.drawable.x);
+                pic.setVisibility(View.VISIBLE);
                 Toast.makeText(this, "Passwords entered don't match.", Toast.LENGTH_LONG).show();
             }
         }
