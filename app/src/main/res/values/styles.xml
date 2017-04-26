@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#2196f3</item>
     </style>
 
     <style name="BucketTheme" parent="android:Theme.Holo.Light.DarkActionBar">
@@ -13,8 +14,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">#2196f3</item>
 
     </style>
+
 
 
 

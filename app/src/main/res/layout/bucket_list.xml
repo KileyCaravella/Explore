@@ -1,58 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".BucketListActivity"
-
+    android:id="@+id/bucket_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:id="@+id/bucket_list"
     android:orientation="vertical"
-    android:theme="@+id/BucketTheme2">
+    android:paddingTop="16dp"
+    android:theme="@+id/BucketTheme2"
+    tools:context=".BucketListActivity">
 
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Bucket List"
-            android:ems="10"
-            android:id="@+id/bucketListPageName"
-            android:textAlignment="center"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Categories"
-            android:ems="10"
-            android:id="@+id/viewDescription"
-            android:textAlignment="center"
-             />
-
-        <LinearLayout
+    <TextView
+        android:id="@+id/bucketListPageName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-            >
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingBottom="10dp"
+        android:text="Bucket List Categories"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/enterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/enterText"
             android:layout_gravity="center"
-            android:hint="@string/bucket_list_edit_text_hint"/>
+            android:ems="10"
+            android:hint="@string/bucket_list_edit_text_hint"
+            android:inputType="textPersonName" />
 
         <Button
-            android:text="View Category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/viewBtn"
-            android:onClick="viewCategory"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="viewCategory"
+            android:text="VIEW" />
 
     </LinearLayout>
 
@@ -63,28 +51,30 @@
         android:orientation="horizontal">
 
         <Button
-            android:text="New Category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/newBtn"
-            android:onClick="newCategory"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#2196f3"
+            android:onClick="newCategory"
+            android:text="New Category" />
 
         <Button
-            android:text="Update Category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/updateBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:onClick="updateCategory"/>
-
+            android:layout_weight="1"
+            android:background="#2196f3"
+            android:onClick="updateCategory"
+            android:text="Update Category" />
 
     </LinearLayout>
 
     <ListView
+        android:id="@+id/bucketListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/bucketListView"
-        android:drawSelectorOnTop="false"
-        />
+        android:drawSelectorOnTop="false" />
 
-    </LinearLayout>
+</LinearLayout>

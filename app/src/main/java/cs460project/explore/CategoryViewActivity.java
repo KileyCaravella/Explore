@@ -28,7 +28,6 @@ public class CategoryViewActivity extends Activity {
 
 
 
-
         //creates a list of custom list views and populates it with test data
         List<CustomListView> locationList = new ArrayList<CustomListView>();
         locationList.add(new CustomListView("Sunny Bowl", "1477 Plymouth St, Ste D, Mountain View, CA 94043", "https://s3-media2.fl.yelpcdn.com/bphoto/xlcqWTyQMqEUZeb6gQMZAQ/o.jpg"));

@@ -3,8 +3,18 @@
     >
 
 
+
+
+    <item android:title="Add Category"
+        android:id="@+id/addCategory"
+        />
+
+    <item android:title="Update Category"
+        android:id="@+id/updateCategory"
+        />
+
     <item android:title="Delete Category"
         android:id="@+id/deleteCategory"
-                                        />
+        />
 
 </menu>
