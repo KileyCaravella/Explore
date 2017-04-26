@@ -35,7 +35,7 @@ public class SignUpConfirmActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm);
+        setContentView(R.layout.activity_confirm_pass);
 
         setupLoadingIndicator();
         setupVariables();

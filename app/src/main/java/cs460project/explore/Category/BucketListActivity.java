@@ -53,9 +53,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //this.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
-        setTheme(R.style.BucketTheme);
-        //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
+
         setContentView(R.layout.bucket_list);
 
 
