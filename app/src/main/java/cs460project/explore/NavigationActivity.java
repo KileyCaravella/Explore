@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.google.gson.Gson;
 
+import cs460project.explore.Category.BucketListActivity;
 import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
 import cs460project.explore.YelpAPI.YelpAPIClient;
 import cs460project.explore.YelpAPI.YelpBusiness;
@@ -23,14 +24,11 @@ import cs460project.explore.YelpAPI.YelpBusiness;
 public class NavigationActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
-    private YelpAPIClient yelpAPIClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation);
-
-        yelpAPIClient = new YelpAPIClient();
         locationManaging();
     }
 
@@ -40,9 +38,9 @@ public class NavigationActivity extends AppCompatActivity {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Log.i("Location", "Long: " + location.getLongitude() + " Lat: " + location.getLatitude());
             if (location != null) {
-                yelpAPIClient.searchYelpBusinesses(location.getLatitude(), location.getLongitude(), new YelpAPIClient.OnYelpBusinessSearchCompletionListener() {
+                YelpAPIClient.sharedInstance.getYelpBusinessWithLatAndLong(location.getLatitude(), location.getLongitude(), new YelpAPIClient.OnYelpBusinessCompletionListener() {
                     @Override
-                    public void onBusinessesRetrievalSuccessful(YelpBusiness business) {
+                    public void onBusinessRetrievalSuccessful(YelpBusiness business) {
                         Log.i("Yelp Business Progress", "Successfully retrieved businesses");
                         Intent intent = new Intent(NavigationActivity.this, SingleYelpBusinessActivity.class);
                         intent.putExtra("YelpBusiness", new Gson().toJson(business));
@@ -50,7 +48,7 @@ public class NavigationActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onBusinessesRetrievalFailed(String reason) {
+                    public void onBusinessRetrievalFailed(String reason) {
                         Log.i("Yelp Business Progress", "Failed to retrieve businesses");
                         failedToGetBusinessesToast();
                     }
@@ -65,8 +63,6 @@ public class NavigationActivity extends AppCompatActivity {
         Toast.makeText(this, "Error Retrieving Business", Toast.LENGTH_LONG).show();
     }
 
-    //Nathaniel: Show Bucket List View When button pressed
-    //more code to be added later
     public void bucketButtonPressed(View v) {
         Log.i("Bucket View", "Bucket View button pressed.");
         Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);

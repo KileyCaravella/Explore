@@ -1,4 +1,4 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.

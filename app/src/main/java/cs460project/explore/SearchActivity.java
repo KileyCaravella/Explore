@@ -9,6 +9,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs460project.explore.Category.CustomCategoryAdapter;
+import cs460project.explore.Category.CustomListView;
+
 /**
  * Created by HARDY_NATH on 4/5/2017.
  * Will be used to display results that the user searched for

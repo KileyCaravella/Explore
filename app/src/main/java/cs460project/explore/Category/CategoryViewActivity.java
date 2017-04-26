@@ -1,4 +1,4 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cs460project.explore.R;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.
