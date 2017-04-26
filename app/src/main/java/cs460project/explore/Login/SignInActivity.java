@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,54 +16,68 @@ import java.util.Locale;
 
 import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
-import cs460project.explore.User.LoginClient;
+import cs460project.explore.User.UserClient;
+
+/**
+ *
+ * This is the SignInActivity, which is the first Activity that appears when the app launches. It is the central
+ * screen for users to navigate signing up, if they forgot their password, and logging in. When the user
+ * successfully logs in, the app will welcome them using their username.
+ *
+ */
 
 public class SignInActivity extends Activity implements TextToSpeech.OnInitListener {
 
-    EditText usernameEditText, passwordEditText;
+    //MARK: - Private Variables
+
     private TextToSpeech speaker;
-    private ImageView img;
+    private ImageView loadingIndicatorImageView;
     private AnimationDrawable frameAnimation;
-    private View view;
+    private View loadingIndicatorBackgroundView;
+
+    //MARK: - Public Variables
+
+    public EditText usernameEditText, passwordEditText;
+
+    //MARK: - Initialization
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        view = findViewById(R.id.animationBackground);
-        view.setVisibility(View.INVISIBLE);
-        img = (ImageView) findViewById(R.id.animation);
-        img.setBackgroundResource(R.drawable.animation);
-        img.setVisibility(View.INVISIBLE);
-        frameAnimation = (AnimationDrawable) img.getBackground();
-
-        setupVariables();
-
-        //Initialize Text to Speech engine (context, listener object)
         speaker = new TextToSpeech(this, this);
+        setupVariables();
+        setupLoadingIndicator();
     }
 
-    // Implements TextToSpeech.OnInitListener.
     public void onInit(int status) {
-        // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
         if (status == TextToSpeech.SUCCESS) {
-            // Set preferred language to US english.
-            // If a language is not be available, the result will indicate it.
             int result = speaker.setLanguage(Locale.US);
 
-            //  int result = speaker.setLanguage(Locale.FRANCE);
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                // Language data is missing or the language is not supported.
                 Log.e("TTS", "Language is not available.");
             } else {
-                // The TTS engine has been successfully initialized
                 Log.i("TTS", "TTS Initialization successful.");
             }
         } else {
-            // Initialization failed.
             Log.e("TTS", "Could not initialize TextToSpeech.");
         }
+    }
+
+    //MARK: - Setup
+
+    /* This function sets up the loading indicator, its animation, and its background. This code is copied
+    throughout all views that have a loading indicator. */
+    private void setupLoadingIndicator() {
+        loadingIndicatorImageView = (ImageView) findViewById(R.id.animation);
+        loadingIndicatorImageView.setBackgroundResource(R.drawable.animation);
+        loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+
+        loadingIndicatorBackgroundView = findViewById(R.id.animationBackground);
+        loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+
+        frameAnimation = (AnimationDrawable) loadingIndicatorImageView.getBackground();
     }
 
     private void setupVariables() {
@@ -72,70 +85,66 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
     }
 
+    //MARK: - OnClick functions
+
     public void loginButtonPressed(View v) {
         Log.i("Login", "Login Button Pressed.");
         final String username = usernameEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
+        //check if user entered all necessary information
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill out both fields.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //login client call goes here...
-        view.setVisibility(View.VISIBLE);
-        img.setVisibility(View.VISIBLE);
-        frameAnimation.start();
+        //starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
 
-        LoginClient.sharedInstance.login(username, password, new LoginClient.GeneralCompletionListener() {
-                    @Override
-                    public void onSuccessful() {
-                        view.setVisibility(View.INVISIBLE);
-                        img.setVisibility(View.INVISIBLE);
-                        frameAnimation.stop();
-                        Log.i("Yelp Business Progress", "Successfully retrieved businesses");
-                        speak(username);
-                        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
-                        startActivity(intent);
-                    }
+        //Client call
+        UserClient.sharedInstance.login(username, password, new UserClient.GeneralCompletionListener() {
+            @Override
+            public void onSuccessful() {
+                toggleLoadingIndicator(false);
+                speak(username);
 
-                    @Override
-                    public void onFailed(String reason) {
-                        loginFailedToast();
-                        view.setVisibility(View.INVISIBLE);
-                        img.setVisibility(View.INVISIBLE);
-                        frameAnimation.stop();
-                    }
-                });
+                //Once successfully logged in, the user is brought to the Navigation Activity
+                Log.i("Yelp Business Progress", "Successfully retrieved businesses");
+                Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                loginFailedToast();
+            }
+        });
     }
 
-    private void speak(String text) {
-        //To prevent crashing, we check the build version before calling the appropriate version of speak
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
-        } else {
-            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null);
-        }
-
-    }
-
-    private void loginFailedToast() {
-        Toast.makeText(this, "Invalid Username or Password. Please try again", Toast.LENGTH_LONG).show();
-    }
-
-    public void forgotPassPressed(View v) {
+    /* When the forgot password button is pressed, it makes a call to our backend that resets the authentication
+     * code assigned to that user, and sends them an email with the new one. The user is then brought to a view
+     * to enter in their new password, along with the authentication code from their email.
+     */
+    public void forgotPasswordPressed(View v) {
         Log.i("Forgot Password", "Forgot Password Button Pressed.");
-
         final String username = usernameEditText.getText().toString();
 
+        //Make sure the user entered their username into the appropriate view
         if (username.isEmpty()) {
-            Toast.makeText(this, "Please fill out Username field.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please enter your username and press 'ForgotPassword' again.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        LoginClient.sharedInstance.forgotPassword(username, new LoginClient.GeneralCompletionListener() {
+        //starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
+
+        //Client call
+        UserClient.sharedInstance.forgotPassword(username, new UserClient.GeneralCompletionListener() {
             @Override
             public void onSuccessful() {
+                toggleLoadingIndicator(false);
+
                 Log.i("Forgot Pass Progress", "Successfully sent email.");
                 Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
                 startActivity(intent);
@@ -143,19 +152,50 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
 
             @Override
             public void onFailed(String reason) {
-                passForgotToast();
+                toggleLoadingIndicator(false);
+                forgotPasswordFailedToast();
             }
         });
-    }
-
-    private void passForgotToast() {
-        Toast.makeText(this, "Forgot password failed. Please try again", Toast.LENGTH_LONG).show();
     }
 
     public void signUpPressed(View v) {
         Log.i("Sign Up", "Sign Up Button Pressed.");
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(intent);
-        // sign up intent goes here
+    }
+
+    //MARK: - Text-To-Speech
+
+    //To prevent crashing, we check the build version before calling the appropriate version of speak
+    private void speak(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
+        } else {
+            speaker.speak("Welcome " + text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+
+    //MARK: - Toggling Loading Indicator
+
+    private void toggleLoadingIndicator(Boolean makeVisible) {
+        if (makeVisible) {
+            loadingIndicatorImageView.setVisibility(View.VISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.VISIBLE);
+            frameAnimation.start();
+        } else {
+            loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+            frameAnimation.stop();
+        }
+    }
+
+    //MARK: - Toasts
+
+    private void loginFailedToast() {
+        Toast.makeText(this, "Invalid username or password. Please try again", Toast.LENGTH_LONG).show();
+    }
+
+    private void forgotPasswordFailedToast() {
+        Toast.makeText(this, "Invalid username. Please try again", Toast.LENGTH_LONG).show();
     }
 }

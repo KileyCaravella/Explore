@@ -10,19 +10,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.LoginClient;
+import cs460project.explore.User.UserClient;
 import cs460project.explore.User.User;
 
 /**
- * Created by Kiley on 2/23/17.
+ * This is the Sign Up Activity, where the user registers for a new account. There is an passwordMatchImageView that changes
+ * based on whether or not the passwords that the user enters match each other. This information is sent to
+ * our backend to be stored, and also causes an email to be sent to the submitted email address with an
+ * authentication code to be entered at the next view.
  */
 
 public class SignUpActivity extends Activity implements TextWatcher {
 
-    private SignUpActivity signUpActivity;
-    private ImageView image;
+    //MARK: - Private Variables
+
+    private ImageView passwordMatchImageView;
     private EditText username;
     private EditText password1;
     private EditText password2;
@@ -35,7 +40,13 @@ public class SignUpActivity extends Activity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        image = (ImageView) findViewById(R.id.image_password);
+        setupVariables();
+    }
+
+    private void setupVariables() {
+        passwordMatchImageView = (ImageView) findViewById(R.id.image_password);
+        passwordMatchImageView.setVisibility(View.INVISIBLE);
+
         username = (EditText) findViewById(R.id.username_edittext);
         password1 = (EditText) findViewById(R.id.password1_edittext);
         password1.addTextChangedListener(this);
@@ -44,21 +55,12 @@ public class SignUpActivity extends Activity implements TextWatcher {
         name = (EditText) findViewById(R.id.name_edittext);
         email = (EditText) findViewById(R.id.email_edittext);
         lastname = (EditText) findViewById(R.id.lastname_edittext);
-
-        image.setVisibility(View.INVISIBLE);
-
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    //MARK: - TextWatcher
 
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
+    /* When the user enters text into both password fields, an image appears to indicate whether the two
+    match or not */
     @Override
     public void afterTextChanged(Editable s) {
 
@@ -66,20 +68,23 @@ public class SignUpActivity extends Activity implements TextWatcher {
         String password2String = password2.getText().toString();
 
         if (password1String.matches("") || password2String.matches("")) {
-
-            image.setVisibility(View.INVISIBLE);
-
+            passwordMatchImageView.setVisibility(View.INVISIBLE);
         } else {
-
             if (password1String.equals(password2String)) {
-                image.setImageResource(R.drawable.check);
-                image.setVisibility(View.VISIBLE);
+                passwordMatchImageView.setImageResource(R.drawable.check);
+                passwordMatchImageView.setVisibility(View.VISIBLE);
             } else {
-                image.setImageResource(R.drawable.x);
-                image.setVisibility(View.VISIBLE);
+                passwordMatchImageView.setImageResource(R.drawable.x);
+                passwordMatchImageView.setVisibility(View.VISIBLE);
             }
         }
     }
+
+    //Necessary for TextWatcher
+    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+    //MARK: - OnClick Functions
 
     public void signUpPressed(View v) {
         Log.i("Sign Up Confirm", "Sign Up Button Pressed.");
@@ -91,9 +96,12 @@ public class SignUpActivity extends Activity implements TextWatcher {
         user.lastName = lastname.getText().toString();
         user.email = email.getText().toString();
 
-        LoginClient.sharedInstance.createNewUser(user, new LoginClient.GeneralCompletionListener() {
+        //TODO: - put loading indicator here
+
+        UserClient.sharedInstance.createNewUser(user, new UserClient.GeneralCompletionListener() {
             @Override
             public void onSuccessful() {
+                //To confirmation view
                 Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
                 startActivity(intent);
             }
@@ -101,7 +109,14 @@ public class SignUpActivity extends Activity implements TextWatcher {
             @Override
             public void onFailed(String reason) {
                 Log.i("Fail", reason);
+                signUpFailedToast();
             }
         });
+    }
+
+    //MARK: - Toasts
+
+    private void signUpFailedToast() {
+        Toast.makeText(this, "Something went wrong. Please try again", Toast.LENGTH_LONG).show();
     }
 }

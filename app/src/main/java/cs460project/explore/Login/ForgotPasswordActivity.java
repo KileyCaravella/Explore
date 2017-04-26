@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.LoginClient;
+import cs460project.explore.User.UserClient;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -95,7 +95,7 @@ public class ForgotPasswordActivity extends Activity implements TextWatcher {
             if (pass1.equals(pass2)) {
                 Toast.makeText(this, "Passwords match.", Toast.LENGTH_LONG).show();
 
-                LoginClient.sharedInstance.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new LoginClient.GeneralCompletionListener() {
+                UserClient.sharedInstance.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new UserClient.GeneralCompletionListener() {
                     @Override
                     public void onSuccessful() {
 

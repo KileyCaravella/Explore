@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.LoginClient;
+import cs460project.explore.User.UserClient;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -43,7 +43,7 @@ public class SignUpConfirmActivity extends Activity {
             return;
         }
         else {
-            LoginClient.sharedInstance.confirmUser(username.getText().toString(), authCode.getText().toString(), new LoginClient.GeneralCompletionListener() {
+            UserClient.sharedInstance.confirmUser(username.getText().toString(), authCode.getText().toString(), new UserClient.GeneralCompletionListener() {
                 @Override
                 public void onSuccessful() {
                     Log.i("Confirm Button Pressed", "Successfully created new user.");

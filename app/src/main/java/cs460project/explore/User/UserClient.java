@@ -12,24 +12,24 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by Kiley on 3/23/17.
  *
- * This is the login Client. It is in charge of all calls to our personal backend for anything that has to do with
+ * This is the User Client. It is in charge of all calls to our personal backend for anything that has to do with
  * the user in including but not limited to logging in, creating a new user, forgetting a password, resetting a password,
  * and confirming the new account. Because all calls are "POST" calls, the calls do not return anything outside of the
  * class so they are able to use the same completion listener. Logging in is the only function that returns something
  * (which is the token), so it has a different response handler.
+ *
  */
 
-public class LoginClient {
+public class UserClient {
 
     /**
-     * To make sure the token is not overwritten by re-calling the LoginClient method, it is impossible to initialize
-     * the method from outside of itself, so all classes call LoginClient using the static shared instance (singleton).
+     * To make sure the token is not overwritten by re-calling the UserClient method, it is impossible to initialize
+     * the method from outside of itself, so all classes call UserClient using the static shared instance (singleton).
      */
 
-    public static LoginClient sharedInstance = new LoginClient();
-    private LoginClient() {}
+    public static UserClient sharedInstance = new UserClient();
+    private UserClient() {}
 
     //MARK: - URLS and appending URLs
 
@@ -71,6 +71,7 @@ public class LoginClient {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    generalCompletionListener.onFailed(e.toString());
                 }
             }
 
@@ -97,6 +98,7 @@ public class LoginClient {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    generalCompletionListener.onFailed(e.toString());
                 }
             }
 

@@ -12,11 +12,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cs460project.explore.User.LoginClient;
+import cs460project.explore.User.UserClient;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by Kiley on 4/25/17.
  *
  * This is the Category Client. It is in charge of all calls to our personal backend for anything that has to do with
  * categories including but not limited to creating a new category, adding a yelp business to a category, adding a
@@ -26,6 +25,7 @@ import cz.msebera.android.httpclient.Header;
  * that returns an ArrayList of the information the person wants to retrieve. Yelp does not allow anyone to store all of
  * a business' information, so we are only allowed to store the business' ID, then use the ID to retrieve their information
  * from yelp later.
+ *
  */
 
 public class CategoryClient {
@@ -149,7 +149,7 @@ public class CategoryClient {
     private void setupCreateNewCategoryParams(String categoryName) {
         requestParams = new RequestParams();
         requestParams.put("category_name", categoryName);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -168,7 +168,7 @@ public class CategoryClient {
         requestParams = new RequestParams();
         requestParams.put("business_id", businessID);
         requestParams.put("category_name", categoryName);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -186,7 +186,7 @@ public class CategoryClient {
     private void setupAddBusinessToRejectedParams(String businessID) {
         requestParams = new RequestParams();
         requestParams.put("business_id", businessID);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -203,7 +203,7 @@ public class CategoryClient {
 
     private void setupGetUsersCategoriesParams() {
         requestParams = new RequestParams();
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -221,7 +221,7 @@ public class CategoryClient {
     private void setupGetBusinessesFromCategoryParams(String category) {
         requestParams = new RequestParams();
         requestParams.put("category_id", category);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -238,7 +238,7 @@ public class CategoryClient {
 
     private void setupGetBusinessesFromRejectedParams() {
         requestParams = new RequestParams();
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -256,7 +256,7 @@ public class CategoryClient {
     private void setupRemoveCategoryParams(String category) {
         requestParams = new RequestParams();
         requestParams.put("category_id", category);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -275,7 +275,7 @@ public class CategoryClient {
         requestParams = new RequestParams();
         requestParams.put("business_ID", business);
         requestParams.put("category_ID", category);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 
@@ -293,7 +293,7 @@ public class CategoryClient {
     private void setupRemoveBusinessFromRejectedParams(String business) {
         requestParams = new RequestParams();
         requestParams.put("business_ID", business);
-        requestParams.put("token", LoginClient.sharedInstance.token);
+        requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
 }

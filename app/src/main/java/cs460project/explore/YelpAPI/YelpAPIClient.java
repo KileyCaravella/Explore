@@ -1,10 +1,10 @@
 package cs460project.explore.YelpAPI;
 
 /**
- * Created by Kiley on 2/20/17.
  *
  * This is the Yelp API Client. It is in charge of all calls to the yelp api including searching and returning
  * specific businesses baSed on their ID.
+ *
  */
 
 import android.util.Log;
