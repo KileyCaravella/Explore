@@ -1,4 +1,4 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 
 import android.app.Activity;
@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,10 +21,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.List;
+
+import cs460project.explore.R;
 
 /**
  * Created by HARDY_NATH on 3/26/2017.

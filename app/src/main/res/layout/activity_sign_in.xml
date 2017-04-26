@@ -74,4 +74,10 @@
             android:onClick="forgotPassPressed" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

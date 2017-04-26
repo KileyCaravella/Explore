@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -58,10 +58,9 @@ public class ForgotPasswordActivity extends Activity {
                 //pic.setImageResource(R.drawable.check);
                 Toast.makeText(this, "Passwords match.", Toast.LENGTH_LONG).show();
 
-                MySQLClient mySQLClient = new MySQLClient();
-                mySQLClient.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new MySQLClient.OnResetPasswordCompletionListener() {
+                LoginClient.sharedInstance.resetPassword(username, password1.getText().toString(), verCode.getText().toString(), new LoginClient.GeneralCompletionListener() {
                     @Override
-                    public void onResetSuccessful() {
+                    public void onSuccessful() {
 
                         Log.i("Reset Pass Progress", "Successfully reset pass.");
                         Intent intent = new Intent(ForgotPasswordActivity.this, SignInActivity.class);
@@ -69,7 +68,7 @@ public class ForgotPasswordActivity extends Activity {
                     }
 
                     @Override
-                    public void onResetFailed(String reason) {
+                    public void onFailed(String reason) {
                         passResetToast();
                     }
 
