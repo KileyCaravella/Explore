@@ -8,6 +8,9 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Bucket List"
+        android:textSize="20dp"
+        android:textColor="#ff000000"
+        android:paddingTop="20dp"
         android:ems="10"
         android:id="@+id/bucketListPageNameViewCat"
         android:textAlignment="center"
@@ -17,9 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
+        android:textColor="#ff000000"
         android:text="Categories"
         android:ems="10"
         android:id="@+id/viewDescriptionViewCat"
+        android:paddingBottom="10dp"
         android:textAlignment="center"
         />
 
@@ -27,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/viewCatListView"
+        android:textSize="12dp"
         android:drawSelectorOnTop="false"
         />
 

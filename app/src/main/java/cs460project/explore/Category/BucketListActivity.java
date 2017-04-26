@@ -49,6 +49,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     private Notification notify;
     private NotificationManager notificationManager;
     private final String Burger="Burger", Mexican = "Mexican", Italian="Italian", Chinese="Chinese", Entertainment="Entertainment";
+    private View view;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -182,15 +183,17 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     public boolean onOptionsItemSelected(MenuItem item){
 
         switch (item.getItemId()){
-/*
+
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
+                newCategory(view);
 
 
             //updates the selected array list item from the edit text box
             case R.id.updateCategory:
+              updateCategory(view);
 
-*/
+
             //deletes the selected array list item
             case R.id.deleteCategory:
                 list.remove(selectedItem);
