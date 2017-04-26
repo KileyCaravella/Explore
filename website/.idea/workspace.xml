@@ -1,7 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="76206037-b7b7-4152-a02e-9567c7657e5b" name="Default" comment="" />
+=======
+    <list default="true" id="76206037-b7b7-4152-a02e-9567c7657e5b" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/AWSConfiguration.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/AWSMobileClient.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/user/IdentityManager.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/user/IdentityProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/user/signin/CognitoUserPoolsSignInProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/user/signin/SignInManager.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/user/signin/SignInProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/util/StringFormatUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/util/ThreadUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/com/amazonaws/mobile/util/ViewHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Application.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/MainActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/ratingStars0-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_0-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_1-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_1_5-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_2-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_2_5-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_3-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_3_5-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_4-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_4_5-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/rating_star_5-web.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/layout/yelp_display.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_1_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_2_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_3_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_4_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-hdpi/rating_star_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_1_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_2_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_3_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_4_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-mdpi/rating_star_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_1_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_2_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_3_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_4_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xhdpi/rating_star_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_1_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_2_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_3_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_4_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxhdpi/rating_star_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_1_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_2_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_3.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_3_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_4.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_4_5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../app/src/main/res/mipmap-xxxhdpi/rating_star_5.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/gradle.xml" afterPath="$PROJECT_DIR$/../.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/misc.xml" afterPath="$PROJECT_DIR$/../.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/build.gradle" afterPath="$PROJECT_DIR$/../app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/ForgotPasswordActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/ForgotPasswordActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignInActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignInActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignUpActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignUpActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignUpConfirmActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/Login/SignUpConfirmActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/NavigationActivity.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/NavigationActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/YelpAPI/YelpAPIClient.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/YelpAPI/YelpAPIClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/YelpAPI/YelpBusiness.java" afterPath="$PROJECT_DIR$/../app/src/main/java/cs460project/explore/YelpAPI/YelpBusiness.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/layout/activity_sign_in.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/layout/activity_sign_in.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/layout/navigation.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/layout/navigation.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/values/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/../app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../build.gradle" afterPath="$PROJECT_DIR$/../build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
+>>>>>>> Stashed changes
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +142,7 @@
         <option name="myItemId" value="ActivityFinderDB" />
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
+<<<<<<< Updated upstream
       <PATH_ELEMENT>
         <option name="myItemId" value="user_reject" />
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
@@ -65,6 +165,8 @@
         <option name="myItemId" value="user_accept" />
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
+=======
+>>>>>>> Stashed changes
     </PATH>
     <PATH>
       <PATH_ELEMENT>
@@ -84,6 +186,7 @@
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
+<<<<<<< Updated upstream
     <PATH>
       <PATH_ELEMENT>
         <option name="myItemId" />
@@ -120,6 +223,8 @@
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
+=======
+>>>>>>> Stashed changes
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
@@ -174,6 +279,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="get_categories.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/get_categories.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -185,11 +291,39 @@
                 <marker date="1493056095000" expanded="true" signature="344:399" ph="SELECT * FRO... token" />
                 <marker date="1493056095000" expanded="true" signature="344:411" ph="SELECT date_... token" />
                 <marker date="1493056095000" expanded="true" signature="1494:1559" ph="SELECT categ... category" />
+=======
+      <file leaf-file-name="login.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/login.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="173">
+              <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
+              <folding>
+                <marker date="1491489945000" expanded="true" signature="681:783" ph="SELECT user_... user" />
+                <marker date="1491489945000" expanded="true" signature="1989:2002" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="create_user.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/create_user.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="20" column="34" lean-forward="true" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+              <folding>
+                <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+                <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+                <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+                <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+                <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+                <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="ActivityFinderDB.category" pinned="false" current-in-tab="false">
         <entry file="dbDummy://dbtable:/b7c4e5a9/01ce4ff1-df02-435e-861b-3e27b40860f1/ActivityFinderDB.category">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
@@ -200,6 +334,13 @@
           <provider editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1125">
+              <caret line="63" column="9" lean-forward="true" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
@@ -446,13 +587,18 @@
       <workItem from="1490635468287" duration="915000" />
       <workItem from="1490639106765" duration="15000" />
       <workItem from="1490650980342" duration="19000" />
+<<<<<<< Updated upstream
       <workItem from="1492711392584" duration="1778000" />
       <workItem from="1492715330541" duration="684000" />
       <workItem from="1493047172301" duration="6799000" />
+=======
+      <workItem from="1492707390513" duration="1138000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< Updated upstream
     <option name="totallyTimeSpent" value="46577000" />
   </component>
   <component name="ToolWindowManager">
@@ -464,6 +610,18 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24751244" sideWeight="0.63596004" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23654391" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329602" sideWeight="0.36403996" order="1" side_tool="false" content_ui="tabs" />
+=======
+    <option name="totallyTimeSpent" value="38454000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="25" y="23" width="1412" height="873" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20254958" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.062189054" sideWeight="0.63596004" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10269122" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+>>>>>>> Stashed changes
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -508,17 +666,63 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< Updated upstream
+=======
+    <entry file="file://$PROJECT_DIR$/create_user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+          <folding>
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.php" />
+    <entry file="file://$PROJECT_DIR$/credentials.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="38" lean-forward="false" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+          <folding>
+            <element signature="e#6#69#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql.php" />
+    <entry file="file://$PROJECT_DIR$/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> Stashed changes
     <entry file="file://$PROJECT_DIR$/create_user.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< Updated upstream
             <marker date="1493048252000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
             <marker date="1493048252000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
             <marker date="1493048252000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
             <marker date="1493048252000" expanded="true" signature="4083:4096" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4480:4493" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4858:4871" ph="..." />
+=======
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -548,12 +752,21 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< Updated upstream
             <marker date="1493048252000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
             <marker date="1493048252000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
             <marker date="1493048252000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
             <marker date="1493048252000" expanded="true" signature="4083:4096" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4480:4493" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4858:4871" ph="..." />
+=======
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -582,12 +795,21 @@
         <state relative-caret-position="540">
           <caret line="36" column="18" lean-forward="true" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
           <folding>
+<<<<<<< Updated upstream
             <marker date="1493048252000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
             <marker date="1493048252000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
             <marker date="1493048252000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
             <marker date="1493048252000" expanded="true" signature="4083:4096" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4480:4493" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4858:4871" ph="..." />
+=======
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -618,12 +840,21 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< Updated upstream
             <marker date="1493048252000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
             <marker date="1493048252000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
             <marker date="1493048252000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
             <marker date="1493048252000" expanded="true" signature="4083:4096" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4480:4493" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4858:4871" ph="..." />
+=======
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -660,14 +891,6 @@
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/b7c4e5a9/01ce4ff1-df02-435e-861b-3e27b40860f1/ActivityFinderDB.user" />
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="7" column="68" lean-forward="false" selection-start-line="7" selection-start-column="68" selection-end-line="7" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/android_reset_password.php" />
     <entry file="file://$PROJECT_DIR$/android_reset_authentication.php" />
     <entry file="file://$PROJECT_DIR$/android_create_user.php" />
@@ -692,6 +915,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/create_user.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="255">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="32" selection-end-column="45" />
           <folding>
@@ -701,10 +925,22 @@
             <marker date="1493048252000" expanded="true" signature="4083:4096" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4480:4493" ph="..." />
             <marker date="1493048252000" expanded="true" signature="4858:4871" ph="..." />
+=======
+        <state relative-caret-position="225">
+          <caret line="20" column="34" lean-forward="true" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+          <folding>
+            <marker date="1491489945000" expanded="true" signature="1263:1332" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1486:1689" ph="INSERT INTO user... " />
+            <marker date="1491489945000" expanded="true" signature="2728:2771" ph="DELETE FROM " />
+            <marker date="1491489945000" expanded="true" signature="4083:4096" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4480:4493" ph="..." />
+            <marker date="1491489945000" expanded="true" signature="4858:4871" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/login.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -722,6 +958,17 @@
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/b7c4e5a9/01ce4ff1-df02-435e-861b-3e27b40860f1/ActivityFinderDB.token">
+=======
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1125">
+          <caret line="63" column="9" lean-forward="true" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/aa10b45e/01ce4ff1-df02-435e-861b-3e27b40860f1/ActivityFinderDB.user">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -734,6 +981,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/get_categories.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="373">
@@ -744,6 +992,15 @@
             <marker date="1493056095000" expanded="true" signature="344:399" ph="SELECT * FRO... token" />
             <marker date="1493056095000" expanded="true" signature="344:411" ph="SELECT date_... token" />
             <marker date="1493056095000" expanded="true" signature="1494:1559" ph="SELECT categ... category" />
+=======
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
+          <folding>
+            <marker date="1491489945000" expanded="true" signature="681:783" ph="SELECT user_... user" />
+            <marker date="1491489945000" expanded="true" signature="1989:2002" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>

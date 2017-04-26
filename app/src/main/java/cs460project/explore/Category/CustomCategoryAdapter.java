@@ -1,4 +1,4 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import cs460project.explore.R;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.
