@@ -4,6 +4,7 @@ include('login.php');
 include('forgot_password.php');
 include('reset_password.php');
 include('confirm_user.php');
+include('new_categories.php');
 ?>
 
 <style>
@@ -15,20 +16,6 @@ include('confirm_user.php');
         display:block;
     }
 </style>
-<script type="text/javascript">
-    function unhide(clickedButton, divID) {
-        var item = document.getElementById(divID);
-        if (item) {
-            if(item.className=='hidden'){
-                item.className = 'unhidden' ;
-                clickedButton.value = 'hide'
-            }else{
-                item.className = 'hidden';
-                clickedButton.value = 'unhide'
-            }
-        }}
-
-</script>
 
 <!DOCTYPE html>
 <html>
@@ -238,36 +225,16 @@ p {line-height: 2}
                         <option value="etc">Etc...</option>
                         <option value="newcategory">Add New!</option>
                     </select>
-                    <br><br>
-                    <div class = "w3-section">
-                        <input type="submit">
-                        <button onclick="document.getElementById('newcategory').style.display='block'" class="w3-btn w3-round" style="padding:8px 20px">New Category</button>
-                    </div>
                 </form>
+                        <button class="w3-btn w3-round" type="submit" name=submit">Select</button>
+                        <button onclick="document.getElementById('new_categories').style.display='block'; document.getElementById('pickcategories').style.display='none'" class="w3-btn w3-round" style="padding:8px 20px">New Category</button>
                 </div>
             </div>
         </div>
     </div>
 
-<!-- New Category Modal -->
-    <div id="newcategory" class="w3-modal">
-        <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
-            <div class="w3-container w3-white w3-center">
-                <span onclick="document.getElementById('newcategory').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
-                <h4 class="w3-wide">Add a New Category!</h4>
-                <p>Enter a Category Name:</p>
-                <div class = "w3-section">
-                    <form>
-                        <input class="w3-input w3-border" type="text" placeholder="Category Name" name="name">
-                        <button onclick="document.getElementById('newcategory').style.display='none'" type="button">Save</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- Find/bucketlist information -->
-<div id = "random" class = "hidden">
+<!-- Find Random -->
+<div id = "random" class = "">
   <div class="w3-content">
     <div class="w3-container w3-center">
       <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
@@ -286,7 +253,29 @@ p {line-height: 2}
     </div>
   </div>
 </div>
+
+    <!-- Browse Category -->
+    <div id = "browsecate" class = "hidden">
+        <div class="w3-content">
+            <div class="w3-container w3-center">
+                <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
+                    <div class="w3-container w3-center">
+                        <h3>Explore Now!</h3>
+                        <a href="http://www.google.com/" target="myFrame"></a>
+                        <br/>
+                        <iframe name="myFrame" src="http://www.google.com/" width="800" height="300"></iframe>
+                        <div class="w3-section">
+                            <button onclick="document.getElementById('pickcategories').style.display='block'" class="w3-button w3-round w3-green">Next</button>
+                            <button class="w3-button w3-round w3-light-grey">Previous</button>
+                            <button onclick="document.getElementById('checkforget').style.display='block'" class="w3-button w3-round w3-red">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-- Sign Up section -->
 <div class="w3-container w3-padding-64 w3-white w3-center w3-wide" id="join">
   <h1>JOIN TODAY</h1>
