@@ -2,74 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/signup2"
+    android:backgroundTint="#70FFFFFF"
+    android:backgroundTintMode="src_over"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/signup2">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
         android:id="@+id/create_new_account_textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Fill this out to sign up!"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:padding="2dip"
-        />
+        android:text="Fill out to sign up"
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/username_edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="Username"
         android:layout_below="@+id/create_new_account_textview"
-        />
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:hint="Username"
+        android:inputType="textEmailAddress" />
 
     <LinearLayout
         android:id="@+id/linear"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@+id/username_edittext"
-        android:weightSum="5"
-        >
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/password1_edittext"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Password"
-        />
+            <EditText
+                android:id="@+id/password1_edittext"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/password2_edittext"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Confirm Password"
-        />
+            <EditText
+                android:id="@+id/password2_edittext"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <ImageView
-        android:id="@+id/image_password"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:adjustViewBounds="true"
-        android:contentDescription="Check"
-        android:src="@mipmap/ic_launcher"
-        android:layout_weight="4"
-        />
+        <ImageView
+            android:id="@+id/image_password"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="4"
+            android:adjustViewBounds="true"
+            android:alpha="0.6"
+            android:contentDescription="Check"
+            android:src="@mipmap/ic_launcher" />
 
     </LinearLayout>
 
@@ -77,37 +83,62 @@
         android:id="@+id/name_edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="First Name"
         android:layout_below="@+id/linear"
-        />
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
     <EditText
         android:id="@+id/lastname_edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Last Name"
         android:layout_below="@+id/name_edittext"
-        />
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
     <EditText
         android:id="@+id/email_edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:hint="Email Address"
         android:layout_below="@+id/lastname_edittext"
-        />
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="70dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="70dp"/>
 
     <Button
-        android:text="Sign Up"
+        android:id="@+id/sign_up_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sign_up_button"
         android:layout_below="@+id/email_edittext"
-        android:layout_centerHorizontal="true"
         android:onClick="signUpPressed"
-        />
+        android:text="Sign Up"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    <View
+        android:id="@+id/animationBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@color/colorLoading"
+        android:elevation="2dp" />
+
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:elevation="3dp" />
 
 </RelativeLayout>

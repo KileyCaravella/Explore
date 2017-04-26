@@ -1,6 +1,7 @@
 package cs460project.explore.Login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -19,11 +21,9 @@ import cs460project.explore.R;
 import cs460project.explore.User.UserClient;
 
 /**
- *
  * This is the SignInActivity, which is the first Activity that appears when the app launches. It is the central
  * screen for users to navigate signing up, if they forgot their password, and logging in. When the user
  * successfully logs in, the app will welcome them using their username.
- *
  */
 
 public class SignInActivity extends Activity implements TextToSpeech.OnInitListener {
@@ -92,6 +92,8 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         final String username = usernameEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
+        dismissKeyboard();
+
         //check if user entered all necessary information
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill out both fields.", Toast.LENGTH_LONG).show();
@@ -129,6 +131,8 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
     public void forgotPasswordPressed(View v) {
         Log.i("Forgot Password", "Forgot Password Button Pressed.");
         final String username = usernameEditText.getText().toString();
+
+        dismissKeyboard();
 
         //Make sure the user entered their username into the appropriate view
         if (username.isEmpty()) {
@@ -175,7 +179,7 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         }
     }
 
-    //MARK: - Toggling Loading Indicator
+    //MARK: - Toggling Methods
 
     private void toggleLoadingIndicator(Boolean makeVisible) {
         if (makeVisible) {
@@ -187,6 +191,12 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
             loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
             frameAnimation.stop();
         }
+    }
+
+    private void dismissKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(usernameEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(passwordEditText.getWindowToken(), 0);
     }
 
     //MARK: - Toasts

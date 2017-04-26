@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="16dp"
-    android:theme="@+id/BucketTheme2"
-    tools:context=".BucketListActivity">
+    android:theme="@+id/BucketTheme2">
 
     <TextView
         android:id="@+id/bucketListPageName"
