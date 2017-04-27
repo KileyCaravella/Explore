@@ -50,8 +50,8 @@ public class CategoryClient {
     private final String UPDATE_CATEGORY_URL = "update_category_name.php";
 
     //Business
-    private final String NEW_CATEGORY_BUSINESS_URL = "";
-    private final String GET_BUSINESSES_URL = "";
+    private final String NEW_CATEGORY_BUSINESS_URL = "new_business.php";
+    private final String GET_BUSINESSES_URL = "get_businesses.php";
     private final String REMOVE_CATEGORY_BUSINESS_URL = "";
 
     //Rejected
@@ -234,8 +234,8 @@ public class CategoryClient {
 
     private void setupAddBusinessToCategoryParams(String businessID, String categoryName) {
         requestParams = new RequestParams();
-        requestParams.put("business_id", businessID);
-        requestParams.put("category_name", categoryName);
+        requestParams.put("new_business", businessID);
+        requestParams.put("category", categoryName);
         requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
@@ -253,7 +253,7 @@ public class CategoryClient {
 
     private void setupGetBusinessesFromCategoryParams(String category) {
         requestParams = new RequestParams();
-        requestParams.put("category_id", category);
+        requestParams.put("category_name", category);
         requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
