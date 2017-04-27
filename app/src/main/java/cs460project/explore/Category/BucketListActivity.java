@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         setupArrayAdapter();
         setupBroadcastReceiverAndNotifications();
         setupActionBarIntent();
+        setupLoadingIndicator();
     }
 
     //MARK: - Setup
@@ -138,39 +140,13 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     }
 
     public void deleteCategory(View view) {
-        //TODO: - Connect delete category code here.
-
-        list.remove(selectedItem);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+        String categoryName = dataEntry.getText().toString();
+        removeCategory(categoryName);
     }
 
     public void newCategory(View view) {
         final String categoryName = dataEntry.getText().toString();
-
-        //Starting the animation for the loading indicator
-        toggleLoadingIndicator(true);
-
-        //Client call
-        CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListener() {
-            @Override
-            public void onSuccessful() {
-                toggleLoadingIndicator(false);
-                createNotification(categoryName);
-
-                //TODO: - Maybe have backend send back new list of categories??
-                list.add(categoryName);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
-            }
-
-            @Override
-            public void onFailed(String reason) {
-                toggleLoadingIndicator(false);
-                failedToAddNewCategory();
-            }
-        });
-
+        addCategory(categoryName);
     }
 
     public void viewCategory(View view) {
@@ -183,32 +159,24 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     public boolean onOptionsItemSelected(MenuItem item) {
 
         System.out.println(item.getItemId());
-        switch (item.getItemId()) {
+        String updateText = dataEntry.getText().toString();
 
+        switch (item.getItemId()) {
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
-                String updateText = dataEntry.getText().toString();
-                list.add(updateText);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
-
-                createNotification(updateText);
+                addCategory(updateText);
                 return true;
 
             //updates the selected array list item from the edit text box
             case R.id.updateCategory:
-                updateText = dataEntry.getText().toString();
-                list.remove(selectedItem);
-                list.add(selectedItem, updateText);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                String oldName = (listView.getItemAtPosition(selectedItem).toString());
+                String newName = dataEntry.getText().toString();
+                updateCategory(oldName, newName);
                 return true;
 
             //deletes the selected array list item
             case R.id.deleteCategory:
-                list.remove(selectedItem);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                removeCategory(updateText);
                 return true;
 
             default:
@@ -243,7 +211,85 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+    //MARK: - Client Calls
+
+    private void addCategory(final String categoryName) {
+
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                createNotification(categoryName);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToAddNewCategory();
+            }
+        });
+    }
+
+    private void updateCategory(String oldName, String newName) {
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.updateCategoryName(oldName, newName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToUpdateCategory();
+            }
+        });
+    }
+
+    private void removeCategory(String categoryName) {
+
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.removeCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToRemoveCategory();
+            }
+        });
+    }
+
     //MARK: - Toggling Methods
+
+    private void updateList(ArrayList<String> arrayList) {
+        list.removeAll(list);
+        list.addAll(arrayList);
+        adapter.notifyDataSetChanged();
+        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+    }
 
     private void toggleLoadingIndicator(Boolean makeVisible) {
         if (makeVisible) {
@@ -257,9 +303,22 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+    private void dismissKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(dataEntry.getWindowToken(), 0);
+    }
+
     //MARK: - Toasts
 
     private void failedToAddNewCategory() {
         Toast.makeText(this, "Error Adding Category", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToUpdateCategory() {
+        Toast.makeText(this, "Error Updating Category", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToRemoveCategory() {
+        Toast.makeText(this, "Error Removing Category", Toast.LENGTH_LONG).show();
     }
 }
