@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,7 +18,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,9 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     private BroadcastReceiver receiver;
     private Notification notify;
     private NotificationManager notificationManager;
+    private ImageView loadingIndicatorImageView;
+    private AnimationDrawable frameAnimation;
+    private View loadingIndicatorBackgroundView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +99,20 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+
+    /* This function sets up the loading indicator, its animation, and its background. This code is copied
+    throughout all views that have a loading indicator. */
+    private void setupLoadingIndicator() {
+        loadingIndicatorImageView = (ImageView) findViewById(R.id.animation);
+        loadingIndicatorImageView.setBackgroundResource(R.drawable.animation);
+        loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+
+        loadingIndicatorBackgroundView = findViewById(R.id.animationBackground);
+        loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+
+        frameAnimation = (AnimationDrawable) loadingIndicatorImageView.getBackground();
+    }
+
     //MARK: - Options Menu
 
     @Override
@@ -126,16 +146,31 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     }
 
     public void newCategory(View view) {
-        //TODO: - Include call to backend to create a new category... then call get categories again.
-        String categoryName = dataEntry.getText().toString();
-        createNotification(categoryName);
+        final String categoryName = dataEntry.getText().toString();
 
-        //TODO: - Maybe have backend send back new list of categories??
-        list.add(categoryName);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+        //Starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
 
-        createNotification(categoryName);
+        //Client call
+        CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListener() {
+            @Override
+            public void onSuccessful() {
+                toggleLoadingIndicator(false);
+                createNotification(categoryName);
+
+                //TODO: - Maybe have backend send back new list of categories??
+                list.add(categoryName);
+                adapter.notifyDataSetChanged();
+                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                failedToAddNewCategory();
+            }
+        });
+
     }
 
     public void viewCategory(View view) {
@@ -206,5 +241,25 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
             String name = intent.getStringExtra("categoryName");
             Log.i("Category Created", name);
         }
+    }
+
+    //MARK: - Toggling Methods
+
+    private void toggleLoadingIndicator(Boolean makeVisible) {
+        if (makeVisible) {
+            loadingIndicatorImageView.setVisibility(View.VISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.VISIBLE);
+            frameAnimation.start();
+        } else {
+            loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+            frameAnimation.stop();
+        }
+    }
+
+    //MARK: - Toasts
+
+    private void failedToAddNewCategory() {
+        Toast.makeText(this, "Error Adding Category", Toast.LENGTH_LONG).show();
     }
 }

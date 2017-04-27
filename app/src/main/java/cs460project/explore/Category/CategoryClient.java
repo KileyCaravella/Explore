@@ -42,7 +42,7 @@ public class CategoryClient {
 
     //    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
     private final String BASE_URL = "http://141.133.251.36/website/";
-    private final String NEW_CATEGORY_URL = "";
+    private final String NEW_CATEGORY_URL = "new_categories.php";
     private final String NEW_CATEGORY_BUSINESS_URL = "";
     private final String NEW_REJECTED_BUSINESS_URL = "";
     private final String GET_CATEGORY_URL = "get_categories.php";
@@ -148,7 +148,7 @@ public class CategoryClient {
 
     private void setupCreateNewCategoryParams(String categoryName) {
         requestParams = new RequestParams();
-        requestParams.put("category_name", categoryName);
+        requestParams.put("new_category", categoryName);
         requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
