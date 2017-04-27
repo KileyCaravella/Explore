@@ -15,13 +15,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import cs460project.explore.Category.BucketListActivity;
+import cs460project.explore.Category.CategoryClient;
 import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
 import cs460project.explore.YelpAPI.YelpAPIClient;
 import cs460project.explore.YelpAPI.YelpBusiness;
 
 /**
- * This is the activity_navigation activity that is the "home" point for the user once they are in the app. It leads
+ * This is the navigation activity that is the "home" point for the user once they are in the app. It leads
  * the user between randomizing a yelp business, looking at their bucket list categories, and searching by
  * location. If they choose the randomizing button, it takes their current location and uses that to find
  * a business in their area.
@@ -64,7 +67,7 @@ public class NavigationActivity extends Activity {
     //MARK: - OnClick Functions
 
     public void randomButtonPressed(View v) {
-        Log.i("Random Button View", "Random button pressed.");
+        Log.i("Navigation Activity", "Random button pressed.");
         try {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             Log.i("Location", "Long: " + location.getLongitude() + " Lat: " + location.getLatitude());
@@ -78,6 +81,7 @@ public class NavigationActivity extends Activity {
                 public void onBusinessRetrievalSuccessful(YelpBusiness business) {
                     toggleLoadingIndicator(false);
 
+                    //Sending the yelp business retrieved to the next activity
                     Log.i("Yelp Business Progress", "Successfully retrieved businesses");
                     Intent intent = new Intent(NavigationActivity.this, SingleYelpBusinessActivity.class);
                     intent.putExtra("YelpBusiness", new Gson().toJson(business));
@@ -86,8 +90,8 @@ public class NavigationActivity extends Activity {
 
                 @Override
                 public void onBusinessRetrievalFailed(String reason) {
-                    toggleLoadingIndicator(false);
                     Log.i("Yelp Business Progress", "Failed to retrieve businesses");
+                    toggleLoadingIndicator(false);
                     failedToGetBusinessesToast();
                 }
             });
@@ -98,17 +102,35 @@ public class NavigationActivity extends Activity {
     }
 
     public void bucketButtonPressed(View v) {
-        Log.i("Bucket View", "Bucket View button pressed.");
+        Log.i("Navigation Activity", "Bucket View button pressed.");
 
-        //TODO: - create client call for categories and create bundle for category array
+        //starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
 
-        Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
-        startActivity(intent);
+        //Client call
+        CategoryClient.sharedInstance.getUsersCategories(new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+
+                //Sending the categories retrieved to the next activity
+                Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
+                intent.putExtra("Categories", arrayList);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                Log.i("Category Retrieval Fail", reason);
+                toggleLoadingIndicator(false);
+                failedToGetCategoriesToast();
+            }
+        });
     }
 
 
     public void searchButtonPressed(View v) {
-        Log.i("Search View", "Search View Button Pressed");
+        Log.i("Navigation Activity", "Search Button Pressed");
         Intent search = new Intent(NavigationActivity.this, SearchActivity.class);
         startActivity(search);
     }
@@ -154,5 +176,9 @@ public class NavigationActivity extends Activity {
 
     private void failedToGetBusinessesToast() {
         Toast.makeText(this, "Error Retrieving Business", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToGetCategoriesToast() {
+        Toast.makeText(this, "Error Retrieving Your Categories", Toast.LENGTH_LONG).show();
     }
 }

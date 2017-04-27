@@ -16,7 +16,6 @@ import cs460project.explore.User.UserClient;
 import cz.msebera.android.httpclient.Header;
 
 /**
- *
  * This is the Category Client. It is in charge of all calls to our personal backend for anything that has to do with
  * categories including but not limited to creating a new category, adding a yelp business to a category, adding a
  * business to the rejected group, retrieving a user's categories, retrieving businesses in a specific category, removing
@@ -25,7 +24,6 @@ import cz.msebera.android.httpclient.Header;
  * that returns an ArrayList of the information the person wants to retrieve. Yelp does not allow anyone to store all of
  * a business' information, so we are only allowed to store the business' ID, then use the ID to retrieve their information
  * from yelp later.
- *
  */
 
 public class CategoryClient {
@@ -36,15 +34,18 @@ public class CategoryClient {
      */
 
     public static CategoryClient sharedInstance = new CategoryClient();
-    private CategoryClient() {}
+
+    private CategoryClient() {
+    }
 
     //MARK: - URLS and appending URLs
 
-    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
+    //    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
+    private final String BASE_URL = "http://141.133.250.202/website/";
     private final String NEW_CATEGORY_URL = "";
     private final String NEW_CATEGORY_BUSINESS_URL = "";
     private final String NEW_REJECTED_BUSINESS_URL = "";
-    private final String GET_CATEGORY_URL = "";
+    private final String GET_CATEGORY_URL = "get_categories.php";
     private final String GET_BUSINESSES_URL = "";
     private final String GET_REJECTED_BUSINESSES_URL = "";
     private final String REMOVE_CATEGORY_URL = "";
@@ -95,21 +96,18 @@ public class CategoryClient {
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(new String(response));
-                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
 
-                        //Parsing jsonResponse array as a jsonArray
-                        ArrayList<String> arrayResponse = new ArrayList<String>();
-                        JSONArray jsonArray = (JSONArray) jsonResponse.get("array");
+                    //Parsing jsonResponse array as a jsonArray
+                    ArrayList<String> arrayResponse = new ArrayList<String>();
+                    JSONArray jsonArray = (JSONArray) jsonResponse.get("category");
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            arrayResponse.add(jsonArray.getString(i));
-                        }
-
-                        completionListenerWithArray.onSuccessful(arrayResponse);
-
-                    } else {
-                        completionListenerWithArray.onFailed(jsonResponse.get("message").toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        arrayResponse.add(jsonArray.getString(i));
                     }
+
+                    Log.i("Array", arrayResponse.get(0));
+                    completionListenerWithArray.onSuccessful(arrayResponse);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     completionListenerWithArray.onFailed(e.toString());
@@ -127,11 +125,13 @@ public class CategoryClient {
 
     public interface CompletionListener {
         void onSuccessful();
+
         void onFailed(String reason);
     }
 
     public interface CompletionListenerWithArray {
         void onSuccessful(ArrayList<String> arrayList);
+
         void onFailed(String reason);
     }
 
@@ -194,17 +194,19 @@ public class CategoryClient {
 
     public void getUsersCategories(CompletionListenerWithArray listener) {
         completionListenerWithArray = listener;
-        setupGetUsersCategoriesParams();
+        setupGetUsersCategoriesHeaders();
         String url = BASE_URL + GET_CATEGORY_URL;
 
         Log.i("Get Categories Process", "Request Sent...");
+        client.removeAllHeaders();
+        Log.i("token", UserClient.sharedInstance.token);
+        client.addHeader("token", UserClient.sharedInstance.token);
+        client.addHeader("android", " ");
         client.post(url, requestParams, responseHandlerWithArray());
     }
 
-    private void setupGetUsersCategoriesParams() {
-        requestParams = new RequestParams();
-        requestParams.put("token", UserClient.sharedInstance.token);
-        requestParams.put("android", " ");
+    private void setupGetUsersCategoriesHeaders() {
+
     }
 
     //MARK: - Getting Businesses in Specific Category

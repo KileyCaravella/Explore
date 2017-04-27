@@ -1,5 +1,6 @@
 package cs460project.explore.YelpAPI;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,9 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -27,7 +25,7 @@ import cs460project.explore.R;
  * Created by Kiwi on 3/31/17.
  */
 
-public class SingleYelpBusinessActivity extends AppCompatActivity implements View.OnClickListener {
+public class SingleYelpBusinessActivity extends Activity implements View.OnClickListener {
 
     private YelpBusiness yelpBusiness;
     private ImageView yelpImageView, yelpBusinessRatingImageView, yelpBurstImageView, googleMapsImageView;
@@ -38,7 +36,6 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_yelp_single_display);
 
         gd = new GestureDetector(new SwipeGestureDetector());
@@ -48,7 +45,7 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
         setBusinessInformation();
     }
 
-    //MARK: - Get Business from Bungle Provided or Set Up New Business
+    //MARK: - Get Business from Bundle Provided or Set Up New Business
 
     private void getYelpBusinessFromBundle() {
         String jsonYelpBusiness;
@@ -83,8 +80,8 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
 
         //Making phone button look like a hyperlink (Underlined and Blue)
         yelpPhoneButton.setText(yelpBusiness.displayPhone);
-        if(yelpBusiness.isClosed)
-                openClosedTextView.setText("OPEN"); //default is "CLOSED"
+        if (yelpBusiness.isClosed)
+            openClosedTextView.setText("OPEN"); //default is "CLOSED"
 
         yelpPhoneButton.setPaintFlags(yelpPhoneButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         yelpPhoneButton.setTextColor(Color.parseColor("#0000FF"));
@@ -127,7 +124,7 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
             //Shows business's location on google maps if they would like directions
             case R.id.google_maps_image:
                 String addressForGMaps = "geo:0,0?q=";
-                for (String address:yelpBusiness.location.displayAddress) {
+                for (String address : yelpBusiness.location.displayAddress) {
                     addressForGMaps += address;
                 }
                 addressForGMaps = addressForGMaps.replace(" ", "+");
@@ -216,7 +213,7 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
 
         dialog.setTitle("Are you sure?");
         dialog.setMessage("This business won't appear again.");
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Confirm", new DialogInterface.OnClickListener() {
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Code for what to do when Confirm button pressed
             }
@@ -236,7 +233,7 @@ public class SingleYelpBusinessActivity extends AppCompatActivity implements Vie
 
         // Code to set up buttons with category names
 
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Confirm", new DialogInterface.OnClickListener() {
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Code for what to do when Confirm button pressed
             }

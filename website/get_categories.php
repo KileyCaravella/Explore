@@ -30,7 +30,7 @@ if (ISSET($headers['token'])) {
     $token_user_id = $token_response[1];
 
     //Tokens "expire" after 24 hours/1 day, so to check it we need to add 1 day
-    $token_date_24 = date("Y-m-d H:i:s", strtotime($token_date_created.'+1 day'));
+    $token_date_24 = date("Y-m-d H:i:s", strtotime($token_date_created . '+1 day'));
 
     //Creating date object with current date
     $current_date = new DateTime();
@@ -45,14 +45,19 @@ if (ISSET($headers['token'])) {
     //**END TOKEN VALIDATION**//
 
     //If the token is valid, get category information.
-    if(!$invalid_token) {
+    if (!$invalid_token) {
         $user_id_get_credentials = trim($all_headers['user_id']);
 
         $sql = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
 
-        if ($mysqli_response = mysqli_query($con, $sql, MYSQLI_USE_RESULT)) {
-            $returned_values = mysqli_fetch_all($mysqli_response);
-            $response["category"] = $returned_values;
+        if ($mysqli_response = mysqli_query($con, $sql)) {
+            $data = array();
+
+            //Loops through the response items and adds the item's value to the $data array
+            while ($row = mysqli_fetch_array($mysqli_response)) {
+                $data[] = $row[0];
+            }
+            $response["category"] = $data;
             $invalid_token = false;
         }
     }
@@ -61,9 +66,4 @@ if (ISSET($headers['token'])) {
         die(json_encode($response));
     }
 }
-
-
-
-
-
 
