@@ -48,9 +48,57 @@ p {line-height: 2}
     margin-right: 100px;
 }
 
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+
 </style>
 <body>
 
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
 <!-- Navbar (sticky bottom) -->
 <div class="w3-bottom w3-hide-small">
   <div class="w3-bar w3-white w3-center w3-padding-8 w3-opacity-min w3-hover-opacity-off">
@@ -188,10 +236,10 @@ p {line-height: 2}
 </div>
 
 <!-- Random or Category Button -->
-<div class="w3-container w3-padding-32 w3-pale-red w3-center" id="random">
+<div class="tab w3-pale-red w3-center w3-padding-32">
     <div class="w3-section">
-        <button onclick="document.getElementById('find_random').style.display='block'" class="w3-btn w3-round" style="padding:12px 30px">Find Random!</button>
-        <button onclick="document.getElementById('browse_category').style.display='block'" class="w3-btn w3-round" style="padding:12px 30px">Browse Your Categories</button>
+        <button onclick="openCity(event, 'random'); document.getElementById('find_random').style.display='block'" class="tablinks; w3-button w3-round" style="padding:12px 30px">Find Random</button>
+        <button onclick="openCity(event, 'browsecategory'); document.getElementById('browse_category').style.display='block'" class="tablinks; w3-button w3-round" style="padding:12px 30px">Browse Your Categories</button>
     </div>
 
  <!-- Check Forget Modal -->
@@ -234,7 +282,7 @@ p {line-height: 2}
     </div>
 
 <!-- Find Random -->
-<div id = "random" class = "">
+<div id = "random" class = "tabcontent">
   <div class="w3-content">
     <div class="w3-container w3-center">
       <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
@@ -255,7 +303,7 @@ p {line-height: 2}
 </div>
 
     <!-- Browse Category -->
-    <div id = "browsecate" class = "hidden">
+    <div id = "browsecategory" class = "tabcontent">
         <div class="w3-content">
             <div class="w3-container w3-center">
                 <div class="w3-card-4 w3-dark-grey" style="width:89%; height: 476px;">
@@ -265,7 +313,7 @@ p {line-height: 2}
                         <br/>
                         <iframe name="myFrame" src="http://www.google.com/" width="800" height="300"></iframe>
                         <div class="w3-section">
-                            <button onclick="document.getElementById('pickcategories').style.display='block'" class="w3-button w3-round w3-green">Next</button>
+                            <button onclick="document.getElementById('').style.display='block'" class="w3-button w3-round w3-green">Next</button>
                             <button class="w3-button w3-round w3-light-grey">Previous</button>
                             <button onclick="document.getElementById('checkforget').style.display='block'" class="w3-button w3-round w3-red">Delete</button>
                         </div>
