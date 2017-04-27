@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,8 +22,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cs460project.explore.Category.CategoryViewActivity;
 import cs460project.explore.R;
 
 /**
@@ -49,7 +54,6 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     private Notification notify;
     private NotificationManager notificationManager;
     private final String Burger="Burger", Mexican = "Mexican", Italian="Italian", Chinese="Chinese", Entertainment="Entertainment";
-    private View view;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -153,7 +157,7 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         dataEntry.setHint("@string/bucket_list_edit_text_hint");
 
         //instanciates the notification
-                notify = new Notification.Builder(this)
+        notify = new Notification.Builder(this)
                 .setContentTitle("Category "+updateText+" created")
                 .setSmallIcon(R.drawable.notification_icon)
                 .build();
@@ -172,27 +176,50 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
     //handles viewing the category
     //Category View Activity creates custom list view, populates custom list view, creates adapter, sets adapter,
 
-     public void viewCategory(View view){
-         Log.i("Category View", "User Pressed Button to View a Catagory.");
-         Intent viewCat = new Intent(BucketListActivity.this,CategoryViewActivity.class);
-         startActivity(viewCat);
-     }
+    public void viewCategory(View view){
+        Log.i("Category View", "User Pressed Button to View a Catagory.");
+        Intent viewCat = new Intent(BucketListActivity.this,CategoryViewActivity.class);
+        startActivity(viewCat);
+    }
 
 
     // handles the user clicking on the various menu items
     public boolean onOptionsItemSelected(MenuItem item){
-
+        System.out.println(item.getItemId());
         switch (item.getItemId()){
+
 
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
-                newCategory(view);
+                        String updateText = dataEntry.getText().toString();
+                        list.add(updateText);
+                        adapter.notifyDataSetChanged();
+                        dataEntry.setHint("@string/bucket_list_edit_text_hint");
 
+        //instanciates the notification
+        notify = new Notification.Builder(this)
+                .setContentTitle("Category "+updateText+" created")
+                .setSmallIcon(R.drawable.notification_icon)
+                .build();
 
+        //calls the notification
+        notificationManager.notify(1,
+                notify);
+
+        //Nathaniel
+        //creates the intent for the broadcast receiver and sends it
+        Intent senderIntent = new Intent("CategoryCreated");
+        senderIntent.putExtra("categoryName", updateText);
+        sendBroadcast(senderIntent);
+                return true;
             //updates the selected array list item from the edit text box
             case R.id.updateCategory:
-              updateCategory(view);
-
+                 updateText = dataEntry.getText().toString();
+                list.remove(selectedItem);
+                list.add(selectedItem, updateText);
+                adapter.notifyDataSetChanged();
+                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                return true;
 
             //deletes the selected array list item
             case R.id.deleteCategory:
