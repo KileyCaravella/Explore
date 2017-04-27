@@ -15,13 +15,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cs460project.explore.Category.CategoryViewActivity;
 import cs460project.explore.R;
 
 /**
@@ -135,7 +140,26 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
         list.add(categoryName);
         adapter.notifyDataSetChanged();
         dataEntry.setHint("@string/bucket_list_edit_text_hint");
+
+        //instanciates the notification
+        notify = new Notification.Builder(this)
+                .setContentTitle("Category "+updateText+" created")
+                .setSmallIcon(R.drawable.notification_icon)
+                .build();
+
+        //calls the notification
+        notificationManager.notify(1,
+                notify);
+
+        //Nathaniel
+        //creates the intent for the broadcast receiver and sends it
+        Intent senderIntent = new Intent("CategoryCreated");
+        senderIntent.putExtra("categoryName", updateText);
+        sendBroadcast(senderIntent);
     }
+
+    //handles viewing the category
+    //Category View Activity creates custom list view, populates custom list view, creates adapter, sets adapter,
 
     public void viewCategory(View view){
         Log.i("Category View", "User Pressed Button to View a Catagory.");
@@ -145,8 +169,44 @@ public class BucketListActivity extends Activity implements AdapterView.OnItemCl
 
     //TODO: - Need to discuss this. Doesn't really work with actionBar hidden / buttons on screen
     public boolean onOptionsItemSelected(MenuItem item){
+
+        System.out.println(item.getItemId());
         switch (item.getItemId()){
+
+
+            //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
+                        String updateText = dataEntry.getText().toString();
+                        list.add(updateText);
+                        adapter.notifyDataSetChanged();
+                        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+
+        //instanciates the notification
+        notify = new Notification.Builder(this)
+                .setContentTitle("Category "+updateText+" created")
+                .setSmallIcon(R.drawable.notification_icon)
+                .build();
+
+        //calls the notification
+        notificationManager.notify(1,
+                notify);
+
+        //Nathaniel
+        //creates the intent for the broadcast receiver and sends it
+        Intent senderIntent = new Intent("CategoryCreated");
+        senderIntent.putExtra("categoryName", updateText);
+        sendBroadcast(senderIntent);
+                return true;
+            //updates the selected array list item from the edit text box
+            case R.id.updateCategory:
+                 updateText = dataEntry.getText().toString();
+                list.remove(selectedItem);
+                list.add(selectedItem, updateText);
+                adapter.notifyDataSetChanged();
+                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                return true;
+
+            //deletes the selected array list item
             case R.id.deleteCategory:
                 list.remove(selectedItem);
                 adapter.notifyDataSetChanged();
