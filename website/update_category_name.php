@@ -48,8 +48,6 @@ if (ISSET($_POST['token']) && ISSET($_POST['new_category_name']) && ISSET($_POST
     $new_category_name = trim($_POST['new_category_name']);
     $old_category_name = trim($_POST['old_category_name']);
 
-//    UPDATE table_name
-
     $sql_update_category = "UPDATE category SET category_id = '$new_category_name' WHERE (user_id = '$token_user_id' && category_id = '$old_category_name')";
     $sql_update_user_accept = "UPDATE user_accept SET category_id = '$new_category_name' WHERE (user_id = '$token_user_id' && category_id = '$old_category_name')";
 
