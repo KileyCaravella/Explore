@@ -34,7 +34,7 @@ public class UserClient {
     //MARK: - URLS and appending URLs
 
 //    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
-    private final String BASE_URL = "http://141.133.250.202/website/";
+    private final String BASE_URL = "http://141.133.251.36/website/";
     private final String LOGIN_URL = "login.php";
     private final String CREATE_USER_URL = "create_user.php";
     private final String FORGOT_PASSWORD_URL = "forgot_password.php";
