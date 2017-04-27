@@ -181,4 +181,31 @@
         android:text="Get Directions to Location."
         android:textSize="16sp" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/forgetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forget"
+            android:height = "20dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:height = "20dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+
 </RelativeLayout>

@@ -34,9 +34,9 @@ public class CategoryClient {
      */
 
     public static CategoryClient sharedInstance = new CategoryClient();
+    public ArrayList<String> categoriesList = new ArrayList<>();
 
-    private CategoryClient() {
-    }
+    private CategoryClient() {}
 
     //MARK: - URLS and appending URLs
 

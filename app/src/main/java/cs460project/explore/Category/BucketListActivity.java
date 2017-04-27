@@ -38,7 +38,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
 
     private EditText dataEntry;
     private ListView listView;
-    private ArrayList<String> list;
     private ArrayAdapter<String> adapter;
     private int selectedItem;
     public String selectedCategory;
@@ -53,7 +52,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bucket_list);
 
-        setupIntent();
         setupVariables();
         setupArrayAdapter();
         setupBroadcastReceiverAndNotifications();
@@ -63,16 +61,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
 
     //MARK: - Setup
 
-    private void setupIntent() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            list = extras.getStringArrayList("Categories");
-        } else {
-            Log.e("Error Yelp Business", "Did not receive yelpBusiness");
-            list = new ArrayList<>();
-        }
-    }
-
     private void setupVariables() {
         dataEntry = (EditText) findViewById(R.id.enterText);
         listView = (ListView) findViewById(R.id.bucketListView);
@@ -81,7 +69,7 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
 
     private void setupArrayAdapter() {
         //Array adapter created and setup with list view.
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, CategoryClient.sharedInstance.categoriesList);
         listView.setAdapter(adapter);
     }
 
@@ -285,8 +273,8 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     //MARK: - Toggling Methods
 
     private void updateList(ArrayList<String> arrayList) {
-        list.removeAll(list);
-        list.addAll(arrayList);
+        CategoryClient.sharedInstance.categoriesList.removeAll(CategoryClient.sharedInstance.categoriesList);
+        CategoryClient.sharedInstance.categoriesList.addAll(arrayList);
         adapter.notifyDataSetChanged();
         dataEntry.setHint("@string/bucket_list_edit_text_hint");
     }
