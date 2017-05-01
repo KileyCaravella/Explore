@@ -35,6 +35,7 @@ public class CategoryClient {
 
     public static CategoryClient sharedInstance = new CategoryClient();
     public ArrayList<String> categoriesList = new ArrayList<>();
+    public ArrayList<String> rejectedList = new ArrayList<>();
 
     private CategoryClient() {}
 

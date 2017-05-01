@@ -2,7 +2,6 @@ package cs460project.explore.YelpAPI;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -140,38 +139,38 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         switch (v.getId()) {
             //Opens dialer with business's number plugged in
             case R.id.yelpPhoneButton:
-                yelpPhoneButtonPressed();
+                startDialerActivity();
                 break;
 
             //Opens business's page on Yelp
             case R.id.yelp_burst:
-                yelpBurstPressed();
+                startWebActivity();
                 break;
             case R.id.google_maps_image:
-                googleMapsImagePressed();
+                startGoogleMapsActivity();
                 break;
             case R.id.addButton:
-                addBusinessButtonPressed();
+                addBusinessDialog();
                 break;
             case R.id.forgetButton:
-                forgetBusinessButtonPressed();
+                forgetBusinessDialog();
         }
     }
 
-    //MARK: - OnClick Functions
+    //MARK: - Activity Functions
 
-    private void yelpPhoneButtonPressed() {
+    private void startDialerActivity() {
         Uri uri = Uri.parse("tel:" + yelpBusiness.displayPhone);
         Intent phoneIntent = new Intent(Intent.ACTION_DIAL, uri);
         startActivity(phoneIntent);
     }
 
-    private void yelpBurstPressed() {
+    private void startWebActivity() {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(yelpBusiness.url)));
     }
 
     //Shows business's location in google maps
-    private void googleMapsImagePressed() {
+    private void startGoogleMapsActivity() {
         String addressForGMaps = "geo:0,0?q=";
         for (String address : yelpBusiness.location.displayAddress) {
             addressForGMaps += address;
@@ -184,12 +183,12 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
     //MARK: - Alert Dialog Prompts
 
-    private void forgetBusinessButtonPressed() {
+    private void forgetBusinessDialog() {
         AlertDialog alert = setupForgetAlertDialog();
         alert.show();
     }
 
-    private void addBusinessButtonPressed() {
+    private void addBusinessDialog() {
         AlertDialog alert = setupAddAlertDialog();
         alert.show();
     }
@@ -199,7 +198,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         alert.show();
     }
 
-    //MARK: - Alert Dialogs
+    //MARK: - Alert Dialog Setup
 
     private AlertDialog setupForgetAlertDialog() {
         AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
@@ -209,7 +208,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //TODO: - Code for what to do when Confirm button pressed
+                addBusinessToRejected();
             }
         });
 
@@ -247,6 +246,8 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //Set selected category string based on selected item in spinner
                 String category = spinner.getItemAtPosition(position).toString();
 
                 if (!category.equals(NEW_CATEGORY_STRING)) {
@@ -314,6 +315,27 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
     //MARK: - Client Calls
 
+    private void addBusinessToRejected() {
+        //starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.addBusinessToRejected(yelpBusiness.id, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                addBusinessToRejectedSucceeded();
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                Log.i("Forget Business Failed", reason);
+                toggleLoadingIndicator(false);
+                addBusinessToRejectedFailed();
+            }
+        });
+    }
+
     private void addBusinessToCategory(String categoryName) {
         if (categoryName.isEmpty()) {
             return;
@@ -372,6 +394,14 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
     }
 
     //MARK: - Toasts
+
+    private void addBusinessToRejectedFailed() {
+        Toast.makeText(this, "Failed to forget business. Please try again.", Toast.LENGTH_LONG).show();
+    }
+
+    private void addBusinessToRejectedSucceeded() {
+        Toast.makeText(this, "Successfully forgot business.", Toast.LENGTH_LONG).show();
+    }
 
     private void addBusinessToCategoryFailed() {
         Toast.makeText(this, "Failed to save business. Please try again.", Toast.LENGTH_LONG).show();
