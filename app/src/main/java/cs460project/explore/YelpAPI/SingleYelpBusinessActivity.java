@@ -2,6 +2,7 @@ package cs460project.explore.YelpAPI;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,13 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import cs460project.explore.Category.CategoryClient;
 import cs460project.explore.R;
 
 /**
@@ -157,6 +161,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
         dialog.setTitle("Are you sure?");
         dialog.setMessage("This business won't appear again.");
+
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Code for what to do when Confirm button pressed
@@ -174,24 +179,13 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
     private void addBusinessButtonPressed() {
         Log.i("pressed", "pressed add");
 
-        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
+        final Dialog d = new Dialog(this);
+        d.setContentView(R.layout.add_business_dialog);
 
-        dialog.setTitle("Choose a category.");
-
-        // Code to set up buttons with category names
-
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Code for what to do when Confirm button pressed
-            }
-        });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-
-        dialog.show();
+        Spinner s = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, CategoryClient.sharedInstance.categoriesList);
+        s.setAdapter(adapter);
+        d.show();
     }
 
     //MARK: - Setting up Yelp Rating Image Based on Rating Received from Yelp (0.0-5.0)

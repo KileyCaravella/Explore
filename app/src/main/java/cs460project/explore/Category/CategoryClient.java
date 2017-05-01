@@ -40,8 +40,8 @@ public class CategoryClient {
 
     //MARK: - URLS and appending URLs
 
-    //    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
-    private final String BASE_URL = "http://141.133.251.36/website/";
+        private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
+//    private final String BASE_URL = "http://141.133.251.36/website/";
 
     //Category
     private final String NEW_CATEGORY_URL = "new_category.php";
@@ -58,7 +58,6 @@ public class CategoryClient {
     private final String NEW_REJECTED_BUSINESS_URL = "";
     private final String GET_REJECTED_BUSINESSES_URL = "";
     private final String REMOVE_REJECTED_BUSINESS_URL = "";
-
 
     //MARK: - Private Variables
 
