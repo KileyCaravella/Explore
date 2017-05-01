@@ -19,9 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
+import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
+import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
 
 /**
  * This is the Bucket List Activity. Here, the user can view a list of their saved categories. They can
@@ -45,7 +49,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bucket_list);
-
         setupIntent();
         setupVariables();
         setupArrayAdapter();
@@ -117,31 +120,13 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         return selectedCategory;
     }
 
-    public void deleteCategory(View view) {
-        //TODO: - Connect delete category code here.
-
-        list.remove(selectedItem);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
-    }
-
-    public void newCategory(View view) {
-        //TODO: - Include call to backend to create a new category... then call get categories again.
-        String categoryName = dataEntry.getText().toString();
-        createNotification(categoryName);
-
-        //TODO: - Maybe have backend send back new list of categories??
-        list.add(categoryName);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
-
-        createNotification(categoryName);
-    }
 
     public void viewCategory(View view) {
         Log.i("Category View", "User Pressed Button to View a Catagory.");
         Intent viewCat = new Intent(BucketListActivity.this, CategoryViewActivity.class);
+        viewCat.putExtra("Category", selectedCategory);
         startActivity(viewCat);
+
     }
 
     //TODO: - Need to discuss this. Doesn't really work with actionBar hidden / buttons on screen
@@ -156,7 +141,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
                 list.add(updateText);
                 adapter.notifyDataSetChanged();
                 dataEntry.setHint("@string/bucket_list_edit_text_hint");
-
                 createNotification(updateText);
                 return true;
 

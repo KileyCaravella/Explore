@@ -28,13 +28,13 @@
             android:textColor="@color/colorText"/>
 
         <TextView
-            android:id="@+id/locationAddressView"
+            android:id="@+id/locationDistanceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
             android:paddingLeft="5dp"
-            tools:text="175 Forest St"
-            android:textColor="@color/colorText"/>
+            android:paddingTop="5dp"
+            android:textColor="@color/colorText"
+            tools:text="175 Forest St" />
 
 
 
