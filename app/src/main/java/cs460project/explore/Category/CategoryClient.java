@@ -52,7 +52,7 @@ public class CategoryClient {
     //Business
     private final String NEW_CATEGORY_BUSINESS_URL = "new_business.php";
     private final String GET_BUSINESSES_URL = "get_businesses.php";
-    private final String REMOVE_CATEGORY_BUSINESS_URL = "";
+    private final String REMOVE_CATEGORY_BUSINESS_URL = "remove_business_from_category.php";
 
     //Rejected
     private final String NEW_REJECTED_BUSINESS_URL = "";
@@ -270,8 +270,8 @@ public class CategoryClient {
 
     private void setupRemoveBusinessFromCategoryParams(String business, String category) {
         requestParams = new RequestParams();
-        requestParams.put("business_ID", business);
-        requestParams.put("category_ID", category);
+        requestParams.put("business_id", business);
+        requestParams.put("category_name", category);
         requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
