@@ -104,28 +104,9 @@ public class NavigationActivity extends Activity {
     public void bucketButtonPressed(View v) {
         Log.i("Navigation Activity", "Bucket View button pressed.");
 
-        //starting the animation for the loading indicator
-        toggleLoadingIndicator(true);
-
-        //Client call
-        CategoryClient.sharedInstance.getUsersCategories(new CategoryClient.CompletionListenerWithArray() {
-            @Override
-            public void onSuccessful(ArrayList<String> arrayList) {
-                toggleLoadingIndicator(false);
-
-                //Sending the categories retrieved to the next activity
-                Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
-                intent.putExtra("Categories", arrayList);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailed(String reason) {
-                Log.i("Category Retrieval Fail", reason);
-                toggleLoadingIndicator(false);
-                failedToGetCategoriesToast();
-            }
-        });
+        //Sending the categories retrieved to the next activity
+        Intent intent = new Intent(NavigationActivity.this, BucketListActivity.class);
+        startActivity(intent);
     }
 
 
@@ -135,7 +116,6 @@ public class NavigationActivity extends Activity {
         startActivity(search);
     }
 
-
     //MARK: Location Management (to initialize the user's current location)
 
     private void locationManaging() {
@@ -143,10 +123,21 @@ public class NavigationActivity extends Activity {
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, new LocationListener() {
-                @Override public void onLocationChanged(Location location) {}
-                @Override public void onStatusChanged(String provider, int status, Bundle extras) {}
-                @Override public void onProviderEnabled(String provider) {}
-                @Override public void onProviderDisabled(String provider) {}
+                @Override
+                public void onLocationChanged(Location location) {
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                }
             });
         } catch (SecurityException e) {
             securityExceptionToast();

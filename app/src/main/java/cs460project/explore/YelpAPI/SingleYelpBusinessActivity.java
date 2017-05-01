@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +20,9 @@ import com.squareup.picasso.Picasso;
 import cs460project.explore.R;
 
 /**
- * Created by Kiwi on 3/31/17.
+ * This is the Single Yelp Business Activity. Here, a business's full information from the Yelp API is
+ * displayed. A user can choose to forget the business, add it to a category, or hit the back button to
+ * get a new result (if coming from randomize button on Navigation Activity).
  */
 
 public class SingleYelpBusinessActivity extends Activity implements View.OnClickListener {
@@ -30,22 +30,19 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
     private YelpBusiness yelpBusiness;
     private ImageView yelpImageView, yelpBusinessRatingImageView, yelpBurstImageView, googleMapsImageView;
     private TextView yelpBusinessNameTextView, openClosedTextView, yelpNumberOfReviewsTextView, yelpDistanceTextView;
-    private Button yelpPhoneButton;
-    private GestureDetector gd;
+    private Button yelpPhoneButton, addBusinessButton, forgetBusinessButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yelp_single_display);
 
-        gd = new GestureDetector(new SwipeGestureDetector());
-
         getYelpBusinessFromBundle();
         setupActivityVariables();
         setBusinessInformation();
     }
 
-    //MARK: - Get Business from Bundle Provided or Set Up New Business
+    //MARK: - Setup
 
     private void getYelpBusinessFromBundle() {
         String jsonYelpBusiness;
@@ -59,8 +56,6 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         }
     }
 
-    //MARK: - Setting up Activity Variables to Class Variables
-
     private void setupActivityVariables() {
         yelpImageView = (ImageView) findViewById(R.id.yelpImageView);
         yelpBusinessRatingImageView = (ImageView) findViewById(R.id.yelpBusinessRatingImageView);
@@ -71,9 +66,9 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         yelpPhoneButton = (Button) findViewById(R.id.yelpPhoneButton);
         yelpNumberOfReviewsTextView = (TextView) findViewById(R.id.yelpNumberOfReviewsTextView);
         yelpDistanceTextView = (TextView) findViewById(R.id.yelpDistanceTextView);
+        addBusinessButton = (Button) findViewById(R.id.addButton);
+        forgetBusinessButton = (Button) findViewById(R.id.forgetButton);
     }
-
-    //MARK: - Setting Class Values to Corresponding Business Information
 
     private void setBusinessInformation() {
         yelpBusinessNameTextView.setText(yelpBusiness.name);
@@ -101,38 +96,102 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         yelpPhoneButton.setOnClickListener(this);
         yelpBurstImageView.setOnClickListener(this);
         googleMapsImageView.setOnClickListener(this);
+        addBusinessButton.setOnClickListener(this);
+        forgetBusinessButton.setOnClickListener(this);
 
         setYelpRatingImage();
     }
 
-    //MARK: - OnClickListener Switch Statement
+    //MARK: - OnClickListener
 
     public void onClick(View v) throws SecurityException {
         switch (v.getId()) {
             //Opens dialer with business's number plugged in
             case R.id.yelpPhoneButton:
-                Uri uri = Uri.parse("tel:" + yelpBusiness.displayPhone);
-                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, uri);
-                startActivity(phoneIntent);
+                yelpPhoneButtonPressed();
                 break;
 
             //Opens business's page on Yelp
             case R.id.yelp_burst:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(yelpBusiness.url)));
+                yelpBurstPressed();
                 break;
-
-            //Shows business's location on google maps if they would like directions
             case R.id.google_maps_image:
-                String addressForGMaps = "geo:0,0?q=";
-                for (String address : yelpBusiness.location.displayAddress) {
-                    addressForGMaps += address;
-                }
-                addressForGMaps = addressForGMaps.replace(" ", "+");
-                addressForGMaps = addressForGMaps.replace(",", "");
-                Intent gmapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(addressForGMaps));
-                startActivity(gmapsIntent);
+                googleMapsImagePressed();
                 break;
+            case R.id.addButton:
+                addBusinessButtonPressed();
+                break;
+            case R.id.forgetButton:
+                forgetBusinessButtonPressed();
         }
+    }
+
+    //MARK: - OnClick Functions
+
+    private void yelpPhoneButtonPressed() {
+        Uri uri = Uri.parse("tel:" + yelpBusiness.displayPhone);
+        Intent phoneIntent = new Intent(Intent.ACTION_DIAL, uri);
+        startActivity(phoneIntent);
+    }
+
+    private void yelpBurstPressed() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(yelpBusiness.url)));
+    }
+
+    //Shows business's location in google maps
+    private void googleMapsImagePressed() {
+        String addressForGMaps = "geo:0,0?q=";
+        for (String address : yelpBusiness.location.displayAddress) {
+            addressForGMaps += address;
+        }
+        addressForGMaps = addressForGMaps.replace(" ", "+");
+        addressForGMaps = addressForGMaps.replace(",", "");
+        Intent gmapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(addressForGMaps));
+        startActivity(gmapsIntent);
+    }
+
+    private void forgetBusinessButtonPressed() {
+        Log.i("pressed", "pressed forget");
+
+        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
+
+        dialog.setTitle("Are you sure?");
+        dialog.setMessage("This business won't appear again.");
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Code for what to do when Confirm button pressed
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void addBusinessButtonPressed() {
+        Log.i("pressed", "pressed add");
+
+        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
+
+        dialog.setTitle("Choose a category.");
+
+        // Code to set up buttons with category names
+
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Code for what to do when Confirm button pressed
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        dialog.show();
     }
 
     //MARK: - Setting up Yelp Rating Image Based on Rating Received from Yelp (0.0-5.0)
@@ -195,84 +254,6 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
                         .load(R.mipmap.stars_small_5)
                         .into(yelpBusinessRatingImageView);
                 break;
-        }
-    }
-
-    // MARK: - Setting up gesture detector for left- and right-swipes
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (gd.onTouchEvent(event)) {
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    private void onLeftSwipe() {
-        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
-
-        dialog.setTitle("Are you sure?");
-        dialog.setMessage("This business won't appear again.");
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Code for what to do when Confirm button pressed
-            }
-        });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-        dialog.show();
-    }
-
-    private void onRightSwipe() {
-        AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
-
-        dialog.setTitle("Choose a category.");
-
-        // Code to set up buttons with category names
-
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Code for what to do when Confirm button pressed
-            }
-        });
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-        dialog.show();
-    }
-
-    private class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_MIN_DISTANCE = 120;
-        private static final int SWIPE_MAX_OFF_PATH = 200;
-        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                float diffAbs = Math.abs(e1.getY() - e2.getY());
-                float diff = e1.getX() - e2.getX();
-
-                if (diffAbs > SWIPE_MAX_OFF_PATH) {
-                    return false;
-                }
-
-                // Left swipe
-                if (diff > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    SingleYelpBusinessActivity.this.onLeftSwipe();
-
-                    // Right swipe
-                } else if (-diff > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    SingleYelpBusinessActivity.this.onRightSwipe();
-                }
-            } catch (Exception e) {
-                Log.e("Swipe", "Error on gestures");
-            }
-            return false;
         }
     }
 }

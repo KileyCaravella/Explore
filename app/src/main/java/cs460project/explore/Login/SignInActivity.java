@@ -14,8 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
+import cs460project.explore.Category.CategoryClient;
 import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
 import cs460project.explore.User.UserClient;
@@ -107,13 +109,27 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         UserClient.sharedInstance.login(username, password, new UserClient.GeneralCompletionListener() {
             @Override
             public void onSuccessful() {
-                toggleLoadingIndicator(false);
-                speak(username);
+                CategoryClient.sharedInstance.getUsersCategories(new CategoryClient.CompletionListenerWithArray() {
+                    @Override
+                    public void onSuccessful(ArrayList<String> arrayList) {
+                        toggleLoadingIndicator(false);
+                        speak(username);
 
-                //Once successfully logged in, the user is brought to the Navigation Activity
-                Log.i("Yelp Business Progress", "Successfully retrieved businesses");
-                Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
-                startActivity(intent);
+                        //Setting the categoriesList to the returned array for future use
+                        CategoryClient.sharedInstance.categoriesList = arrayList;
+
+                        //Once successfully logged in, the user is brought to the Navigation Activity
+                        Log.i("Yelp Business Progress", "Successfully retrieved businesses");
+                        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailed(String reason) {
+                        toggleLoadingIndicator(false);
+                        loginFailedToast();
+                    }
+                });
             }
 
             @Override
