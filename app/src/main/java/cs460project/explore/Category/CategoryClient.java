@@ -55,45 +55,18 @@ public class CategoryClient {
     private final String REMOVE_CATEGORY_BUSINESS_URL = "remove_business_from_category.php";
 
     //Rejected
-    private final String NEW_REJECTED_BUSINESS_URL = "";
+    private final String NEW_REJECTED_BUSINESS_URL = "new_rejected_business.php";
     private final String GET_REJECTED_BUSINESSES_URL = "";
     private final String REMOVE_REJECTED_BUSINESS_URL = "";
 
     //MARK: - Private Variables
 
-    private CompletionListener completionListener;
     private CompletionListenerWithArray completionListenerWithArray;
     private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
 
 
     //MARK: - Response Handlers
-
-    private AsyncHttpResponseHandler responseHandler() {
-        Log.i("Create User Process", "Response Received");
-
-        return new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                try {
-                    JSONObject jsonResponse = new JSONObject(new String(response));
-                    if (Integer.parseInt(jsonResponse.get("success").toString()) == 1) {
-                        completionListener.onSuccessful();
-                    } else {
-                        completionListener.onFailed(jsonResponse.get("message").toString());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    completionListener.onFailed(e.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                completionListener.onFailed(errorResponse.toString());
-            }
-        };
-    }
 
     private AsyncHttpResponseHandler responseHandlerWithArray() {
         Log.i("Create User Process", "Response Received");
@@ -133,11 +106,6 @@ public class CategoryClient {
     }
 
     //MARK: - Completion Listeners
-
-    public interface CompletionListener {
-        void onSuccessful();
-        void onFailed(String reason);
-    }
 
     public interface CompletionListenerWithArray {
         void onSuccessful(ArrayList<String> arrayList);
@@ -222,13 +190,13 @@ public class CategoryClient {
 
     //MARK: - Adding Yelp Business to a Category
 
-    public void addBusinessToCategory(String businessID, String categoryName, CompletionListener listener) {
-        completionListener = listener;
+    public void addBusinessToCategory(String businessID, String categoryName, CompletionListenerWithArray listener) {
+        completionListenerWithArray = listener;
         setupAddBusinessToCategoryParams(businessID, categoryName);
         String url = BASE_URL + NEW_CATEGORY_BUSINESS_URL;
 
         Log.i("Add Business Process", "Request Sent...");
-        client.post(url, requestParams, responseHandler());
+        client.post(url, requestParams, responseHandlerWithArray());
     }
 
     private void setupAddBusinessToCategoryParams(String businessID, String categoryName) {
@@ -265,7 +233,7 @@ public class CategoryClient {
         String url = BASE_URL + REMOVE_CATEGORY_BUSINESS_URL;
 
         Log.i("Remove Business Process", "Request Sent...");
-        client.post(url, requestParams, responseHandler());
+        client.post(url, requestParams, responseHandlerWithArray());
     }
 
     private void setupRemoveBusinessFromCategoryParams(String business, String category) {
@@ -280,13 +248,13 @@ public class CategoryClient {
 
     //MARK: - Adding Yelp Business to Rejected Group
 
-    public void addBusinessToRejected(String businessID, CompletionListener listener) {
-        completionListener = listener;
+    public void addBusinessToRejected(String businessID, CompletionListenerWithArray listener) {
+        completionListenerWithArray = listener;
         setupAddBusinessToRejectedParams(businessID);
         String url = BASE_URL + NEW_REJECTED_BUSINESS_URL;
 
         Log.i("Reject Business Process", "Request Sent...");
-        client.post(url, requestParams, responseHandler());
+        client.post(url, requestParams, responseHandlerWithArray());
     }
 
     private void setupAddBusinessToRejectedParams(String businessID) {
@@ -321,7 +289,7 @@ public class CategoryClient {
         String url = BASE_URL + REMOVE_REJECTED_BUSINESS_URL;
 
         Log.i("Remove Business Process", "Request Sent...");
-        client.post(url, requestParams, responseHandler());
+        client.post(url, requestParams, responseHandlerWithArray());
     }
 
     private void setupRemoveBusinessFromRejectedParams(String business) {

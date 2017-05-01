@@ -66,12 +66,12 @@ if (ISSET($_POST['token']) && ISSET($_POST['category_name']) && ISSET($_POST['bu
             }
 
             $response["success"] = 1;
-            $response["message"] = "Category Deleted.";
+            $response["message"] = "Business Deleted.";
             $response["category"] = $data;
 
         } else {
             $response["success"] = 1;
-            $response["message"] = "Category deleted, and unable to find any remaining.";
+            $response["message"] = "Business deleted, and unable to find any remaining.";
             $response["category"] = [];
         }
 

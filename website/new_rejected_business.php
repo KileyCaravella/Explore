@@ -2,31 +2,24 @@
 /**
  * Created by PhpStorm.
  * User: Kiley
- * Date: 4/20/17
- * Time: 2:24 PM
+ * Date: 5/1/17
+ * Time: 3:06 PM
  */
 
 include('config.php');
 include('credentials.php');
 
-if (!ISSET($_POST['android'])) {
-    include('login.php');
-}
-
-$headers = getallheaders();
-$invalid_token = false;
-
-
+if (ISSET($_POST['token']) && ISSET($_POST['business_id'])) {
     date_default_timezone_set("America/New_York");
+    $invalid_token = false;
 
     //**TOKEN VALIDATION**//
-    if (ISSET($_POST['android'])) {
-        $token = trim($_POST['token']);
-    }
 
-    $sql_token = "SELECT date_created, user_id FROM token WHERE token = '$token'";
+    $token_sent = trim($_POST['token']);
+    $sql_token = "SELECT date_created, user_id FROM token WHERE token = '$token_sent'";
 
     if (!($token_query = mysqli_query($con, $sql_token))) {
+        $response["success"] = 0;
         $response["message"] = "Invalid token.";
         $invalid_token = true;
     }
@@ -37,7 +30,7 @@ $invalid_token = false;
     $token_user_id = $token_response[1];
 
     //Tokens "expire" after 24 hours/1 day, so to check it we need to add 1 day
-    $token_date_24 = date("Y-m-d H:i:s", strtotime($token_date_created.'+1 day'));
+    $token_date_24 = date("Y-m-d H:i:s", strtotime($token_date_created . '+1 day'));
 
     //Creating date object with current date
     $current_date = new DateTime();
@@ -52,19 +45,18 @@ $invalid_token = false;
 
     //**END TOKEN VALIDATION**//
 
-    //If the token is valid, get category information.
-    if(!$invalid_token) {
+    //Once token is validated, the business is grabbed to be inserted into the database.
+    $business_id = trim($_POST['business_id']);
 
-        $new_category = trim($_POST['new_category']);
-
-        $sql = "INSERT INTO category (user_id, category_id) VALUES ('$token_user_id', '$new_category')";
+    if (!$invalid_token) {
+        $sql = "INSERT INTO user_reject (user_id, business_id) VALUES ('$token_user_id', '$business_id')";
         if(mysqli_query($con, $sql)) {
             $response["success"] = 1;
             $response["message"] = "Successfully added category";
 
             //Once the category is updated, the list of remaining categories is returned to android
             if (ISSET($_POST['android']) && !$invalid_token) {
-                $sql_get_categories = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
+                $sql_get_categories = "SELECT business_id FROM user_reject WHERE user_id = '$token_user_id'";
 
                 if ($mysqli_response = mysqli_query($con, $sql_get_categories)) {
                     $data = array();
@@ -75,12 +67,12 @@ $invalid_token = false;
                     }
 
                     $response["success"] = 1;
-                    $response["message"] = "Categories updated.";
+                    $response["message"] = "Business added to rejected group.";
                     $response["category"] = $data;
 
                 } else {
                     $response["success"] = 1;
-                    $response["message"] = "Categories updated, but unable to find any remaining.";
+                    $response["message"] = "Business added, but unable to find any.";
                     $response["category"] = [];
                 }
             }
@@ -94,26 +86,4 @@ $invalid_token = false;
     if (ISSET($_POST['android'])) {
         die(json_encode($response));
     }
-
-?>
-
-<!-- New Category Modal -->
-<div id="new_categories" class="w3-modal">
-    <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
-        <div class="w3-container w3-white w3-center">
-            <span onclick="document.getElementById('new_categories').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
-            <h4 class="w3-wide">Add a New Category!</h4>
-            <p>Enter a Category Name:</p>
-            <div class = "w3-section">
-                <form class="form-new_category" method="post">
-                    <input class="w3-input w3-border" type="text" placeholder="Category Name" name="new_category" id="new_category">
-                    <button onclick="document.getElementById('new_categories').style.display='none'" type="submit" name="submit">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
+}

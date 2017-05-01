@@ -129,7 +129,7 @@ category_id</ColNames>
     </foreign-key>
     <column id="35" parent="13" name="business_id">
       <Position>2</Position>
-      <DataType>decimal(6)|0</DataType>
+      <DataType>varchar(60)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
