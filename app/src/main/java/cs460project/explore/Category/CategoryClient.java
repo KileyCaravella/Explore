@@ -56,8 +56,8 @@ public class CategoryClient {
 
     //Rejected
     private final String NEW_REJECTED_BUSINESS_URL = "new_rejected_business.php";
-    private final String GET_REJECTED_BUSINESSES_URL = "";
-    private final String REMOVE_REJECTED_BUSINESS_URL = "";
+    private final String GET_REJECTED_BUSINESSES_URL = "get_rejected_businesses.php";
+    private final String REMOVE_REJECTED_BUSINESS_URL = "remove_rejected_business.php";
 
     //MARK: - Private Variables
 
@@ -294,7 +294,7 @@ public class CategoryClient {
 
     private void setupRemoveBusinessFromRejectedParams(String business) {
         requestParams = new RequestParams();
-        requestParams.put("business_ID", business);
+        requestParams.put("business_id", business);
         requestParams.put("token", UserClient.sharedInstance.token);
         requestParams.put("android", " ");
     }
