@@ -37,8 +37,11 @@ import cs460project.explore.R;
 
 public class SingleYelpBusinessActivity extends Activity implements View.OnClickListener {
 
+    //MARK: - Private Variables
+
     private static final String NEW_CATEGORY_STRING = "<create new category>";
 
+    private String selectedCategory = "";
     private YelpBusiness yelpBusiness;
     private ImageView yelpImageView, yelpBusinessRatingImageView, yelpBurstImageView, googleMapsImageView;
     private TextView yelpBusinessNameTextView, openClosedTextView, yelpNumberOfReviewsTextView, yelpDistanceTextView;
@@ -47,7 +50,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
     private AnimationDrawable frameAnimation;
     private View loadingIndicatorBackgroundView;
 
-    private String selectedCategory = "";
+    //MARK: - Initialization
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,12 +149,18 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
             case R.id.yelp_burst:
                 startWebActivity();
                 break;
+
+            //Opens google maps with location added
             case R.id.google_maps_image:
                 startGoogleMapsActivity();
                 break;
+
+            //Causes an AlertDialog to show to add business to a category
             case R.id.addButton:
                 addBusinessDialog();
                 break;
+
+            //Causes an AlertDialog to show to add business to rejected list
             case R.id.forgetButton:
                 forgetBusinessDialog();
         }
@@ -243,6 +252,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
             break;
         }
 
+        //Setting listener for spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -262,6 +272,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        //Setting buttons on builder
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface d, int i) {
@@ -323,6 +334,9 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         CategoryClient.sharedInstance.addBusinessToRejected(yelpBusiness.id, new CategoryClient.CompletionListenerWithArray() {
             @Override
             public void onSuccessful(ArrayList<String> arrayList) {
+
+                //Reset list
+                CategoryClient.sharedInstance.rejectedList = arrayList;
                 toggleLoadingIndicator(false);
                 addBusinessToRejectedSucceeded();
             }
@@ -368,6 +382,9 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
             @Override
             public void onSuccessful(ArrayList<String> arrayList) {
+
+                //Reset list
+                CategoryClient.sharedInstance.categoriesList = arrayList;
                 addBusinessToCategory(categoryName);
             }
 

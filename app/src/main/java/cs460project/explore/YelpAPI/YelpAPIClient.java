@@ -135,6 +135,8 @@ public class YelpAPIClient {
     private void chooseRandomBusinessFromArray() {
         int loopCounter = 0;
         YelpBusiness yelpBusiness = new YelpBusiness();
+
+        //Until a business is set, it picks one at random and checks if the user requested for it to be forgotten.
         while (yelpBusiness.id == null) {
             if (loopCounter == BUSINESSES_RETRIEVED_LIMIT) {
                 yelpBusinessCompletionListener.onBusinessRetrievalFailed("No new businesses in the area.");
