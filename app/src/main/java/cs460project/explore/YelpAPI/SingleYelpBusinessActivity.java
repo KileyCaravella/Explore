@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -181,9 +182,26 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         startActivity(gmapsIntent);
     }
 
-    private void forgetBusinessButtonPressed() {
-        Log.i("pressed", "pressed forget");
+    //MARK: - Alert Dialog Prompts
 
+    private void forgetBusinessButtonPressed() {
+        AlertDialog alert = setupForgetAlertDialog();
+        alert.show();
+    }
+
+    private void addBusinessButtonPressed() {
+        AlertDialog alert = setupAddAlertDialog();
+        alert.show();
+    }
+
+    private void insertNewCategoryDialog() {
+        AlertDialog alert = setupNewCategoryAlertDialog();
+        alert.show();
+    }
+
+    //MARK: - Alert Dialogs
+
+    private AlertDialog setupForgetAlertDialog() {
         AlertDialog dialog = new AlertDialog.Builder(SingleYelpBusinessActivity.this).create();
 
         dialog.setTitle("Are you sure?");
@@ -191,26 +209,17 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Code for what to do when Confirm button pressed
+                //TODO: - Code for what to do when Confirm button pressed
             }
         });
+
+        //Nothing happens when the user presses cancel
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
+            public void onClick(DialogInterface dialog, int id) {}
         });
 
-        dialog.show();
+        return dialog;
     }
-
-    private void addBusinessButtonPressed() {
-        Log.i("pressed", "pressed add");
-
-        AlertDialog alert = setupAddAlertDialog();
-        alert.show();
-    }
-
-    //MARK: - Setup Alert Dialogs
 
     private AlertDialog setupAddAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -220,7 +229,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         categories.add(NEW_CATEGORY_STRING);
         categories.addAll(CategoryClient.sharedInstance.categoriesList);
 
-        //Setting view
+        //Setting alert dialog view
         LayoutInflater factory = LayoutInflater.from(getApplicationContext());
         final View dialogView = factory.inflate(R.layout.add_business_dialog, null);
         builder.setView(dialogView);
@@ -248,14 +257,18 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
                 }
             }
 
-            //Not possible for nothing to be selected with current setup
+            //Impossible for nothing to be selected with current setup
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface d, int i) {
-                addBusinessToCategory();
+                if (selectedCategory.isEmpty()) {
+                    insertNewCategoryDialog();
+                } else {
+                    addBusinessToCategory(selectedCategory);
+                }
             }
         });
 
@@ -267,19 +280,49 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         return builder.create();
     }
 
-    //MARK: - Add Business To Category
+    private AlertDialog setupNewCategoryAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-    private void addBusinessToCategory() {
-        if (selectedCategory.isEmpty()) {
-            insertNewCategoryDialog();
+        //Setting view
+        LayoutInflater factory = LayoutInflater.from(getApplicationContext());
+        final View dialogView = factory.inflate(R.layout.add_new_category_dialog, null);
+        builder.setView(dialogView);
+
+        //EditText
+
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface d, int i) {
+                EditText newCategoryEditText = (EditText) dialogView.findViewById(R.id.new_category_edit_text);
+                String newCategoryName = newCategoryEditText.getText().toString();
+
+                if (!newCategoryName.isEmpty()) {
+                    createNewCategoryAndAddBusinessToIt(newCategoryName);
+                } else {
+                    newCategoryEditTextIsEmpty();
+                }
+            }
+        });
+
+        //Nothing happens if Cancel button is pressed.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override public void onClick(DialogInterface d, int i) {}
+        });
+
+        return builder.create();
+    }
+
+    //MARK: - Client Calls
+
+    private void addBusinessToCategory(String categoryName) {
+        if (categoryName.isEmpty()) {
             return;
         }
-
         //starting the animation for the loading indicator
         toggleLoadingIndicator(true);
 
         //Client call
-        CategoryClient.sharedInstance.addBusinessToCategory(yelpBusiness.id, selectedCategory, new CategoryClient.CompletionListenerWithArray() {
+        CategoryClient.sharedInstance.addBusinessToCategory(yelpBusiness.id, categoryName, new CategoryClient.CompletionListenerWithArray() {
             @Override
             public void onSuccessful(ArrayList<String> arrayList) {
                 toggleLoadingIndicator(false);
@@ -295,9 +338,51 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         });
     }
 
-    //TODO: - need to finish
-    private void insertNewCategoryDialog() {
+    private void createNewCategoryAndAddBusinessToIt(final String categoryName) {
+        //starting the animation for the loading indicator
+        toggleLoadingIndicator(true);
 
+        //Client call
+        CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                addBusinessToCategory(categoryName);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                addBusinessToCategoryFailed();
+            }
+        });
+    }
+
+    //MARK: - Toggling Methods
+
+    private void toggleLoadingIndicator(Boolean makeVisible) {
+        if (makeVisible) {
+            loadingIndicatorImageView.setVisibility(View.VISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.VISIBLE);
+            frameAnimation.start();
+        } else {
+            loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+            frameAnimation.stop();
+        }
+    }
+
+    //MARK: - Toasts
+
+    private void addBusinessToCategoryFailed() {
+        Toast.makeText(this, "Failed to save business. Please try again.", Toast.LENGTH_LONG).show();
+    }
+
+    private void addBusinessToCategorySucceeded() {
+        Toast.makeText(this, "Successfully saved business.", Toast.LENGTH_LONG).show();
+    }
+
+    private void newCategoryEditTextIsEmpty() {
+        Toast.makeText(this, "Please enter a name for the new category.", Toast.LENGTH_LONG).show();
     }
 
     //MARK: - Setting up Yelp Rating Image Based on Rating Received from Yelp (0.0-5.0)
@@ -361,30 +446,5 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
                         .into(yelpBusinessRatingImageView);
                 break;
         }
-    }
-
-    //MARK: - Toggling Methods
-
-    private void toggleLoadingIndicator(Boolean makeVisible) {
-        if (makeVisible) {
-            loadingIndicatorImageView.setVisibility(View.VISIBLE);
-            loadingIndicatorBackgroundView.setVisibility(View.VISIBLE);
-            frameAnimation.start();
-        } else {
-            loadingIndicatorImageView.setVisibility(View.INVISIBLE);
-            loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
-            frameAnimation.stop();
-        }
-    }
-
-
-    //MARK: - Toasts
-
-    private void addBusinessToCategoryFailed() {
-        Toast.makeText(this, "Failed to save business. Please try again.", Toast.LENGTH_LONG).show();
-    }
-
-    private void addBusinessToCategorySucceeded() {
-        Toast.makeText(this, "Successfully saved business.", Toast.LENGTH_LONG).show();
     }
 }

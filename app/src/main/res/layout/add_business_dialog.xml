@@ -11,7 +11,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Business Name"
+            android:text="Add Business"
             android:textSize="20sp"
             android:textStyle="bold" />
 
