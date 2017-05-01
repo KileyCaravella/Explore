@@ -75,7 +75,7 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
 
         //Making phone button look like a hyperlink (Underlined and Blue)
         yelpPhoneButton.setText(yelpBusiness.displayPhone);
-        if (yelpBusiness.isClosed)
+        if (!yelpBusiness.isClosed)
             openClosedTextView.setText("OPEN"); //default is "CLOSED"
 
         yelpPhoneButton.setPaintFlags(yelpPhoneButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -98,6 +98,11 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         googleMapsImageView.setOnClickListener(this);
         addBusinessButton.setOnClickListener(this);
         forgetBusinessButton.setOnClickListener(this);
+
+
+        Log.i("Yelp Business ID", yelpBusiness.id);
+        //Log.e("Yelp Open or Not", yelpBusiness.isClosed);
+
 
         setYelpRatingImage();
     }

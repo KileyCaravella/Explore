@@ -54,25 +54,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/newBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#2196f3"
-                android:onClick="newCategory"
-                android:text="New Category" />
-
-            <Button
-                android:id="@+id/deleteBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:background="#2196f3"
-                android:onClick="deleteCategory"
-                android:text="Delete Category" />
-
         </LinearLayout>
 
         <ListView

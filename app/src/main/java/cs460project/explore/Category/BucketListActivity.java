@@ -44,7 +44,7 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private int selectedItem;
-    public String selectedCategory;
+    public String selectedCategory, updateText;
     private BroadcastReceiver receiver;
     private Notification notify;
     private NotificationManager notificationManager;
@@ -139,13 +139,13 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         viewCat.putExtra("Category", selectedCategory);
         startActivity(viewCat);
 
-    }
+        }
 
     //TODO: - Need to discuss this. Doesn't really work with actionBar hidden / buttons on screen
     public boolean onOptionsItemSelected(MenuItem item) {
 
         System.out.println(item.getItemId());
-        String updateText = dataEntry.getText().toString();
+        updateText = dataEntry.getText().toString();
 
         switch (item.getItemId()) {
             //adds the entry from the Edit Text box into the Array List
