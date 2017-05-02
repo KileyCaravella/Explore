@@ -104,8 +104,8 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         yelpNumberOfReviewsTextView.setText(yelpBusiness.reviewCount + " Reviews");
 
         //Distance is given in Meters, so here it is converted to miles.
-        yelpBusiness.distance *= 0.000621371;
-        yelpDistanceTextView.setText(String.format("%.2f", yelpBusiness.distance) + " miles");
+        Double distance = yelpBusiness.distance * 0.000621371;
+        yelpDistanceTextView.setText(String.format("%.2f", distance) + " miles");
 
         //Loading yelp photos and default photos using Picasso plugin
         Picasso.with(this)

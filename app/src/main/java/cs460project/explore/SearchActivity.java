@@ -25,32 +25,36 @@ import cs460project.explore.YelpAPI.YelpAPIClient;
 import cs460project.explore.YelpAPI.YelpBusiness;
 
 /**
- * Created by HARDY_NATH on 4/5/2017.
- * Will be used to display results that the user searched for
+ * This view allows a user to enter an address and see businesses around that location. A custom list and
+ * custom adapter are used to create the cells. When this view gets businesses from the YelpAPI Client, it
+ * resets the businesses stored in the client so users can get locations in their area when they randomize.
  */
 
 public class SearchActivity extends Activity {
 
+    //MARK: - Private Variables
+
     private EditText searchEditText;
-    private ListView searchList;
+    private ListView locationListView;
     private ImageView loadingIndicatorImageView;
     private AnimationDrawable frameAnimation;
     private View loadingIndicatorBackgroundView;
     private List<CustomListView> locationList;
     private YelpBusiness[] yelpBusinesses;
 
+    //MARK: - Initialization
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.area_search);
+        setContentView(R.layout.activity_search);
 
         setupLoadingIndicator();
         setupVariables();
-
     }
 
     //MARK: - Setup
 
-        /* This function sets up the loading indicator, its animation, and its background. This code is copied
+    /* This function sets up the loading indicator, its animation, and its background. This code is copied
     throughout all views that have a loading indicator. */
     private void setupLoadingIndicator() {
         loadingIndicatorImageView = (ImageView) findViewById(R.id.animation);
@@ -65,6 +69,7 @@ public class SearchActivity extends Activity {
 
     private void setupVariables() {
         searchEditText = (EditText) findViewById(R.id.searchEditText);
+        locationListView = (ListView) findViewById(R.id.searchListView);
     }
 
     private void setupListView() {
@@ -75,11 +80,10 @@ public class SearchActivity extends Activity {
             locationList.add(new CustomListView(business));
         }
 
-        searchList = (ListView) findViewById(R.id.searchListView);
-        CustomCategoryAdapter adapter = new CustomCategoryAdapter(this, R.layout.custom_listview_category, locationList);
-        searchList.setAdapter(adapter);
+        CustomCategoryAdapter adapter = new CustomCategoryAdapter(this, R.layout.custom_business_cells, locationList);
+        locationListView.setAdapter(adapter);
 
-        searchList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        locationListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 businessSelectedAtPosition(position);
             }
@@ -104,7 +108,8 @@ public class SearchActivity extends Activity {
         //starting the animation for the loading indicator
         toggleLoadingIndicator(true);
 
-        //Client call -- we want to clear the business array in the client in case the user randomizes.
+        //Client call -- we want to clear the business array so we get businesses in the searched area.
+        YelpAPIClient.sharedInstance.clearBusinessArray();
         YelpAPIClient.sharedInstance.getYelpBusinessWithLocationName(searchText, new YelpAPIClient.OnYelpBusinessCompletionListener() {
             @Override
             public void onBusinessRetrievalSuccessful(YelpBusiness business) {

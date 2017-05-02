@@ -51,6 +51,7 @@ public class YelpAPIClient {
     private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
     private YelpBusiness[] yelpBusinesses = new YelpBusiness[BUSINESSES_RETRIEVED_LIMIT];
+    private int numberBusinessesReturned = 0;
 
     private OnYelpTokenCompletionListener yelpTokenCompletionListener;
     private OnYelpBusinessCompletionListener yelpBusinessCompletionListener;
@@ -121,8 +122,11 @@ public class YelpAPIClient {
 
                     //Caches businesses to local variable
                     if(jsonObject.has("businesses")) {
-                        yelpBusinesses = new Gson().fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
+                        YelpBusiness[] returnedBusinesses = new Gson().fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
+                        numberBusinessesReturned = returnedBusinesses.length;
+                        yelpBusinesses = returnedBusinesses;
                     } else {
+                        numberBusinessesReturned = 1;
                         yelpBusinesses[0] = new Gson().fromJson(jsonObject.toString(), YelpBusiness.class);
                     }
 
@@ -150,13 +154,12 @@ public class YelpAPIClient {
 
         //Until a business is set, it picks one at random and checks if the user requested for it to be forgotten.
         while (yelpBusiness.id == null) {
-            if (loopCounter == BUSINESSES_RETRIEVED_LIMIT) {
+            if (loopCounter == numberBusinessesReturned) {
                 yelpBusinessCompletionListener.onBusinessRetrievalFailed("No new businesses in the area.");
                 return;
             }
 
-            //Randomizing business
-            int businessToTake = (int) Math.floor(Math.random() * count(yelpBusinesses));
+            int businessToTake = (int) Math.floor(Math.random() * numberBusinessesReturned);
             if (!CategoryClient.sharedInstance.rejectedList.contains(yelpBusinesses[businessToTake].id)) {
                 yelpBusiness = yelpBusinesses[businessToTake];
             }
@@ -244,6 +247,7 @@ public class YelpAPIClient {
 
     //If businesses have been received once, uses cached list of businesses.
     private void getYelpBusinessWithURL(String url) {
+        Log.i("Yelp Search Progress", "Sending Request...");
         if (yelpBusinesses[0] == null) {
             setupSearchHeaders();
             client.get(url, businessResponseHandler());
@@ -254,15 +258,6 @@ public class YelpAPIClient {
 
     private void setupSearchHeaders() {
         client.removeAllHeaders();
-        client.addHeader("Authorization",token);
-    }
-
-    //MARK: - Helper
-    private int count(YelpBusiness[] ybs) {
-        int i = 0;
-        for (YelpBusiness y : ybs) {
-            i++;
-        }
-        return i;
+        client.addHeader("Authorization", token);
     }
 }

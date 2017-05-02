@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/locationPicView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher"
-        />
+        android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/locationNameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
             android:paddingLeft="5dp"
-            tools:text="Test Diner Waltham"
-            android:textColor="@color/colorText"/>
+            android:paddingTop="5dp"
+            android:textColor="@color/colorText"
+            tools:text="Test Diner Waltham" />
 
         <TextView
             android:id="@+id/locationDistanceView"

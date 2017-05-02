@@ -25,9 +25,8 @@ import cs460project.explore.R;
 
 public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
-    int resource;
-    String response;
-    Context context;
+    private int resource;
+    private Context context;
     private Typeface customTypeFace;
     private TextView locationName, locationDistance;
     private ImageView locationPic;
@@ -37,9 +36,7 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         super(context, resource, items);
         this.resource = resource;
         this.context = context;
-        //initialize the typeface
-        this.customTypeFace = Typeface.createFromAsset(context.getAssets(),
-                "fonts/DroidSans.ttf");
+        this.customTypeFace = Typeface.createFromAsset(context.getAssets(), "fonts/DroidSans.ttf");
     }
 
     @Override
@@ -58,14 +55,17 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
             locationView = (LinearLayout) convertView;
         }
 
-        //Setup functions called
+        //Setup functions
         setupVariablesForView(locationView);
-        setTextForTextView(locationName, customListView.getLocationName());
 
-        String distance = String.format(Locale.US, "%.2f",customListView.getDistance()) + " miles";
-        setTextForTextView(locationDistance, distance);
+        if (customListView.getYelpBusiness() != null) {
+            setTextForTextView(locationName, customListView.getLocationName());
 
-        setImageForImageView(locationPic, customListView.getImageURL());
+            String distance = String.format(Locale.US, "%.2f", customListView.getDistance()) + " miles";
+            setTextForTextView(locationDistance, distance);
+
+            setImageForImageView(locationPic, customListView.getImageURL());
+        }
 
         return locationView;
     }

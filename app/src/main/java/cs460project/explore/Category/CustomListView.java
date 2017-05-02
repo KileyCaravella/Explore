@@ -1,22 +1,15 @@
 package cs460project.explore.Category;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.content.Intent;
-import com.google.gson.Gson;
 import cs460project.explore.YelpAPI.YelpBusiness;
-import cs460project.explore.YelpAPI.YelpBusinessLocation;
 
 /**
- * Created by HARDY_NATH on 3/29/2017.
- * Just contains location name, address, and image url
- * This class is meant to be overloaded and used in a list view
+ * This stores the yelp business and provides getters
  */
 
 public class CustomListView {
     private YelpBusiness yelpBusiness;
 
-     public CustomListView(YelpBusiness yelpBusiness){
+    public CustomListView(YelpBusiness yelpBusiness){
          this.yelpBusiness = yelpBusiness;
      }
 
@@ -25,11 +18,15 @@ public class CustomListView {
     }
 
     public Double getDistance() {
-        return yelpBusiness.distance;
+        return yelpBusiness.distance * 0.000621371;
     }
 
     public String getImageURL() {
         return yelpBusiness.imageURL;
     }
+
+    public YelpBusiness getYelpBusiness() {
+        return yelpBusiness;
+    };
 
 }
