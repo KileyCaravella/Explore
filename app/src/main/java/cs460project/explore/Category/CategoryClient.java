@@ -42,8 +42,7 @@ public class CategoryClient {
     //MARK: - URLS and appending URLs
 
 
-        private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
-//    private final String BASE_URL = "http://141.133.251.36/website/";
+    private final String BASE_URL = "http://sample-env-1.jzxt6wkppr.us-east-1.elasticbeanstalk.com/website/";
 
     //Category
     private final String NEW_CATEGORY_URL = "new_category.php";
@@ -85,11 +84,14 @@ public class CategoryClient {
                         ArrayList<String> arrayResponse = new ArrayList<String>();
                         JSONArray jsonArray = (JSONArray) jsonResponse.get("category");
 
+                        if(jsonArray.length() == 0) {
+                            completionListenerWithArray.onFailed("No businesses retrieved.");
+                        }
+
                         for (int i = 0; i < jsonArray.length(); i++) {
                             arrayResponse.add(jsonArray.getString(i));
                         }
 
-                        Log.i("Array", arrayResponse.get(0));
                         completionListenerWithArray.onSuccessful(arrayResponse);
                     } else {
                         completionListenerWithArray.onFailed((String) jsonResponse.get("message"));
@@ -213,18 +215,18 @@ public class CategoryClient {
 
     public void getBusinessesFromCategory(String category, CompletionListenerWithArray listener) {
         completionListenerWithArray = listener;
-        setupGetBusinessesFromCategoryParams(category);
+        setupGetBusinessesFromCategoryHeaders(category);
         String url = BASE_URL + GET_BUSINESSES_URL;
 
         Log.i("Get Businesses Process", "Request Sent...");
-        client.post(url, requestParams, responseHandlerWithArray());
+        client.post(url, responseHandlerWithArray());
     }
 
-    private void setupGetBusinessesFromCategoryParams(String category) {
-        requestParams = new RequestParams();
-        requestParams.put("category_name", category);
-        requestParams.put("token", UserClient.sharedInstance.token);
-        requestParams.put("android", " ");
+    private void setupGetBusinessesFromCategoryHeaders(String category) {
+        client.removeAllHeaders();
+        client.addHeader("token", UserClient.sharedInstance.token);
+        client.addHeader("category_name", category);
+        client.addHeader("android", " ");
     }
 
     //MARK: - Removing Business from a Category

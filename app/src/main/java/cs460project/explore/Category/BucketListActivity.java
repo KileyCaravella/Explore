@@ -24,12 +24,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 
 import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
 import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
+import cs460project.explore.YelpAPI.YelpAPIClient;
+import cs460project.explore.YelpAPI.YelpBusiness;
 
 /**
  * This is the Bucket List Activity. Here, the user can view a list of their saved categories. They can
@@ -43,7 +46,7 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     private EditText dataEntry;
     private ListView listView;
     private ArrayAdapter<String> adapter;
-    private int selectedItem;
+    private int selectedItem = -1, counter = 0;
     public String selectedCategory, updateText;
     private BroadcastReceiver receiver;
     private Notification notify;
@@ -51,10 +54,11 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     private ImageView loadingIndicatorImageView;
     private AnimationDrawable frameAnimation;
     private View loadingIndicatorBackgroundView;
+    private YelpBusiness[] yelpBusinesses;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bucket_list);
+        setContentView(R.layout.activity_bucket_list);
         //setupIntent();
 
         setupVariables();
@@ -128,34 +132,29 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
 
     //MARK: - OnClick Functions
 
-    public String getCategory() {
-        return selectedCategory;
-    }
-
-
-    public void viewCategory(View view) {
-        Log.i("Category View", "User Pressed Button to View a Catagory.");
-        Intent viewCat = new Intent(BucketListActivity.this, CategoryViewActivity.class);
-        viewCat.putExtra("Category", selectedCategory);
-        startActivity(viewCat);
-
-        }
-
-    //TODO: - Need to discuss this. Doesn't really work with actionBar hidden / buttons on screen
     public boolean onOptionsItemSelected(MenuItem item) {
 
         System.out.println(item.getItemId());
         updateText = dataEntry.getText().toString();
 
+        if (updateText.isEmpty()) {
+            noCategoryListed();
+            return false;
+        }
+
         switch (item.getItemId()) {
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
                 addCategory(updateText);
-
                 return true;
 
             //updates the selected array list item from the edit text box
             case R.id.updateCategory:
+                if (selectedItem == -1) {
+                    noCategoryListed();
+                    return false;
+                }
+
                 String oldName = (listView.getItemAtPosition(selectedItem).toString());
                 String newName = dataEntry.getText().toString();
                 updateCategory(oldName, newName);
@@ -170,6 +169,81 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void viewCategory(View view) {
+        Log.i("Category View", "User Pressed Button to View a Catagory.");
+        getBusinessesForCategory();
+    }
+
+    private void getBusinessesForCategory() {
+        if (selectedCategory.isEmpty()) {
+            noCategoryListed();
+            return;
+        }
+
+        //Starting the animation for the loading indicator and dismissing the keyboard if it's up
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.getBusinessesFromCategory(selectedCategory, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> businesses) {
+                if(businesses.isEmpty()) {
+                    toggleLoadingIndicator(false);
+                    failedToViewBusinessesInCategory();
+                    return;
+                }
+
+                getBusinessesFromYelp(businesses);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                failedToViewBusinessesInCategory();
+            }
+        });
+    }
+
+    private void getBusinessesFromYelp(final ArrayList<String> businesses) {
+        counter = 0;
+        yelpBusinesses = new YelpBusiness[businesses.size()];
+
+
+        for (String business : businesses) {
+            Log.i("business", business);
+            YelpAPIClient.sharedInstance.getYelpBusinessWithBusinessID(business, new YelpAPIClient.OnYelpBusinessCompletionListener() {
+                @Override
+                public void onBusinessRetrievalSuccessful(YelpBusiness business) {
+                    Log.i("Get Business", "Business retrieved.");
+                    yelpBusinesses[counter] = business;
+                    counter++;
+                    if (counter == businesses.size()) {
+                        Log.i("Finished.", "Retrieved all Businesses.");
+                        viewBusinessesInCategory();
+                    }
+                }
+
+                @Override
+                public void onBusinessRetrievalFailed(String reason) {
+                    toggleLoadingIndicator(false);
+                    failedToViewBusinessesInCategory();
+                }
+            });
+        }
+    }
+
+    private void viewBusinessesInCategory() {
+        Intent intent = new Intent(BucketListActivity.this, BusinessesInCategoryActivity.class);
+        for (YelpBusiness b : yelpBusinesses) {
+            Log.i("business", b.name);
+        }
+
+        intent.putExtra("YelpBusinesses", new Gson().toJson(yelpBusinesses));
+        startActivity(intent);
+    }
+
 
     //MARK: - Notification
 
@@ -296,6 +370,14 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     }
 
     //MARK: - Toasts
+
+    private void noCategoryListed() {
+        Toast.makeText(this, "Please choose a category to modify or add a new one", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToViewBusinessesInCategory() {
+        Toast.makeText(this, "No businesses found for category", Toast.LENGTH_LONG).show();
+    }
 
     private void failedToAddNewCategory() {
         Toast.makeText(this, "Error Adding Category", Toast.LENGTH_LONG).show();

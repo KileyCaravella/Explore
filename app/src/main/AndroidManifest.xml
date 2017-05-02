@@ -25,7 +25,7 @@
         <activity android:name=".NavigationActivity"></activity>
         <activity android:name=".Category.BucketListActivity"></activity>
         <activity android:name=".YelpAPI.SingleYelpBusinessActivity"></activity>
-        <activity android:name=".Category.CategoryViewActivity"></activity>
+        <activity android:name=".Category.BusinessesInCategoryActivity"></activity>
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".Login.ForgotPasswordActivity"></activity>
         <activity android:name=".Login.SignUpActivity"></activity>
