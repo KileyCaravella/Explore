@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Kiley
- * Date: 4/20/17
- * Time: 2:24 PM
+ * Date: 4/27/17
+ * Time: 6:39 PM
  */
 
 include('config.php');
@@ -48,9 +48,9 @@ if (ISSET($headers['token'])) {
 
     //If the token is valid, get category information.
     if (!$invalid_token) {
-        $user_id_get_credentials = trim($all_headers['user_id']);
+        $category_name = trim($headers['category_name']);
 
-        $sql = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
+        $sql = "SELECT business_id FROM user_accept WHERE (user_id = '$token_user_id' && category_id = '$category_name')";
 
         if ($mysqli_response = mysqli_query($con, $sql)) {
             $data = array();
@@ -60,12 +60,12 @@ if (ISSET($headers['token'])) {
                 $data[] = $row[0];
             }
             $response["success"] = 1;
-            $response["message"] = "Categories retrieved.";
+            $response["message"] = "Businesses retrieved.";
             $response["category"] = $data;
             $invalid_token = false;
         } else {
             $response["success"] = 1;
-            $response["message"] = "Unable to find any categories.";
+            $response["message"] = "Unable to find any businesses.";
             $response["category"] = [];
         }
     }
@@ -74,4 +74,3 @@ if (ISSET($headers['token'])) {
         die(json_encode($response));
     }
 }
-

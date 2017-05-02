@@ -63,15 +63,16 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         TextView locationName =(TextView)locationView.findViewById(R.id.locationNameView);
         locationName.setTypeface(customTypeFace);//set the custom font/typeface
 
-        TextView locationAddress = (TextView) locationView.findViewById(R.id.locationAddressView);
-        locationAddress.setTypeface(customTypeFace);//set the custom font/typeface
+        TextView locationDistance = (TextView) locationView.findViewById(R.id.locationDistanceView);
+        locationDistance.setTypeface(customTypeFace);//set the custom font/typeface
 
         ImageView locationPic = (ImageView) locationView.findViewById(R.id.locationPicView);
 
 
         //sets the text for the list view item
         locationName.setText(custListView.getLocationName());
-        locationAddress.setText(custListView.getAddress());
+        locationDistance.setText(String.format("%.2f",custListView.getDistance() + " miles"));
+
 
 
         //sets the picture for the list view layout item

@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Kiley
- * Date: 4/20/17
- * Time: 2:24 PM
+ * Date: 5/1/17
+ * Time: 3:22 PM
  */
 
 include('config.php');
 include('credentials.php');
 
-$headers = getallheaders();
-
-if (ISSET($headers['token'])) {
+if (ISSET($_POST['token']) && ISSET($_POST['business_id'])) {
     date_default_timezone_set("America/New_York");
+    $invalid_token = false;
 
     //**TOKEN VALIDATION**//
 
-    $token_sent = trim($headers['token']);
+    $token_sent = trim($_POST['token']);
     $sql_token = "SELECT date_created, user_id FROM token WHERE token = '$token_sent'";
 
     if (!($token_query = mysqli_query($con, $sql_token))) {
@@ -46,32 +45,35 @@ if (ISSET($headers['token'])) {
 
     //**END TOKEN VALIDATION**//
 
-    //If the token is valid, get category information.
-    if (!$invalid_token) {
-        $user_id_get_credentials = trim($all_headers['user_id']);
+    $business_id = trim($_POST['business_id']);
 
-        $sql = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
+    $sql_delete_business = "DELETE FROM user_reject WHERE (user_id = '$token_user_id' && business_id = '$business_id')";
+    mysqli_query($con, $sql_delete_business);
 
-        if ($mysqli_response = mysqli_query($con, $sql)) {
+    //Once the business is deleted, the list of remaining rejected businesses are returned to android
+    if (ISSET($_POST['android']) && !$invalid_token) {
+
+        $sql_get_categories = "SELECT business_id FROM user_reject WHERE user_id = '$token_user_id'";
+
+        if ($mysqli_response = mysqli_query($con, $sql_get_categories)) {
             $data = array();
 
             //Loops through the response items and adds the item's value to the $data array
             while ($row = mysqli_fetch_array($mysqli_response)) {
                 $data[] = $row[0];
             }
+
             $response["success"] = 1;
-            $response["message"] = "Categories retrieved.";
+            $response["message"] = "Business Deleted.";
             $response["category"] = $data;
-            $invalid_token = false;
+
         } else {
             $response["success"] = 1;
-            $response["message"] = "Unable to find any categories.";
+            $response["message"] = "Business deleted, and unable to find any remaining.";
             $response["category"] = [];
         }
-    }
 
-    if (ISSET($headers['android'])) {
         die(json_encode($response));
+
     }
 }
-

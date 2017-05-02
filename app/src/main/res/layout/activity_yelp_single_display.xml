@@ -155,10 +155,10 @@
         android:id="@+id/google_maps_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/yelp_link_marker"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="18dp"
-        app:srcCompat="@mipmap/google_maps_logo" />
+        app:srcCompat="@mipmap/google_maps_logo"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_toLeftOf="@+id/textView10"
+        android:layout_toStartOf="@+id/textView10" />
 
     <TextView
         android:id="@+id/textView12"
@@ -180,5 +180,47 @@
         android:layout_toRightOf="@+id/google_maps_image"
         android:text="Get Directions to Location."
         android:textSize="16sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/forgetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forget"
+            android:height = "20dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:height = "20dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/animationBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorLoading"
+        android:elevation="2dp"
+        android:alpha="0.7"/>
+
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:elevation="3dp"/>
+
 
 </RelativeLayout>

@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Kiley
- * Date: 4/20/17
- * Time: 2:24 PM
+ * Date: 5/1/17
+ * Time: 3:16 PM
  */
 
 include('config.php');
 include('credentials.php');
 
-$headers = getallheaders();
-
-if (ISSET($headers['token'])) {
+if (ISSET($_POST['token'])) {
     date_default_timezone_set("America/New_York");
+    $invalid_token = false;
 
     //**TOKEN VALIDATION**//
 
-    $token_sent = trim($headers['token']);
+    $token_sent = trim($_POST['token']);
     $sql_token = "SELECT date_created, user_id FROM token WHERE token = '$token_sent'";
 
     if (!($token_query = mysqli_query($con, $sql_token))) {
@@ -46,32 +45,29 @@ if (ISSET($headers['token'])) {
 
     //**END TOKEN VALIDATION**//
 
-    //If the token is valid, get category information.
     if (!$invalid_token) {
-        $user_id_get_credentials = trim($all_headers['user_id']);
-
-        $sql = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
-
-        if ($mysqli_response = mysqli_query($con, $sql)) {
+        $sql_rejected_businesses = "SELECT business_id FROM user_reject WHERE (user_id = '$token_user_id')";
+        if ($mysqli_response = mysqli_query($con, $sql_rejected_businesses)) {
             $data = array();
 
             //Loops through the response items and adds the item's value to the $data array
             while ($row = mysqli_fetch_array($mysqli_response)) {
                 $data[] = $row[0];
             }
+
             $response["success"] = 1;
-            $response["message"] = "Categories retrieved.";
+            $response["message"] = "Rejected businesses acquired.";
             $response["category"] = $data;
-            $invalid_token = false;
+
         } else {
-            $response["success"] = 1;
-            $response["message"] = "Unable to find any categories.";
+            $response["success"] = 0;
+            $response["message"] = "Unable to find any rejected businesses.";
             $response["category"] = [];
         }
     }
 
-    if (ISSET($headers['android'])) {
+    if (ISSET($_POST['android'])) {
         die(json_encode($response));
     }
-}
 
+}

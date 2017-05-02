@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Kiley
- * Date: 4/20/17
- * Time: 2:24 PM
+ * Date: 4/27/17
+ * Time: 2:48 PM
  */
 
 include('config.php');
 include('credentials.php');
 
-$headers = getallheaders();
-
-if (ISSET($headers['token'])) {
+if (ISSET($_POST['token']) && ISSET($_POST['category_name'])) {
     date_default_timezone_set("America/New_York");
+    $invalid_token = false;
 
     //**TOKEN VALIDATION**//
 
-    $token_sent = trim($headers['token']);
+    $token_sent = trim($_POST['token']);
     $sql_token = "SELECT date_created, user_id FROM token WHERE token = '$token_sent'";
 
     if (!($token_query = mysqli_query($con, $sql_token))) {
@@ -46,32 +45,40 @@ if (ISSET($headers['token'])) {
 
     //**END TOKEN VALIDATION**//
 
-    //If the token is valid, get category information.
-    if (!$invalid_token) {
-        $user_id_get_credentials = trim($all_headers['user_id']);
+    //Need to delete the category in the category table AND in the user_accept table
+    $category_name = trim($_POST['category_name']);
 
-        $sql = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
+    $sql_delete_category = "DELETE FROM category WHERE (user_id = '$token_user_id' && category_id = '$category_name')";
+    $sql_delete_user_accept = "DELETE FROM user_accept WHERE (user_id = '$token_user_id' && category_id = '$category_name')";
 
-        if ($mysqli_response = mysqli_query($con, $sql)) {
+    //There is a chance that the category does not have any businesses in it yet, so we do not check the "success" of the queries.
+    mysqli_query($con, $sql_delete_category);
+    mysqli_query($con, $sql_delete_user_accept);
+
+    //Once the category is deleted, the list of remaining categories is returned to android
+    if (ISSET($_POST['android']) && !$invalid_token) {
+
+        $sql_get_categories = "SELECT category_id FROM category WHERE user_id = '$token_user_id'";
+
+        if ($mysqli_response = mysqli_query($con, $sql_get_categories)) {
             $data = array();
 
             //Loops through the response items and adds the item's value to the $data array
             while ($row = mysqli_fetch_array($mysqli_response)) {
                 $data[] = $row[0];
             }
+
             $response["success"] = 1;
-            $response["message"] = "Categories retrieved.";
+            $response["message"] = "Category Deleted.";
             $response["category"] = $data;
-            $invalid_token = false;
+
         } else {
             $response["success"] = 1;
-            $response["message"] = "Unable to find any categories.";
+            $response["message"] = "Category deleted, and unable to find any remaining.";
             $response["category"] = [];
         }
-    }
 
-    if (ISSET($headers['android'])) {
         die(json_encode($response));
+
     }
 }
-

@@ -1,7 +1,6 @@
 package cs460project.explore.Category;
 
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,243 +8,304 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import cs460project.explore.Category.CategoryViewActivity;
+import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
+import cs460project.explore.YelpAPI.SingleYelpBusinessActivity;
 
 /**
- * Created by HARDY_NATH on 3/26/2017.
- * Current idea is to have the description text view change to have the particular
- * bucket list name displayed when viewing that category.
- * IE. click on mexican, text view says mexican while you view locations. Will be implemented in sprint 3.
- * Class handles clicking on various elements, viewing, adding, updating, deleting categories
+ * This is the Bucket List Activity. Here, the user can view a list of their saved categories. They can
+ * add or delete the categories, and view the businesses inside of each category by clicking "View"
  */
 
-public class BucketListActivity extends Activity implements AdapterView.OnItemClickListener {
+public class BucketListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
+    //MARK: - Private Variables
 
     private EditText dataEntry;
     private ListView listView;
-    private ArrayList<String> list;
     private ArrayAdapter<String> adapter;
     private int selectedItem;
-    private String temp;
-    private Button ViewBtn, UpdateBtn, AddBtn;
-    private ImageView mvpView;
-    public String selectedCategory;
+    public String selectedCategory, updateText;
     private BroadcastReceiver receiver;
     private Notification notify;
     private NotificationManager notificationManager;
-    private final String Burger="Burger", Mexican = "Mexican", Italian="Italian", Chinese="Chinese", Entertainment="Entertainment";
+    private ImageView loadingIndicatorImageView;
+    private AnimationDrawable frameAnimation;
+    private View loadingIndicatorBackgroundView;
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
-        setTheme(R.style.BucketTheme);
-        //setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.bucket_list);
+        //setupIntent();
 
+        setupVariables();
+        setupArrayAdapter();
+        setupBroadcastReceiverAndNotifications();
+        setupActionBarIntent();
+        setupLoadingIndicator();
+    }
 
-        dataEntry = (EditText)findViewById(R.id.enterText);
-        listView = (ListView)findViewById(R.id.bucketListView);
+    //MARK: - Setup
 
-        list = new ArrayList<>();
-
+    private void setupVariables() {
+        dataEntry = (EditText) findViewById(R.id.enterText);
+        listView = (ListView) findViewById(R.id.bucketListView);
         listView.setOnItemClickListener(this);
-        //^attaches the listener to the listView
+    }
 
-        //sets up the array adapter
-        adapter = new ArrayAdapter<> (
-                this,
-                android.R.layout.simple_list_item_1,  //android supplid list item
-                list);
+    private void setupArrayAdapter() {
+        //Array adapter created and setup with list view.
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, CategoryClient.sharedInstance.categoriesList);
+        listView.setAdapter(adapter);
+    }
 
-        //connects the array adapter to the list view
-        listView.setAdapter(adapter);  //connect the Array Adapter to the list view
-
-
-        //assigns the buttons to the layout
-        AddBtn = (Button)findViewById(R.id.newBtn);
-        //AddBtn.setOnClickListener(this);
-        ViewBtn = (Button)findViewById(R.id.viewBtn);
-        UpdateBtn = (Button)findViewById(R.id.updateBtn);
-
-
-        //adds a couple hard coded bucket list items to be displayed
-        list.add(Burger);
-        list.add(Mexican);
-        list.add(Italian);
-        list.add(Chinese);
-        list.add(Entertainment);
-
-        //Nathaniel
-        //register and define the filter for the BroadCast Receiver
-        IntentFilter mainIntentFilter = new IntentFilter("CategoryCreated");
+    private void setupBroadcastReceiverAndNotifications() {
+        //Register and define the filter for the BroadCast Receiver
         receiver = new mainReceiver();
+        IntentFilter mainIntentFilter = new IntentFilter("CategoryCreated");
         registerReceiver(receiver, mainIntentFilter);
 
-        //Nathaniel
-        //instanciate the notification manager
+        //Instantiate the notification manager
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    }
 
-        //Nathaniel
-        //create intent for action bar
-        Intent notifyIntent = new Intent(this,BucketListActivity.class);
-        //Create pending intent so that intent will work when notification selected
+    private void setupActionBarIntent() {
+        //Creating intenet for action bar and for when a notification is selected
+        Intent notifyIntent = new Intent(this, BucketListActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 
-    }//on create
 
-    //Nathaniel: creates the options menu
+    /* This function sets up the loading indicator, its animation, and its background. This code is copied
+    throughout all views that have a loading indicator. */
+    private void setupLoadingIndicator() {
+        loadingIndicatorImageView = (ImageView) findViewById(R.id.animation);
+        loadingIndicatorImageView.setBackgroundResource(R.drawable.animation);
+        loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+
+        loadingIndicatorBackgroundView = findViewById(R.id.animationBackground);
+        loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+
+        frameAnimation = (AnimationDrawable) loadingIndicatorImageView.getBackground();
+    }
+
+    //MARK: - Options Menu
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_options, menu);
         return true;
     }
 
+    //MARK: - Adapter View
 
-    //Nathaniel: handles the user clicking on the array list
-    //takes the selected item and displays it in the edit text field for editing
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         dataEntry.setText("");
         String realTemp = (listView.getItemAtPosition(position).toString());
         selectedItem = position;
         selectedCategory = realTemp;
         dataEntry.setText(realTemp);
-    }//On Item Click
+    }
 
-    // set
+    //MARK: - OnClick Functions
 
-    public String getCategory(){
+    public String getCategory() {
         return selectedCategory;
     }
 
-    //Couldnt use OnClickListener since the list view is using an onItemClickListener
-    //handles the user clicking the update button
-    public void updateCategory(View view){
-        String updateText = dataEntry.getText().toString();
-        list.remove(selectedItem);
-        list.add(selectedItem, updateText);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
 
-    }
-
-    //handles creating new category
-    public void newCategory(View view){
-        String updateText = dataEntry.getText().toString();
-        list.add(updateText);
-        adapter.notifyDataSetChanged();
-        dataEntry.setHint("@string/bucket_list_edit_text_hint");
-
-        //instanciates the notification
-        notify = new Notification.Builder(this)
-                .setContentTitle("Category "+updateText+" created")
-                .setSmallIcon(R.drawable.notification_icon)
-                .build();
-
-        //calls the notification
-        notificationManager.notify(1,
-                notify);
-
-        //Nathaniel
-        //creates the intent for the broadcast receiver and sends it
-        Intent senderIntent = new Intent("CategoryCreated");
-        senderIntent.putExtra("categoryName", updateText);
-        sendBroadcast(senderIntent);
-    }
-
-    //handles viewing the category
-    //Category View Activity creates custom list view, populates custom list view, creates adapter, sets adapter,
-
-    public void viewCategory(View view){
+    public void viewCategory(View view) {
         Log.i("Category View", "User Pressed Button to View a Catagory.");
-        Intent viewCat = new Intent(BucketListActivity.this,CategoryViewActivity.class);
+        Intent viewCat = new Intent(BucketListActivity.this, CategoryViewActivity.class);
+        viewCat.putExtra("Category", selectedCategory);
         startActivity(viewCat);
-    }
 
+        }
 
-    // handles the user clicking on the various menu items
-    public boolean onOptionsItemSelected(MenuItem item){
+    //TODO: - Need to discuss this. Doesn't really work with actionBar hidden / buttons on screen
+    public boolean onOptionsItemSelected(MenuItem item) {
+
         System.out.println(item.getItemId());
-        switch (item.getItemId()){
+        updateText = dataEntry.getText().toString();
 
-
+        switch (item.getItemId()) {
             //adds the entry from the Edit Text box into the Array List
             case R.id.addCategory:
-                        String updateText = dataEntry.getText().toString();
-                        list.add(updateText);
-                        adapter.notifyDataSetChanged();
-                        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                addCategory(updateText);
 
-        //instanciates the notification
-        notify = new Notification.Builder(this)
-                .setContentTitle("Category "+updateText+" created")
-                .setSmallIcon(R.drawable.notification_icon)
-                .build();
-
-        //calls the notification
-        notificationManager.notify(1,
-                notify);
-
-        //Nathaniel
-        //creates the intent for the broadcast receiver and sends it
-        Intent senderIntent = new Intent("CategoryCreated");
-        senderIntent.putExtra("categoryName", updateText);
-        sendBroadcast(senderIntent);
                 return true;
+
             //updates the selected array list item from the edit text box
             case R.id.updateCategory:
-                 updateText = dataEntry.getText().toString();
-                list.remove(selectedItem);
-                list.add(selectedItem, updateText);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                String oldName = (listView.getItemAtPosition(selectedItem).toString());
+                String newName = dataEntry.getText().toString();
+                updateCategory(oldName, newName);
                 return true;
 
             //deletes the selected array list item
             case R.id.deleteCategory:
-                list.remove(selectedItem);
-                adapter.notifyDataSetChanged();
-                dataEntry.setHint("@string/bucket_list_edit_text_hint");
+                removeCategory(updateText);
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
+    }
 
+    //MARK: - Notification
 
+    private void createNotification(String categoryName) {
+        //Instantiates notification
+        notify = new Notification.Builder(this)
+                .setContentTitle("Category " + categoryName + " created")
+                .setSmallIcon(R.drawable.notification_icon)
+                .build();
 
-    }//menu options
+        //Calls notification
+        notificationManager.notify(1, notify);
 
-    //Nathaniel
-    //local receiver for Broadcast receiver
-    public class mainReceiver extends BroadcastReceiver{
-        public void onReceive(Context context, Intent intent){
+        //Sends broadcast for notification
+        Intent senderIntent = new Intent("CategoryCreated");
+        senderIntent.putExtra("categoryName", categoryName);
+        sendBroadcast(senderIntent);
+    }
 
+    //MARK: - Broadcast Receiver Extension
+
+    public class mainReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
             String name = intent.getStringExtra("categoryName");
             Log.i("Category Created", name);
-        }//on receive
+        }
+    }
 
-    }//main receiver
+    //MARK: - Client Calls
 
-}//class
+    private void addCategory(final String categoryName) {
+
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.createNewCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                createNotification(categoryName);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToAddNewCategory();
+            }
+        });
+    }
+
+    private void updateCategory(String oldName, String newName) {
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.updateCategoryName(oldName, newName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToUpdateCategory();
+            }
+        });
+    }
+
+    private void removeCategory(String categoryName) {
+
+        //Starting the animation for the loading indicator and dismissing the keyboard
+        dismissKeyboard();
+        toggleLoadingIndicator(true);
+
+        //Client call
+        CategoryClient.sharedInstance.removeCategory(categoryName, new CategoryClient.CompletionListenerWithArray() {
+            @Override
+            public void onSuccessful(ArrayList<String> arrayList) {
+                toggleLoadingIndicator(false);
+                updateList(arrayList);
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                toggleLoadingIndicator(false);
+                Log.i("Failure", reason);
+                failedToRemoveCategory();
+            }
+        });
+    }
+
+    //MARK: - Toggling Methods
+
+    private void updateList(ArrayList<String> arrayList) {
+        CategoryClient.sharedInstance.categoriesList.removeAll(CategoryClient.sharedInstance.categoriesList);
+        CategoryClient.sharedInstance.categoriesList.addAll(arrayList);
+        adapter.notifyDataSetChanged();
+        dataEntry.setHint("@string/bucket_list_edit_text_hint");
+    }
+
+    private void toggleLoadingIndicator(Boolean makeVisible) {
+        if (makeVisible) {
+            loadingIndicatorImageView.setVisibility(View.VISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.VISIBLE);
+            frameAnimation.start();
+        } else {
+            loadingIndicatorImageView.setVisibility(View.INVISIBLE);
+            loadingIndicatorBackgroundView.setVisibility(View.INVISIBLE);
+            frameAnimation.stop();
+        }
+    }
+
+    private void dismissKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(dataEntry.getWindowToken(), 0);
+    }
+
+    //MARK: - Toasts
+
+    private void failedToAddNewCategory() {
+        Toast.makeText(this, "Error Adding Category", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToUpdateCategory() {
+        Toast.makeText(this, "Error Updating Category", Toast.LENGTH_LONG).show();
+    }
+
+    private void failedToRemoveCategory() {
+        Toast.makeText(this, "Error Removing Category", Toast.LENGTH_LONG).show();
+    }
+}

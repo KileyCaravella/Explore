@@ -1,10 +1,10 @@
 package cs460project.explore.YelpAPI;
 
 /**
- * Created by Kiley on 2/20/17.
- *
  * This is the Yelp API Client. It is in charge of all calls to the yelp api including searching and returning
- * specific businesses baSed on their ID.
+ * specific businesses based on their ID, the user's latitude and longitude, and the user's entered location.
+ * Once a list of businesses have been retrieved from the server, they are cached in the local variable
+ * "yelpBusinesses" to use any other time the application calls getYelpBusiness.
  */
 
 import android.util.Log;
@@ -17,6 +17,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cs460project.explore.Category.CategoryClient;
 import cz.msebera.android.httpclient.Header;
 
 public class YelpAPIClient {
@@ -49,6 +50,7 @@ public class YelpAPIClient {
     private String token;
     private AsyncHttpClient client = new AsyncHttpClient();
     private RequestParams requestParams;
+    private YelpBusiness[] yelpBusinesses = new YelpBusiness[BUSINESSES_RETRIEVED_LIMIT];
 
     private OnYelpTokenCompletionListener yelpTokenCompletionListener;
     private OnYelpBusinessCompletionListener yelpBusinessCompletionListener;
@@ -103,21 +105,16 @@ public class YelpAPIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] response) {
                 try {
-                    YelpBusiness yelpBusiness;
                     JSONObject jsonObject = new JSONObject(new String(response));
 
+                    //Caches businesses to local variable
                     if(jsonObject.has("businesses")) {
-                        YelpBusiness[] yelpBusinesses = new Gson().fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
-
-                        //Choosing a random business from the array
-                        int businessToTake = (int) Math.floor(Math.random() * BUSINESSES_RETRIEVED_LIMIT);
-                        yelpBusiness = yelpBusinesses[businessToTake];
-
+                        yelpBusinesses = new Gson().fromJson(jsonObject.getString("businesses"), YelpBusiness[].class);
                     } else {
-                        yelpBusiness = new Gson().fromJson(jsonObject.toString(), YelpBusiness.class);
+                        yelpBusinesses[0] = new Gson().fromJson(jsonObject.toString(), YelpBusiness.class);
                     }
 
-                    yelpBusinessCompletionListener.onBusinessRetrievalSuccessful(yelpBusiness);
+                    chooseRandomBusinessFromArray();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -130,6 +127,32 @@ public class YelpAPIClient {
                 yelpBusinessCompletionListener.onBusinessRetrievalFailed(errorResponse.toString());
             }
         };
+    }
+
+    //MARK: - Returning single business in completion
+
+    //Choosing a random business from array, but also making sure the business was not requested to be forgotten.
+    private void chooseRandomBusinessFromArray() {
+        int loopCounter = 0;
+        YelpBusiness yelpBusiness = new YelpBusiness();
+
+        //Until a business is set, it picks one at random and checks if the user requested for it to be forgotten.
+        while (yelpBusiness.id == null) {
+            if (loopCounter == BUSINESSES_RETRIEVED_LIMIT) {
+                yelpBusinessCompletionListener.onBusinessRetrievalFailed("No new businesses in the area.");
+                return;
+            }
+
+            //Randomizing business
+            int businessToTake = (int) Math.floor(Math.random() * count(yelpBusinesses));
+            if (!CategoryClient.sharedInstance.rejectedList.contains(yelpBusinesses[businessToTake].id)) {
+                yelpBusiness = yelpBusinesses[businessToTake];
+            }
+
+            loopCounter++;
+        }
+
+        yelpBusinessCompletionListener.onBusinessRetrievalSuccessful(yelpBusiness);
     }
 
     //MARK: - Get Yelp Token
@@ -163,7 +186,8 @@ public class YelpAPIClient {
      * These three functions take different inputs to set up the URL in a unique way to retrieve a business.
      * The URL is then passed to "checkTokenAndGetBusinessWithURL(String url)" which checks if the token has
      * been retrieved from yelp, and retrieves it if it has not yet. Finally, that function calls
-     * "getYelpBusinessWithURL(String url)" which actually makes the client call.
+     * "getYelpBusinessWithURL(String url)" which actually makes the client call. If the yelpBusinesses array
+     * is already populated, then it runs "chooseRandomBusinessFromArray"
      */
 
     public void getYelpBusinessWithLatAndLong(Double latitude, Double longitude, OnYelpBusinessCompletionListener listener) {
@@ -206,14 +230,27 @@ public class YelpAPIClient {
         }
     }
 
-    //Once the token has been retrieved, return the yelp business
+    //If businesses have been received once, uses cached list of businesses.
     private void getYelpBusinessWithURL(String url) {
-        setupSearchHeaders();
-        client.get(url, businessResponseHandler());
+        if (yelpBusinesses[0] == null) {
+            setupSearchHeaders();
+            client.get(url, businessResponseHandler());
+        } else {
+            chooseRandomBusinessFromArray();
+        }
     }
 
     private void setupSearchHeaders() {
         client.removeAllHeaders();
         client.addHeader("Authorization",token);
+    }
+
+    //MARK: - Helper
+    private int count(YelpBusiness[] ybs) {
+        int i = 0;
+        for (YelpBusiness _ : ybs) {
+            i++;
+        }
+        return i;
     }
 }
