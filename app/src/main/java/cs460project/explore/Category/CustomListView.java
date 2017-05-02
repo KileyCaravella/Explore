@@ -14,52 +14,22 @@ import cs460project.explore.YelpAPI.YelpBusinessLocation;
  */
 
 public class CustomListView {
-    private String locationName;
-    private YelpBusinessLocation address;
-    private String imageURL;
-    private Double locationDistance;
     private YelpBusiness yelpBusiness;
-
-
-     /*
-    private void getYelpBusinessFromBundle() {
-        String jsonYelpBusiness;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            jsonYelpBusiness = extras.getString("YelpBusiness");
-            yelpBusiness = new Gson().fromJson(jsonYelpBusiness, YelpBusiness.class);
-        } else {
-            Log.e("Error Yelp Business", "Did not receive yelpBusiness");
-            yelpBusiness = new YelpBusiness();
-        }
-    }//bundle
-*/
-
 
      public CustomListView(YelpBusiness yelpBusiness){
          this.yelpBusiness = yelpBusiness;
-         this.locationName = yelpBusiness.name;
-         this.address = yelpBusiness.location;
-         this.imageURL = yelpBusiness.imageURL;
-         //Distance is given in Meters, so here it is converted to miles.
-         this.locationDistance = yelpBusiness.distance *= 0.000621371;
      }
 
-
-    public CustomListView(){
-
-    }
-
     public String getLocationName() {
-        return locationName;
+        return yelpBusiness.name;
     }
 
-    public Double getDistance(){return locationDistance;}
+    public Double getDistance() {
+        return yelpBusiness.distance;
+    }
 
     public String getImageURL() {
-        return imageURL;
+        return yelpBusiness.imageURL;
     }
 
-
-
-}//main
+}

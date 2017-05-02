@@ -43,7 +43,7 @@ public class YelpAPIClient {
     private static final String BUSINESS_ID_URL = "v3/businesses/";
 
     private static final String Grant_Type = "client_credentials";
-    private static final int BUSINESSES_RETRIEVED_LIMIT = 10;
+    private static final int BUSINESSES_RETRIEVED_LIMIT = 30;
 
     //MARK: - Private Variables
 
@@ -54,6 +54,18 @@ public class YelpAPIClient {
 
     private OnYelpTokenCompletionListener yelpTokenCompletionListener;
     private OnYelpBusinessCompletionListener yelpBusinessCompletionListener;
+
+    //MARK: - Getters
+
+    public YelpBusiness[] getYelpBusinesses() {
+        return yelpBusinesses;
+    }
+
+    //MARK: - Setters
+
+    public void clearBusinessArray() {
+        yelpBusinesses = new YelpBusiness[BUSINESSES_RETRIEVED_LIMIT];
+    }
 
     //MARK: - Completion Listeners
 
@@ -248,7 +260,7 @@ public class YelpAPIClient {
     //MARK: - Helper
     private int count(YelpBusiness[] ybs) {
         int i = 0;
-        for (YelpBusiness _ : ybs) {
+        for (YelpBusiness y : ybs) {
             i++;
         }
         return i;

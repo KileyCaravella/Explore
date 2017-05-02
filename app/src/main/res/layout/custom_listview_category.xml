@@ -36,10 +36,6 @@
             android:textColor="@color/colorText"
             tools:text="175 Forest St" />
 
-
-
-
-
     </LinearLayout>
 
 </LinearLayout>

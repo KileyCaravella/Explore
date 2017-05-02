@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Kiley on 2/23/17.
+ * This class that holds the yelp business's information.
  */
 
 public class YelpBusiness {
