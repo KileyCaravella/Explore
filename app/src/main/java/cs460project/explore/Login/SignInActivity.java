@@ -105,23 +105,40 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         //starting the animation for the loading indicator
         toggleLoadingIndicator(true);
 
-        //Client call
+        //Client call - when the user logs in, we get their categories and rejected businesses to save time later.
         UserClient.sharedInstance.login(username, password, new UserClient.GeneralCompletionListener() {
             @Override
             public void onSuccessful() {
+
+                //Client Call
                 CategoryClient.sharedInstance.getUsersCategories(new CategoryClient.CompletionListenerWithArray() {
                     @Override
-                    public void onSuccessful(ArrayList<String> arrayList) {
-                        toggleLoadingIndicator(false);
-                        speak(username);
-
+                    public void onSuccessful(ArrayList<String> categoryArrayList) {
                         //Setting the categoriesList to the returned array for future use
-                        CategoryClient.sharedInstance.categoriesList = arrayList;
+                        CategoryClient.sharedInstance.categoriesList = categoryArrayList;
 
-                        //Once successfully logged in, the user is brought to the Navigation Activity
-                        Log.i("Yelp Business Progress", "Successfully retrieved businesses");
-                        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
-                        startActivity(intent);
+                        //Client Call
+                        CategoryClient.sharedInstance.getBusinessesFromRejected(new CategoryClient.CompletionListenerWithArray() {
+                            @Override
+                            public void onSuccessful(ArrayList<String> rejectedArrayList) {
+
+                                toggleLoadingIndicator(false);
+                                speak(username);
+
+                                CategoryClient.sharedInstance.rejectedList = rejectedArrayList;
+
+                                //Once successfully logged in, the user is brought to the Navigation Activity
+                                Log.i("Yelp Business Progress", "Successfully retrieved businesses");
+                                Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailed(String reason) {
+                                toggleLoadingIndicator(false);
+                                loginFailedToast();
+                            }
+                        });
                     }
 
                     @Override

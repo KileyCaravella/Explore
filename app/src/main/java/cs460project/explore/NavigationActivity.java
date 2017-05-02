@@ -166,10 +166,10 @@ public class NavigationActivity extends Activity {
     }
 
     private void failedToGetBusinessesToast() {
-        Toast.makeText(this, "Error Retrieving Business", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "No businesses available in your area.", Toast.LENGTH_LONG).show();
     }
 
     private void failedToGetCategoriesToast() {
-        Toast.makeText(this, "Error Retrieving Your Categories", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Error Retrieving Your Categories.", Toast.LENGTH_LONG).show();
     }
 }
