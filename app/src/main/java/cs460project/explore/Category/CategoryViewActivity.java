@@ -1,4 +1,4 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,9 +8,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs460project.explore.R;
+
 /**
  * Created by HARDY_NATH on 3/29/2017.
- * handles filling the category view with the custom list view
+ * handles filling the category view with the custom list view.
+ * Code works by using the custom adapter to fill the list view on the layout with the custom list view
  */
 
 public class CategoryViewActivity extends Activity {
@@ -24,7 +27,6 @@ public class CategoryViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_category);
         cat = (TextView)findViewById(R.id.viewDescriptionViewCat);
-
 
 
 

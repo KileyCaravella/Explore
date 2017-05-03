@@ -2,16 +2,19 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@drawable/bucket"
+    android:theme="@+id/BucketTheme2"
+   >
+
 
     <TableRow>
+
         <TextView
-            android:text="Find a random place around you!"
+            android:text="Find a place to go around you!"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
-            android:textSize="15dp"
-            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:paddingTop="100dp"
             android:paddingBottom="5dp"
             android:textColor="#ff000000"
@@ -28,8 +31,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/button"
-            android:textSize="20dp"
             android:layout_weight="1"
+            android:textSize="20dp"
             android:onClick="randomButtonPressed"/>
     </TableRow>
 

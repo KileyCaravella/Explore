@@ -2,29 +2,42 @@ package cs460project.explore.Login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Locale;
 
 import cs460project.explore.NavigationActivity;
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 
 public class SignInActivity extends Activity implements TextToSpeech.OnInitListener {
 
     EditText usernameEditText, passwordEditText;
     private TextToSpeech speaker;
+    private ImageView img;
+    private AnimationDrawable frameAnimation;
+    private View view;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        view = findViewById(R.id.animationBackground);
+        view.setVisibility(View.INVISIBLE);
+        img = (ImageView) findViewById(R.id.animation);
+        img.setBackgroundResource(R.drawable.animation);
+        img.setVisibility(View.INVISIBLE);
+        frameAnimation = (AnimationDrawable) img.getBackground();
 
         setupVariables();
 
@@ -70,10 +83,16 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
         }
 
         //login client call goes here...
-        MySQLClient mySQLClient = new MySQLClient();
-        mySQLClient.login(username, password, new MySQLClient.OnLoginCompletionListener() {
+        view.setVisibility(View.VISIBLE);
+        img.setVisibility(View.VISIBLE);
+        frameAnimation.start();
+
+        LoginClient.sharedInstance.login(username, password, new LoginClient.GeneralCompletionListener() {
                     @Override
-                    public void onLoginSuccessful() {
+                    public void onSuccessful() {
+                        view.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.INVISIBLE);
+                        frameAnimation.stop();
                         Log.i("Yelp Business Progress", "Successfully retrieved businesses");
                         speak(username);
                         Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
@@ -81,8 +100,11 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
                     }
 
                     @Override
-                    public void onLoginFailed(String reason) {
+                    public void onFailed(String reason) {
                         loginFailedToast();
+                        view.setVisibility(View.INVISIBLE);
+                        img.setVisibility(View.INVISIBLE);
+                        frameAnimation.stop();
                     }
                 });
     }
@@ -111,17 +133,16 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
             return;
         }
 
-        MySQLClient mySQLClient = new MySQLClient();
-        mySQLClient.forgotPassword(username, new MySQLClient.OnForgotPasswordCompletionListener() {
+        LoginClient.sharedInstance.forgotPassword(username, new LoginClient.GeneralCompletionListener() {
             @Override
-            public void onForgotSuccessful() {
+            public void onSuccessful() {
                 Log.i("Forgot Pass Progress", "Successfully sent email.");
                 Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
                 startActivity(intent);
             }
 
             @Override
-            public void onForgotFailed(String reason) {
+            public void onFailed(String reason) {
                 passForgotToast();
             }
         });

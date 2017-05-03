@@ -1,7 +1,8 @@
-package cs460project.explore;
+package cs460project.explore.Category;
 
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import cs460project.explore.R;
 
 /**
  * Created by HARDY_NATH on 3/29/2017.
@@ -24,7 +27,7 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
     int resource;
     String response;
     Context context;
-
+    private Typeface customTypeFace;
 
 
 
@@ -33,6 +36,11 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         super(context, resource, items);
         this.resource=resource;
         this.context = context;
+        //initialize the typeface
+        this.customTypeFace = Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidSans.ttf");
+
+
     }
 
     @Override
@@ -50,9 +58,14 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         } else {
             locationView = (LinearLayout) convertView;
         }
+
         //binds the various local variables to their respective layout elements
         TextView locationName =(TextView)locationView.findViewById(R.id.locationNameView);
+        locationName.setTypeface(customTypeFace);//set the custom font/typeface
+
         TextView locationAddress = (TextView) locationView.findViewById(R.id.locationAddressView);
+        locationAddress.setTypeface(customTypeFace);//set the custom font/typeface
+
         ImageView locationPic = (ImageView) locationView.findViewById(R.id.locationPicView);
 
 

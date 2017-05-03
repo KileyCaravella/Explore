@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -23,9 +23,9 @@
         </activity>
 
         <activity android:name=".NavigationActivity"></activity>
-        <activity android:name=".BucketListActivity"></activity>
+        <activity android:name=".Category.BucketListActivity"></activity>
         <activity android:name=".YelpAPI.SingleYelpBusinessActivity"></activity>
-        <activity android:name=".CategoryViewActivity"></activity>
+        <activity android:name=".Category.CategoryViewActivity"></activity>
         <activity android:name=".SearchActivity"></activity>
         <activity android:name=".Login.ForgotPasswordActivity"></activity>
         <activity android:name=".Login.SignUpActivity"></activity>

@@ -238,6 +238,7 @@ div.tab button:hover {
 <!-- Random or Category Button -->
 <div class="tab w3-pale-red w3-center w3-padding-32">
     <div class="w3-section">
+        <h3>Get Started!</h3>
         <button onclick="openCity(event, 'random'); document.getElementById('find_random').style.display='block'" class="tablinks; w3-button w3-round" style="padding:12px 30px">Find Random</button>
         <button onclick="openCity(event, 'browsecategory'); document.getElementById('browse_category').style.display='block'" class="tablinks; w3-button w3-round" style="padding:12px 30px">Browse Your Categories</button>
     </div>

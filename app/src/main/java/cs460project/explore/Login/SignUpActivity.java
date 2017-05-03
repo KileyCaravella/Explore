@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 import cs460project.explore.User.User;
 
 /**
@@ -28,7 +28,7 @@ public class SignUpActivity extends Activity implements TextWatcher {
     private EditText password2;
     private EditText name;
     private EditText email;
-    private EditText phone;
+    private EditText lastname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class SignUpActivity extends Activity implements TextWatcher {
         password2.addTextChangedListener(this);
         name = (EditText) findViewById(R.id.name_edittext);
         email = (EditText) findViewById(R.id.email_edittext);
-        phone = (EditText) findViewById(R.id.phone_edittext);
+        lastname = (EditText) findViewById(R.id.lastname_edittext);
 
         image.setVisibility(View.INVISIBLE);
 
@@ -84,26 +84,22 @@ public class SignUpActivity extends Activity implements TextWatcher {
     public void signUpPressed(View v) {
         Log.i("Sign Up Confirm", "Sign Up Button Pressed.");
 
-        //client call goes here
-        MySQLClient mySQLClient = new MySQLClient();
-
         User user = new User();
-
         user.userID = username.getText().toString();
         user.password = password1.getText().toString();
         user.firstName = name.getText().toString();
-        user.lastName = name.getText().toString();
+        user.lastName = lastname.getText().toString();
         user.email = email.getText().toString();
 
-        mySQLClient.createNewUser(user, new MySQLClient.OnCreateUserCompletionListener() {
+        LoginClient.sharedInstance.createNewUser(user, new LoginClient.GeneralCompletionListener() {
             @Override
-            public void onUserSubmissionSuccessful() {
+            public void onSuccessful() {
                 Intent intent = new Intent(SignUpActivity.this, SignUpConfirmActivity.class);
                 startActivity(intent);
             }
 
             @Override
-            public void onUserSubmissionFailed(String reason) {
+            public void onFailed(String reason) {
                 Log.i("Fail", reason);
             }
         });

@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import cs460project.explore.R;
-import cs460project.explore.User.MySQLClient;
+import cs460project.explore.User.LoginClient;
 
 /**
  * Created by Kiley on 2/23/17.
@@ -43,17 +43,16 @@ public class SignUpConfirmActivity extends Activity {
             return;
         }
         else {
-            MySQLClient mySQLClient = new MySQLClient();
-            mySQLClient.confirmUser(username.getText().toString(), authCode.getText().toString(), new MySQLClient.OnConfirmUserCompletionListener() {
+            LoginClient.sharedInstance.confirmUser(username.getText().toString(), authCode.getText().toString(), new LoginClient.GeneralCompletionListener() {
                 @Override
-                public void onConfirmSuccessful() {
+                public void onSuccessful() {
                     Log.i("Confirm Button Pressed", "Successfully created new user.");
                     Intent intent = new Intent(SignUpConfirmActivity.this, SignInActivity.class);
                     startActivity(intent);
                 }
 
                 @Override
-                public void onConfirmFailed(String reason) {
+                public void onFailed(String reason) {
                     confirmAccountToast();
                 }
             });
