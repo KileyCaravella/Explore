@@ -210,7 +210,6 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
         counter = 0;
         yelpBusinesses = new YelpBusiness[businesses.size()];
 
-
         for (String business : businesses) {
             Log.i("business", business);
             YelpAPIClient.sharedInstance.getYelpBusinessWithBusinessID(business, new YelpAPIClient.OnYelpBusinessCompletionListener() {
@@ -235,15 +234,17 @@ public class BucketListActivity extends AppCompatActivity implements AdapterView
     }
 
     private void viewBusinessesInCategory() {
+        toggleLoadingIndicator(false);
+
         Intent intent = new Intent(BucketListActivity.this, BusinessesInCategoryActivity.class);
         for (YelpBusiness b : yelpBusinesses) {
             Log.i("business", b.name);
         }
 
+        intent.putExtra("CategoryName", selectedCategory);
         intent.putExtra("YelpBusinesses", new Gson().toJson(yelpBusinesses));
         startActivity(intent);
     }
-
 
     //MARK: - Notification
 

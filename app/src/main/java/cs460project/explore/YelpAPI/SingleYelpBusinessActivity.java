@@ -80,8 +80,6 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
     private void setupActivityVariables() {
         yelpImageView = (ImageView) findViewById(R.id.yelpImageView);
         yelpBusinessRatingImageView = (ImageView) findViewById(R.id.yelpBusinessRatingImageView);
-        yelpBurstImageView = (ImageView) findViewById(R.id.yelp_burst);
-        googleMapsImageView = (ImageView) findViewById(R.id.google_maps_image);
         yelpBusinessNameTextView = (TextView) findViewById(R.id.yelpBusinessNameTextView);
         openClosedTextView = (TextView) findViewById(R.id.openClosedTextView);
         yelpPhoneButton = (Button) findViewById(R.id.yelpPhoneButton);
@@ -89,6 +87,11 @@ public class SingleYelpBusinessActivity extends Activity implements View.OnClick
         yelpDistanceTextView = (TextView) findViewById(R.id.yelpDistanceTextView);
         addBusinessButton = (Button) findViewById(R.id.addButton);
         forgetBusinessButton = (Button) findViewById(R.id.forgetButton);
+
+        yelpBurstImageView = (ImageView) findViewById(R.id.yelp_burst);
+        yelpBurstImageView.setImageResource(R.drawable.yelp_burst);
+        googleMapsImageView = (ImageView) findViewById(R.id.google_maps_image);
+        googleMapsImageView.setImageResource(R.drawable.google_maps);
     }
 
     private void setBusinessInformation() {

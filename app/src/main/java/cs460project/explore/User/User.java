@@ -3,7 +3,7 @@ package cs460project.explore.User;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Kiley on 3/23/17.
+ * This is the user object created to make logging in methods easier.
  */
 
 public class User {

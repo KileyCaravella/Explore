@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by Kiley on 2/23/17.
+ * This is the yelp location object. When the yelp business is returned, this information is saved
+ * inside of a Hashmap within the Hashmap of the object, so this was created to help with organization
+ * and make it easier to call the information.
  */
 
 public class YelpBusinessLocation {

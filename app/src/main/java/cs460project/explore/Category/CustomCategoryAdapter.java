@@ -18,12 +18,13 @@ import java.util.Locale;
 import cs460project.explore.R;
 
 /**
- * Created by HARDY_NATH on 3/29/2017.
- * Class is here simply to be used to fill the array list items to display what is stored
+ * This is the custom adapter created to fill the custom array list items and display what is stored
  * in the bucket list categories
  */
 
 public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
+
+    //MARK: - Private Variables
 
     private int resource;
     private Context context;
@@ -31,6 +32,7 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
     private TextView locationName, locationDistance;
     private ImageView locationPic;
 
+    //MARK: - Constructor
 
     public CustomCategoryAdapter(Context context, int resource, List<CustomListView> items){
         super(context, resource, items);
@@ -38,6 +40,8 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         this.context = context;
         this.customTypeFace = Typeface.createFromAsset(context.getAssets(), "fonts/DroidSans.ttf");
     }
+
+    //MARK: - Overridden getView method
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -80,6 +84,8 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
         setTypefaceForTextView(locationName);
         setTypefaceForTextView(locationDistance);
     }
+
+    //MARK: - Helper methods
 
     private void setTypefaceForTextView(TextView textView) {
         textView.setTypeface(customTypeFace);

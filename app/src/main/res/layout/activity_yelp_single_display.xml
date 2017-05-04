@@ -153,33 +153,33 @@
 
     <ImageView
         android:id="@+id/google_maps_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/google_maps_logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/google_maps"
         android:layout_alignTop="@+id/textView12"
-        android:layout_toLeftOf="@+id/textView10"
-        android:layout_toStartOf="@+id/textView10" />
+        android:layout_alignLeft="@+id/yelp_burst"/>
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/yelp_link_marker"
         android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/google_maps_image"
         android:text="Google Maps"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_below="@+id/yelp_link_marker"
+        android:layout_toRightOf="@+id/yelp_burst"
+        android:layout_toEndOf="@+id/yelp_burst" />
 
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView12"
-        android:layout_marginBottom="60dp"
-        android:layout_toRightOf="@+id/google_maps_image"
         android:text="Get Directions to Location."
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_below="@+id/textView12"
+        android:layout_alignLeft="@+id/textView12"
+        android:layout_alignStart="@+id/textView12" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -206,14 +206,6 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/animationBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorLoading"
-        android:elevation="2dp"
-        android:alpha="0.7"/>
-
     <ImageView
         android:id="@+id/animation"
         android:layout_width="100dp"
@@ -221,6 +213,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:elevation="3dp"/>
+
+    <View
+        android:id="@+id/animationBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.7"
+        android:background="@color/colorLoading"
+        android:elevation="2dp" />
 
 
 </RelativeLayout>

@@ -7,12 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,37 +20,44 @@ import cs460project.explore.YelpAPI.YelpAPIClient;
 import cs460project.explore.YelpAPI.YelpBusiness;
 
 /**
- * Created by HARDY_NATH on 3/29/2017.
- * handles filling the category view with the custom list view.
- * Code works by using the custom adapter to fill the list view on the layout with the custom list view
- * 1) get category
- * 2)get list of business id's
- * 3)query yelp for YelpBusiness using business id's
- * 4)add to list of yelpBusinesses called locationList. The other classes should be all set to use a yelp Business
+ * This lists the businesses that are in the current category. If there are no businesses, this view does
+ * not appear. If you click on a business, it brings you to the full information view of the business.
+ * Because they are pulled from Yelp using the business's id and not a location, all of their locations are
+ * set to 0.0 miles.
  */
 
 public class BusinessesInCategoryActivity extends Activity {
 
+    //MARK: - Private Variables
+
+    private TextView categoryNameTextView;
     private ListView locationListView;
     private List<CustomListView> locationList;
     private YelpBusiness[] yelpBusinesses;
+
+    //MARK: - Initialization
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_businesses_in_category);
 
-        getYelpBusinessFromBundle();
         setVariables();
+        getYelpBusinessFromBundle();
         setupListView();
     }
+
+    //Mark: - Setup
 
     private void getYelpBusinessFromBundle() {
         //Clearing away any businesses that might have been set in the main array
         YelpAPIClient.sharedInstance.clearBusinessArray();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String jsonString = extras.getString("YelpBusinesses");
-            yelpBusinesses = new Gson().fromJson(jsonString, YelpBusiness[].class);
+            String jsonCategoryNameString = extras.getString("CategoryName");
+            String jsonBusinessString = extras.getString("YelpBusinesses");
+
+            categoryNameTextView.setText(jsonCategoryNameString);
+            yelpBusinesses = new Gson().fromJson(jsonBusinessString, YelpBusiness[].class);
 
         } else {
             Log.e("Error Yelp Business", "Did not receive yelpBusiness");
@@ -61,6 +65,7 @@ public class BusinessesInCategoryActivity extends Activity {
     }
 
     private void setVariables() {
+        categoryNameTextView = (TextView) findViewById(R.id.categoryNameTextView);
         locationListView = (ListView) findViewById(R.id.businessListView);
     }
 
@@ -83,6 +88,8 @@ public class BusinessesInCategoryActivity extends Activity {
             }
         });
     }
+
+    //MARK: - Cell selected
 
     private void businessSelectedAtPosition(int position) {
         Intent intent = new Intent(BusinessesInCategoryActivity.this, SingleYelpBusinessActivity.class);

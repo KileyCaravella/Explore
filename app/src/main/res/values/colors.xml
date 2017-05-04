@@ -7,5 +7,5 @@
     <color name="colorText">#004f13</color>
     <color name="colorLoading">#cccccc</color>
     <color name="colorBackground">#eeeeee</color>
-
+    <color name="colorTitle">#48b9f1</color>
 </resources>
