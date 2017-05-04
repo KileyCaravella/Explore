@@ -26,13 +26,13 @@
             tools:text="Test Diner Waltham" />
 
         <TextView
-            android:id="@+id/locationDistanceView"
+            android:id="@+id/locationAddressView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:textColor="@color/colorText"
-            tools:text="175 Forest St" />
+            tools:text="175 Forest st, Waltham MA" />
 
     </LinearLayout>
 
