@@ -136,7 +136,6 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
                             @Override
                             public void onFailed(String reason) {
                                 toggleLoadingIndicator(false);
-                                loginFailedToast();
                             }
                         });
                     }
@@ -144,7 +143,6 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
                     @Override
                     public void onFailed(String reason) {
                         toggleLoadingIndicator(false);
-                        loginFailedToast();
                     }
                 });
             }
@@ -152,6 +150,7 @@ public class SignInActivity extends Activity implements TextToSpeech.OnInitListe
             @Override
             public void onFailed(String reason) {
                 toggleLoadingIndicator(false);
+                Log.i("Failed 3", "Its this statement");
                 loginFailedToast();
             }
         });

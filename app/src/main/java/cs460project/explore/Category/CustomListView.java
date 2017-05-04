@@ -21,6 +21,11 @@ public class CustomListView {
         return yelpBusiness.distance * 0.000621371;
     }
 
+    public String getLocationAddress(){
+        String displayAddress = (yelpBusiness.location.address1+", "+yelpBusiness.location.city+" "+yelpBusiness.location.state);
+        return displayAddress;
+    }
+
     public String getImageURL() {
         return yelpBusiness.imageURL;
     }

@@ -3,6 +3,7 @@ package cs460project.explore.Category;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
     private int resource;
     private Context context;
     private Typeface customTypeFace;
-    private TextView locationName, locationDistance;
+    private TextView locationName, locationAddress;
     private ImageView locationPic;
 
     //MARK: - Constructor
@@ -64,9 +65,8 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
         if (customListView.getYelpBusiness() != null) {
             setTextForTextView(locationName, customListView.getLocationName());
-
-            String distance = String.format(Locale.US, "%.2f", customListView.getDistance()) + " miles";
-            setTextForTextView(locationDistance, distance);
+            String address = (customListView.getLocationAddress());
+            setTextForTextView(locationAddress, address);
 
             setImageForImageView(locationPic, customListView.getImageURL());
         }
@@ -78,11 +78,11 @@ public class CustomCategoryAdapter extends ArrayAdapter<CustomListView> {
 
     private void setupVariablesForView(View locationView) {
         locationName = (TextView) locationView.findViewById(R.id.locationNameView);
-        locationDistance = (TextView) locationView.findViewById(R.id.locationDistanceView);
+        locationAddress = (TextView) locationView.findViewById(R.id.locationAddressView);
         locationPic = (ImageView) locationView.findViewById(R.id.locationPicView);
 
         setTypefaceForTextView(locationName);
-        setTypefaceForTextView(locationDistance);
+        setTypefaceForTextView(locationAddress);
     }
 
     //MARK: - Helper methods
