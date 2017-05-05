@@ -41,6 +41,9 @@ public class BusinessesInCategoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_businesses_in_category);
 
+        //Clearing away any businesses that might have been set in the main array
+        YelpAPIClient.sharedInstance.clearBusinessArray();
+
         setVariables();
         getYelpBusinessFromBundle();
         setupListView();
@@ -49,8 +52,6 @@ public class BusinessesInCategoryActivity extends Activity {
     //Mark: - Setup
 
     private void getYelpBusinessFromBundle() {
-        //Clearing away any businesses that might have been set in the main array
-        YelpAPIClient.sharedInstance.clearBusinessArray();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String jsonCategoryNameString = extras.getString("CategoryName");
