@@ -59,6 +59,11 @@ if (ISSET($headers['token'])) {
             while ($row = mysqli_fetch_array($mysqli_response)) {
                 $data[] = $row[0];
             }
+
+            foreach($data as $categories){
+                echo '<option value="<?php echo strtolower($categories); ?>"><?php echo $categories; ?></option>';
+            }
+
             $response["success"] = 1;
             $response["message"] = "Categories retrieved.";
             $response["category"] = $data;
@@ -75,3 +80,31 @@ if (ISSET($headers['token'])) {
     }
 }
 
+?>
+
+<!-- Category Modal -->
+<div id="category" class="w3-modal">
+    <div class="w3-modal-content w3-card-8 w3-animate-zoom w3-padding-jumbo" style="max-width:600px">
+        <div class="w3-container w3-white w3-center">
+            <span onclick="document.getElementById('category').style.display='none'" class="w3-closebtn w3-hover-text-grey w3-margin">x</span>
+            <h4 class="w3-wide">Browse Your Saved Categories!</h4>
+            <p>Select your category type:</p>
+            <form class="category">
+                <select name="category">
+                    <option value = "selected">Choose one:</option>
+                    <?php
+                    //$data = array("Mobile", "Laptop", "Tablet", "Camera");
+                    // Iterating through the product array
+                    foreach($data as $categories){
+                        ?>
+                        <option value="<?php echo strtolower($categories); ?>"><?php echo $categories; ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+                <br><br>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+</div>
