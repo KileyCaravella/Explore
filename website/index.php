@@ -369,23 +369,29 @@ include('get_yelp_business.php');
         </div>
     </div>
 
-    <!-- Find/bucketlist information -->
-    <div class="w3-container w3-padding-32 w3-pale-red w3-center" id="random">
+    <!-- Browse Category -->
+    <div id = "browsecategory" class = "tabcontent">
         <div class="w3-content">
-            <div class="w3-container">
-                <div class="w3-card-4 w3-dark-grey">
+            <div class="w3-container w3-center">
+                <div class="w3-card-4 w3-dark-grey" style="width:89%;">
                     <div class="w3-container w3-center">
                         <h3>Explore Now!</h3>
+                        <a href="http://www.google.com/" target="myFrame"></a>
+                        <p style=display:inline-block></p>
+                        <div style=display:inline-block></div>
+                        <br/>
+                        <div class="w3-section" style=display:inline-block></div>
                         <div class="w3-section">
-                            <button class="w3-button w3-green" onClick="window.location.reload()">Next adventure
-                            </button>
-                            <button class="w3-button w3-red">Bucketlist</button>
+                            <button onclick="document.getElementById('').style.display='block'" class="w3-button w3-round w3-green">Next</button>
+                            <button class="w3-button w3-round w3-light-grey">Previous</button>
+                            <button onclick="document.getElementById('checkforget').style.display='block'" class="w3-button w3-round w3-red">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Sign Up section -->
     <div class="w3-container w3-padding-64 w3-white w3-center w3-wide" id="join">
